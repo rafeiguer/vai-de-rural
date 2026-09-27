@@ -1,864 +1,883 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Vai de Rural · 7ª Mostra Audiovisual Itinerante</title>
-<meta name="description" content="Fotolivro da 7ª edição do Vai de Rural, mostra audiovisual itinerante na Comunidade Quilombola do Baixão, Vitória da Conquista (BA).">
-<meta name="theme-color" content="#1d1510">
+<title>Vai de Rural — Mostra Audiovisual Itinerante</title>
+<meta name="description" content="Sete edições levando cinema, circo, fotografia e cultura popular a comunidades rurais e quilombolas da Bahia.">
+<meta name="theme-color" content="#ffc21a">
+<!-- Prévia ao compartilhar no WhatsApp/redes: a imagem precisa de endereço absoluto -->
 <meta property="og:type" content="website">
-<meta property="og:title" content="Vai de Rural · 7ª Mostra Audiovisual Itinerante">
-<meta property="og:description" content="É no pé do morro, é lá no cafundó. O fotolivro da mostra que leva cinema e circo ao sertão baiano.">
+<meta property="og:url" content="https://rafeiguer.github.io/vai-de-rural/">
+<meta property="og:title" content="Vai de Rural — Mostra Audiovisual Itinerante">
+<meta property="og:description" content="Sete edições levando cinema, circo, fotografia e cultura popular a comunidades rurais e quilombolas da Bahia.">
+<meta property="og:image" content="https://drive.google.com/thumbnail?id=1rkLf_W5LWAeRgJJayJhr8Cm139Kl2sAj&amp;sz=w1200">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎬</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Shrikhand&display=swap" rel="stylesheet">
 <style>
-/* ==========================================================================
-   Vai de Rural — fotolivro digital
-   Um livro de capa dura em tecido anil, título em dourado, sobre uma mesa
-   iluminada. Tipografia única (EB Garamond) usada como num livro impresso:
-   capitular, versaletes, sumário com pontilhado, fólios e cabeços.
-   Tudo dentro da página é dimensionado em unidades de container (cqw),
-   então a diagramação é idêntica em qualquer tamanho de tela.
-   ========================================================================== */
+/* =========================================================================
+   TOKENS
+   Shrikhand: letreiro de circo/festa, só para títulos grandes (tem um peso só).
+   Bricolage Grotesque: texto e interface; os eixos de largura e tamanho óptico
+   dão variação sem precisar de uma terceira fonte.
+   Cada edição tem cor própria (nos dados). A cor do texto sobre ela é
+   calculada no JS para manter contraste legível.
+   ========================================================================= */
 :root {
-  --mesa-luz: #3b2c22;
-  --mesa: #1d1510;
-  --mesa-fundo: #110c09;
-  --anil: #1f2b48;
-  --anil-escuro: #151e35;
-  --ouro: #c9a664;
-  --papel: #f1ede4;
-  --papel-sombra: #ddd6c8;
-  --tinta: #221e1a;
-  --tinta-suave: #6d655a;
-  --guarda: #2c5f5b;
-  --fita: #9a3a2b;
-  --texto-mesa: #e9e0cf;
-
-  --serifa: "EB Garamond", Garamond, "Times New Roman", serif;
-  --virar: 1.1s;
-  --curva: cubic-bezier(.45, .05, .2, 1);
-
-  box-sizing: border-box;
+  --anil: #1f2a6b;
+  --noite: #151d4d;
+  --sol: #ffc21a;
+  --urucum: #e8452c;
+  --rosa: #ff5c9a;
+  --ceu: #29a8e0;
+  --mato: #1f9d62;
+  --papel: #ffffff;
+  --texto: #1b1f3a;
+  --texto-2: #4a4f6e;
+  --borda: #e6e2f0;
+  --raio: 18px;
+  --display: "Shrikhand", "Cooper Black", "Georgia", serif;
+  --corpo: "Bricolage Grotesque", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --largura: 1200px;
+  --cor: var(--anil);
+  --tinta: #fff;
 }
-*, *::before, *::after { box-sizing: inherit; }
-html, body { height: 100%; }
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 body {
-  margin: 0;
-  font-family: var(--serifa);
-  color: var(--texto-mesa);
-  background:
-    radial-gradient(ellipse 65% 60% at 50% 46%, var(--mesa-luz) 0%, var(--mesa) 58%, var(--mesa-fundo) 100%);
-  overflow: hidden;
-  -webkit-font-smoothing: antialiased;
-  font-kerning: normal;
+  margin: 0; background: var(--papel); color: var(--texto);
+  font: 400 1.0625rem/1.6 var(--corpo); font-optical-sizing: auto;
 }
-button { font: inherit; color: inherit; }
-img { display: block; max-width: none; }
-:focus-visible { outline: 2px solid var(--ouro); outline-offset: 3px; }
-.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+img { max-width: 100%; display: block; }
+a { color: inherit; }
+button { font: inherit; color: inherit; cursor: pointer; }
+:focus-visible { outline: 3px solid var(--rosa); outline-offset: 3px; border-radius: 6px; }
+.envelope { width: min(100% - 2.5rem, var(--largura)); margin-inline: auto; }
+h1, h2, h3 { margin: 0; line-height: 1.02; }
+.display { font-family: var(--display); font-weight: 400; letter-spacing: .005em; }
+.titulo { font-family: var(--display); font-weight: 400; font-size: clamp(2.2rem, 6vw, 3.6rem); color: var(--anil); }
+.intro { font-size: 1.15rem; color: var(--texto-2); max-width: 58ch; margin: .9rem 0 0; }
 
-/* ---------- Mesa e dimensões do livro ---------- */
-.mesa {
-  --razao: .78;                       /* largura/altura da página */
-  --pag-h: min(calc(100svh - 9.5rem), calc((100vw - 7rem) / 2 / var(--razao)), 900px);
-  --pag-w: calc(var(--pag-h) * var(--razao));
-  height: 100svh;
-  display: grid;
-  grid-template-rows: auto 1fr auto;
-  padding: env(safe-area-inset-top, 0px) 0 env(safe-area-inset-bottom, 0px);
+/* ---------- Cabeçalho ---------- */
+.topo { position: sticky; top: 0; z-index: 20; padding-top: env(safe-area-inset-top, 0px); background: var(--anil); color: #fff; }
+.topo__linha { display: flex; align-items: center; gap: 1rem; min-height: 64px; }
+.marca { font-family: var(--display); font-size: 1.45rem; text-decoration: none; white-space: nowrap; color: var(--sol); }
+.menu { margin-left: auto; display: flex; gap: .25rem; }
+.menu a { text-decoration: none; font-weight: 700; font-size: .98rem; padding: .45rem .85rem; border-radius: 999px; white-space: nowrap; }
+.menu a:hover { background: rgba(255,255,255,.12); }
+.menu a[aria-current="page"] { background: var(--sol); color: var(--anil); }
+@media (max-width: 600px) {
+  .topo__linha { flex-wrap: wrap; gap: .1rem; padding: .5rem 0 .45rem; min-height: 0; }
+  .menu { margin-left: 0; width: 100%; justify-content: space-between; }
+  .menu a { padding: .4rem .7rem; font-size: .95rem; }
 }
-@media (max-width: 820px) {
-  .mesa {
-    --razao: .6;
-    --pag-w: min(calc(100vw - 2.5rem), calc((100svh - 9rem) * var(--razao)));
-    --pag-h: calc(var(--pag-w) / var(--razao));
-  }
-}
+.bandeirinhas { display: block; width: 100%; height: 22px; transform-origin: top; }
 
-.topo {
-  display: flex; justify-content: space-between; align-items: baseline;
-  padding: 1.1rem clamp(1.25rem, 4vw, 3rem) 0;
-  font-variant-caps: all-small-caps; letter-spacing: .08em;
-  color: rgb(233 224 207 / .55); font-size: 1.05rem;
+/* ---------- Abertura ---------- */
+.abertura { background: var(--sol); padding: clamp(2.5rem, 6vw, 4.5rem) 0 clamp(3.5rem, 7vw, 5.5rem); overflow: hidden; position: relative; }
+.abertura__grade { display: grid; gap: 3rem; align-items: center; }
+@media (min-width: 920px) { .abertura__grade { grid-template-columns: 1.1fr 1fr; } }
+.abertura__pre { font-weight: 800; font-stretch: 80%; font-size: 1.05rem; color: var(--anil); margin: 0 0 .5rem; }
+.abertura h1 { font-family: var(--display); font-weight: 400; color: var(--anil); font-size: clamp(3.6rem, 13vw, 8.4rem); line-height: .92; }
+.abertura h1 .l { display: inline-block; }
+.abertura h1 .rural .l:nth-child(1) { color: var(--urucum); }
+.abertura h1 .rural .l:nth-child(2) { color: var(--rosa); }
+.abertura h1 .rural .l:nth-child(3) { color: var(--ceu); }
+.abertura h1 .rural .l:nth-child(4) { color: var(--mato); }
+.abertura h1 .rural .l:nth-child(5) { color: #6e4bc0; }
+.abertura__sub { font-size: clamp(1.15rem, 2.3vw, 1.45rem); font-weight: 600; line-height: 1.4; margin: 1.4rem 0 .4rem; max-width: 30ch; color: var(--anil); }
+.abertura__lema { font-family: var(--display); font-size: 1.2rem; color: var(--urucum); margin: 0 0 1.8rem; }
+.botoes { display: flex; flex-wrap: wrap; gap: .75rem; }
+.botao {
+  display: inline-flex; align-items: center; text-decoration: none; border: 0;
+  font-weight: 800; padding: .9rem 1.4rem; border-radius: 999px;
+  background: var(--anil); color: #fff; box-shadow: 0 4px 0 var(--noite);
+  transition: transform .12s ease, box-shadow .12s ease;
 }
-.topo strong { font-weight: 500; color: rgb(233 224 207 / .85); }
+.botao:hover { transform: translateY(-2px); box-shadow: 0 6px 0 var(--noite); }
+.botao:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--noite); }
+.botao--branco { background: #fff; color: var(--anil); }
 
-.palco {
-  display: grid; place-items: center; min-height: 0;
-  overflow: hidden; touch-action: pan-y;
-  user-select: none; -webkit-user-select: none;
+/* Colagem de fotos tipo polaroide */
+.colagem { position: relative; min-height: 360px; }
+@media (min-width: 920px) { .colagem { min-height: 480px; } }
+.polaroide {
+  position: absolute; background: #fff; padding: 10px 10px 34px; border-radius: 6px;
+  box-shadow: 0 14px 30px rgba(31, 42, 107, .25); transition: transform .3s ease;
 }
+.polaroide img { width: 100%; aspect-ratio: 1; object-fit: cover; background: #efeaf8; border-radius: 3px; }
+.polaroide:nth-child(1) { width: 58%; left: 0; top: 6%; transform: rotate(-6deg); z-index: 2; }
+.polaroide:nth-child(2) { width: 50%; right: 0; top: 0; transform: rotate(5deg); }
+.polaroide:nth-child(3) { width: 46%; right: 8%; bottom: 0; transform: rotate(-2deg); z-index: 3; }
+.polaroide:hover { transform: rotate(0) scale(1.03); z-index: 5; }
+.selo {
+  position: absolute; z-index: 6; display: grid; place-items: center; text-align: center;
+  width: 108px; height: 108px; border-radius: 50%; font-weight: 800; font-stretch: 80%;
+  line-height: 1.1; font-size: .95rem; padding: .6rem; transform: rotate(-12deg);
+}
+.selo--gratis { background: var(--rosa); color: #fff; left: -6px; bottom: 4%; }
+.selo--libras { background: var(--ceu); color: var(--noite); right: -8px; top: 42%; transform: rotate(10deg); }
+@media (max-width: 600px) { .selo { width: 88px; height: 88px; font-size: .82rem; } }
 
-.livro {
-  position: relative;
-  width: calc(var(--pag-w) * 2);
-  height: var(--pag-h);
-  perspective: calc(var(--pag-w) * 5);
-  transition: transform .9s var(--curva);
-  animation: chegar 1.2s var(--curva) both;
+/* Animação de entrada do título: o único movimento automático do site */
+@keyframes pula {
+  0% { opacity: 0; transform: translateY(40%) scale(.6) rotate(-8deg); }
+  60% { opacity: 1; transform: translateY(-6%) scale(1.08) rotate(3deg); }
+  100% { opacity: 1; transform: none; }
 }
-.livro.is-fechado { transform: translateX(calc(var(--pag-w) / -2)); }
-.livro.is-final   { transform: translateX(calc(var(--pag-w) / 2)); }
-.mesa.is-simples .livro { width: var(--pag-w); transform: none; }
-@keyframes chegar { from { opacity: 0; translate: 0 18px; } }
+.entrar .l { animation: pula .6s cubic-bezier(.3, 1.4, .5, 1) both; animation-delay: calc(var(--i) * 45ms); }
 
-/* sombra do livro na mesa + espessura dos blocos de páginas */
-.livro::before, .livro::after {
-  content: ""; position: absolute; top: 0; bottom: 0; width: var(--pag-w);
-  background: var(--papel-sombra);
-  transition: opacity .4s;
-}
-.livro::before {
-  left: 0; border-radius: 4px 0 0 4px;
-  box-shadow: -2px 2px 0 #e4ddcf, -4px 3px 0 #d3cbbb, -6px 4px 0 #c6bdab, -18px 30px 50px rgb(0 0 0 / .55);
-}
-.livro::after {
-  right: 0; border-radius: 0 4px 4px 0;
-  box-shadow: 2px 2px 0 #e4ddcf, 4px 3px 0 #d3cbbb, 6px 4px 0 #c6bdab, 18px 30px 50px rgb(0 0 0 / .55);
-}
-.livro.is-fechado::before, .livro.is-final::after { opacity: 0; }
-.mesa.is-simples .livro::before { display: none; }
+/* ---------- Faixa corrida ---------- */
+.faixa { background: var(--anil); color: #fff; overflow: hidden; padding: .9rem 0; border-block: 4px solid var(--rosa); }
+.faixa__trilha { display: flex; width: max-content; animation: corre 45s linear infinite; }
+.faixa:hover .faixa__trilha { animation-play-state: paused; }
+.faixa ul { display: flex; list-style: none; margin: 0; padding: 0; }
+.faixa li { font-family: var(--display); font-size: clamp(1.2rem, 2.6vw, 1.7rem); white-space: nowrap; padding-right: 2.2rem; }
+.faixa li::after { content: "✦"; color: var(--sol); margin-left: 2.2rem; font-family: var(--corpo); }
+@keyframes corre { to { transform: translateX(-50%); } }
 
-/* fita marcadora, no vinco do livro aberto */
-.fita {
-  position: absolute; z-index: 400; left: calc(50% - 5px); top: -4px;
-  width: 10px; height: calc(100% + 2.6rem);
-  background: linear-gradient(90deg, #7d2c20, var(--fita) 40%, #b0493a 60%, #7d2c20);
-  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% calc(100% - 9px), 0 100%);
-  pointer-events: none; transition: opacity .4s;
+/* ---------- Estrada ---------- */
+.estrada-sec { background: var(--anil); color: #fff; padding: clamp(3rem, 7vw, 4.5rem) 0 3rem; overflow: hidden; }
+.estrada-sec .titulo { color: var(--sol); }
+.estrada-sec .intro { color: #cfd4f3; }
+.estrada { position: relative; margin-top: 2rem; overflow-x: auto; overscroll-behavior-x: contain; padding-bottom: .5rem; scrollbar-width: thin; }
+.estrada__trilho { position: relative; min-width: 880px; padding-top: 92px; }
+.estrada__asfalto { position: absolute; left: 0; right: 0; top: 124px; height: 28px; border-radius: 14px; background: var(--noite); }
+.estrada__asfalto::after {
+  content: ""; position: absolute; left: 14px; right: 14px; top: 12px; height: 4px;
+  background: repeating-linear-gradient(90deg, var(--sol) 0 24px, transparent 24px 44px);
 }
-.livro.is-fechado .fita, .livro.is-final .fita, .mesa.is-simples .fita { opacity: 0; }
+.estrada__paradas { position: relative; display: grid; grid-template-columns: repeat(7, 1fr); list-style: none; margin: 0; padding: 0; }
+.parada { text-align: center; }
+.parada a { display: inline-flex; flex-direction: column; align-items: center; gap: .6rem; text-decoration: none; padding: .25rem; border-radius: 12px; }
+.parada__num {
+  width: 92px; height: 92px; border-radius: 50%; display: grid; place-items: center;
+  background: var(--c); color: var(--t, #fff); font-family: var(--display); font-size: 2.3rem;
+  box-shadow: 0 0 0 6px var(--anil), 0 0 0 10px var(--c); transition: transform .2s cubic-bezier(.3, 1.6, .5, 1);
+}
+.parada a:hover .parada__num, .parada a:focus-visible .parada__num { transform: scale(1.12) rotate(-6deg); }
+.parada__local { font-weight: 700; font-size: .92rem; line-height: 1.25; max-width: 15ch; }
+.parada__ano { font-size: .82rem; color: #aab2e6; min-height: 1.2em; }
+.estrada__rural { position: absolute; top: 26px; left: 0; width: 124px; transition: transform .8s cubic-bezier(.5, 0, .2, 1); pointer-events: none; }
+.estrada__rural svg { width: 100%; height: auto; display: block; }
+.estrada__dica { font-size: .85rem; color: #aab2e6; margin-top: .5rem; }
+@media (min-width: 920px) { .estrada__dica { display: none; } }
+.rural__blusa { fill: var(--sol); } .rural__saia { fill: #fff; } .rural__vidro { fill: #9fd4ef; }
+.rural__friso { stroke: var(--urucum); stroke-width: 4; } .rural__rack, .rural__projetor { fill: #fff; }
+.rural__lente { fill: var(--urucum); } .rural__farol { fill: #fff3b0; } .rural__caixa { fill: var(--noite); }
+.rural__pneu { fill: #0e1334; } .rural__calota { fill: #d6d9ea; }
 
-/* ---------- Folhas ---------- */
-.folha {
-  position: absolute; top: 0; left: 50%;
-  width: var(--pag-w); height: 100%;
-  transform-origin: left center;
-  transform-style: preserve-3d;
-  transition: transform var(--virar) var(--curva), opacity .3s;
-}
-.mesa.is-simples .folha { left: 0; }
-.folha.is-virada { transform: rotateY(-180deg); }
-.mesa.is-simples .folha.is-virada { opacity: 0; transition: transform var(--virar) var(--curva), opacity .25s calc(var(--virar) * .7); }
+/* ---------- Seções ---------- */
+.secao { padding: clamp(3.5rem, 8vw, 6rem) 0; }
+.secao--rosa { background: #ffe3ee; }
+.secao--ceu { background: #e2f4fc; }
 
-.face {
-  position: absolute; inset: 0; overflow: hidden;
-  backface-visibility: hidden; -webkit-backface-visibility: hidden;
-  background: var(--papel);
-}
-.face--verso { transform: rotateY(180deg); }
-.face--frente { border-radius: 0 3px 3px 0; }
-.face--verso  { border-radius: 3px 0 0 3px; }
-/* luz passando pela folha enquanto ela vira */
-.face::after {
-  content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0;
-  background: linear-gradient(90deg, rgb(0 0 0 / .28), rgb(255 255 255 / .06) 60%, rgb(0 0 0 / .1));
-}
-.folha.is-movendo .face::after { animation: luz var(--virar) var(--curva); }
-@keyframes luz { 0%, 100% { opacity: 0; } 45% { opacity: 1; } }
+/* O que a Rural leva */
+.linguagens { display: grid; gap: 1rem; margin-top: 2.25rem; grid-template-columns: 1fr; }
+@media (min-width: 640px) { .linguagens { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1000px) { .linguagens { grid-template-columns: repeat(4, 1fr); } }
+.linguagem { border-radius: var(--raio); padding: 1.6rem 1.4rem 1.5rem; background: var(--c); color: var(--t); transition: transform .2s ease; }
+.linguagem:nth-child(odd) { transform: rotate(-1.2deg); }
+.linguagem:nth-child(even) { transform: rotate(1.2deg); }
+.linguagem:hover { transform: rotate(0) translateY(-4px); }
+.linguagem h3 { font-family: var(--display); font-weight: 400; font-size: 1.9rem; margin-bottom: .6rem; }
+.linguagem p { margin: 0; font-weight: 500; }
 
-/* ---------- Página (base) ---------- */
-.pagina {
-  position: absolute; inset: 0; container-type: size;
-  color: var(--tinta);
-  font-size: clamp(12.5px, 3.35cqw, 22px);
-  line-height: 1.45;
-  hyphens: auto; -webkit-hyphens: auto;
-}
-/* sombra do vinco (lado de dentro) */
-.pagina--dir::before, .pagina--esq::before {
-  content: ""; position: absolute; top: 0; bottom: 0; width: 9%; z-index: 3; pointer-events: none;
-}
-.pagina--dir::before { left: 0;  background: linear-gradient(90deg, rgb(40 25 10 / .22), transparent); }
-.pagina--esq::before { right: 0; background: linear-gradient(270deg, rgb(40 25 10 / .22), transparent); }
-.mesa.is-simples .pagina--dir::before { width: 4%; opacity: .6; }
+/* Sobre + fatos */
+.sobre { display: grid; gap: 2.5rem; }
+@media (min-width: 920px) { .sobre { grid-template-columns: 1.3fr 1fr; align-items: center; } }
+.sobre p { max-width: 62ch; margin: 0 0 1rem; font-size: 1.1rem; }
+.fatos { display: grid; gap: .9rem; margin: 0; }
+.fatos div { display: flex; align-items: baseline; gap: 1rem; background: #fff; border-radius: var(--raio); padding: 1rem 1.3rem; border: 3px solid var(--anil); box-shadow: 5px 5px 0 var(--anil); }
+.fatos dd { order: -1; margin: 0; font-family: var(--display); font-size: 2.6rem; color: var(--urucum); line-height: 1; min-width: 3.2ch; }
+.fatos dt { font-weight: 700; font-size: 1.05rem; }
 
-.cabeco, .folio {
-  position: absolute; z-index: 2;
-  font-variant-caps: all-small-caps; letter-spacing: .09em;
-  font-size: max(10.5px, 2.5cqw); color: var(--tinta-suave);
-  font-variant-numeric: oldstyle-nums;
+/* ---------- Cartões (vídeos e edições) ---------- */
+.cartoes { display: grid; gap: 1.4rem; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); margin-top: 2rem; }
+.cartao {
+  display: flex; flex-direction: column; text-align: left; padding: 0; text-decoration: none;
+  background: #fff; border-radius: var(--raio); overflow: hidden; border: 3px solid var(--anil);
+  box-shadow: 5px 5px 0 var(--vc, var(--anil)); transition: transform .15s ease, box-shadow .15s ease;
 }
-.cabeco { top: 5.5cqw; }
-.folio  { bottom: 5cqw; }
-.pagina--dir .cabeco, .pagina--dir .folio { right: 8cqw; }
-.pagina--esq .cabeco, .pagina--esq .folio { left: 8cqw; }
-.folio--claro { color: rgb(255 255 255 / .8); text-shadow: 0 1px 3px rgb(0 0 0 / .5); }
+.cartao:hover { transform: translate(-3px, -3px); box-shadow: 8px 8px 0 var(--vc, var(--anil)); }
+.cartao__capa { position: relative; aspect-ratio: 16 / 9; background: var(--vc, var(--noite)); overflow: hidden; border-bottom: 3px solid var(--anil); }
+.cartao__capa img { width: 100%; height: 100%; object-fit: cover; }
+.cartao__num { position: absolute; inset: 0; display: grid; place-items: center; font-family: var(--display); font-size: 5rem; color: var(--t, #fff); }
+.cartao__play {
+  position: absolute; inset: 0; margin: auto; width: 64px; height: 64px; border-radius: 50%;
+  background: var(--sol); display: grid; place-items: center; border: 3px solid var(--anil);
+  transition: transform .2s cubic-bezier(.3, 1.6, .5, 1);
+}
+.cartao:hover .cartao__play { transform: scale(1.15); }
+.cartao__play svg { width: 24px; height: 24px; fill: var(--anil); margin-left: 4px; }
+.cartao__info { padding: .9rem 1.05rem 1.1rem; display: grid; gap: .35rem; }
+.cartao__titulo { font-weight: 800; font-size: 1.05rem; line-height: 1.3; }
+.cartao__etiqueta { font-size: .85rem; font-weight: 700; font-stretch: 85%; color: var(--texto-2); display: flex; align-items: center; gap: .45rem; }
+.cartao__etiqueta::before { content: ""; width: .75rem; height: .75rem; border-radius: 50%; background: var(--vc, var(--anil)); flex: none; }
 
-.miolo { position: absolute; inset: 14cqw 10cqw 13cqw; display: flex; flex-direction: column; }
+.filtros { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1.5rem; }
+.filtro { border: 3px solid var(--anil); background: #fff; border-radius: 999px; padding: .4rem 1rem; font-weight: 700; }
+.filtro[aria-pressed="true"] { background: var(--fc, var(--anil)); color: var(--t, #fff); }
 
-.h-livro {
-  font-weight: 500; font-size: 8.4cqw; line-height: 1.02; letter-spacing: -.01em;
-  margin: 0 0 1.1em; text-wrap: balance;
+/* ---------- Página de edição ---------- */
+.ed-topo { background: var(--cor); color: var(--tinta); padding: clamp(2.5rem, 6vw, 4.5rem) 0 clamp(2.2rem, 5vw, 3.2rem); position: relative; overflow: hidden; }
+.ed-topo__num {
+  position: absolute; right: .02em; bottom: -.2em; font-family: var(--display);
+  font-size: clamp(11rem, 36vw, 26rem); line-height: 1; opacity: .16; pointer-events: none; user-select: none;
 }
-.pagina p { margin: 0; }
-.corpo p { text-align: justify; text-indent: 1.4em; }
-.corpo p:first-child { text-indent: 0; }
-.corpo p:first-child::first-letter {
-  float: left; font-size: 3.55em; line-height: .82; margin: .06em .08em 0 0; font-weight: 500; color: var(--fita);
-}
+.ed-topo__voltar { display: inline-block; font-weight: 700; margin-bottom: 1.2rem; text-decoration: none; }
+.ed-topo__voltar:hover { text-decoration: underline; }
+.ed-topo__edicao { font-weight: 800; font-stretch: 80%; font-size: 1.15rem; margin: 0 0 .35rem; }
+.ed-topo h1 { font-family: var(--display); font-weight: 400; font-size: clamp(2.4rem, 7vw, 4.8rem); max-width: 17ch; position: relative; }
+.ficha { display: flex; flex-wrap: wrap; gap: .55rem; margin: 1.5rem 0 0; padding: 0; list-style: none; position: relative; }
+.ficha li { background: rgba(255,255,255,.25); border: 2px solid currentColor; padding: .4rem .9rem; border-radius: 999px; font-weight: 700; font-size: .92rem; }
+.ed-corpo { padding: clamp(2.5rem, 6vw, 4rem) 0; }
+.ed-texto p { max-width: 64ch; margin: 0 0 1rem; font-size: 1.15rem; }
+.pendente { border: 3px dashed var(--anil); border-radius: var(--raio); padding: 1rem 1.2rem; margin: 1.5rem 0; max-width: 64ch; color: var(--texto-2); background: #fffbea; }
+.pendente strong { color: var(--texto); }
+.bloco { margin-top: 3.2rem; }
+.bloco h2 { font-family: var(--display); font-weight: 400; font-size: clamp(1.9rem, 4.5vw, 2.6rem); color: var(--anil); }
+.bloco h2::after { content: ""; display: block; width: 4rem; height: 7px; border-radius: 4px; background: var(--cor); margin-top: .45rem; }
 
-/* fotos clicáveis */
-.zoom {
-  display: block; width: 100%; height: 100%; padding: 0; border: 0; margin: 0;
-  background: #d8d1c2; cursor: zoom-in; overflow: hidden; position: relative;
+/* Galeria em polaroides */
+.galeria { display: grid; gap: 1.4rem 1rem; grid-template-columns: repeat(2, 1fr); margin-top: 1.6rem; }
+@media (min-width: 700px) { .galeria { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 1040px) { .galeria { grid-template-columns: repeat(4, 1fr); } }
+.foto { margin: 0; }
+.foto button {
+  display: block; width: 100%; border: 0; background: #fff; padding: 8px 8px 10px; border-radius: 6px;
+  box-shadow: 0 8px 20px rgba(31, 42, 107, .16); transition: transform .25s ease;
 }
-.zoom img { width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .6s; }
-.zoom img.is-carregada { opacity: 1; }
+.foto:nth-child(3n+1) button { transform: rotate(-1.8deg); }
+.foto:nth-child(3n+2) button { transform: rotate(1.4deg); }
+.foto:nth-child(3n) button { transform: rotate(-.6deg); }
+.foto button:hover { transform: rotate(0) scale(1.04); }
+.foto img { width: 100%; aspect-ratio: 1; object-fit: cover; background: #efeaf8; border-radius: 3px; }
+.foto figcaption { font-size: .85rem; color: var(--texto-2); padding: .45rem .2rem 0; line-height: 1.35; }
+.foto--destaque { grid-column: span 2; }
+.foto--destaque img { aspect-ratio: 16 / 10; }
+.vazio {
+  display: grid; place-items: center; text-align: center; min-height: 170px; padding: 2rem; margin-top: 1.6rem;
+  border-radius: var(--raio); border: 3px dashed var(--cor); color: var(--texto-2); font-weight: 600;
+}
+.ed-nav { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 3.5rem; }
+.ed-nav a { text-decoration: none; padding: 1.1rem 1.25rem; border-radius: var(--raio); color: var(--t, #fff); background: var(--c); display: grid; gap: .1rem; border: 3px solid var(--anil); box-shadow: 5px 5px 0 var(--anil); }
+.ed-nav a:last-child { text-align: right; }
+.ed-nav small { font-weight: 700; font-size: .9rem; }
+.ed-nav strong { font-family: var(--display); font-weight: 400; font-size: 1.6rem; }
 
-/* ---------- Capa e contracapa (tecido) ---------- */
-.tecido {
-  position: absolute; inset: 0;
-  background-color: var(--anil);
-  background-image:
-    linear-gradient(90deg, transparent 4.2%, rgb(0 0 0 / .35) 4.6%, rgb(255 255 255 / .07) 5.1%, transparent 5.6%),
-    radial-gradient(ellipse at 28% 18%, rgb(255 255 255 / .09), transparent 60%),
-    repeating-linear-gradient(0deg, rgb(255 255 255 / .028) 0 1px, transparent 1px 3px),
-    repeating-linear-gradient(90deg, rgb(0 0 0 / .07) 0 1px, transparent 1px 3px);
-  box-shadow: inset 0 0 0 1px rgb(0 0 0 / .25), inset 0 0 40px rgb(0 0 0 / .35);
-  color: var(--ouro);
-}
-.contracapa.tecido {
-  background-image:
-    linear-gradient(270deg, transparent 4.2%, rgb(0 0 0 / .35) 4.6%, rgb(255 255 255 / .07) 5.1%, transparent 5.6%),
-    radial-gradient(ellipse at 70% 18%, rgb(255 255 255 / .07), transparent 60%),
-    repeating-linear-gradient(0deg, rgb(255 255 255 / .028) 0 1px, transparent 1px 3px),
-    repeating-linear-gradient(90deg, rgb(0 0 0 / .07) 0 1px, transparent 1px 3px);
-}
-/* dourado a quente, levemente afundado no tecido */
-.ouro {
-  background: linear-gradient(170deg, #e6cd92 10%, #b88f45 45%, #d9bc7a 60%, #a07a36 90%);
-  -webkit-background-clip: text; background-clip: text; color: transparent;
-  filter: drop-shadow(0 -1px 0 rgb(0 0 0 / .45)) drop-shadow(0 1px 0 rgb(255 255 255 / .08));
-}
-.capa {
-  display: grid; grid-template-rows: auto 1fr auto auto; justify-items: center;
-  padding: 11cqw 12cqw 10cqw 15cqw; text-align: center;
-}
-.capa__sobre {
-  font-variant-caps: all-small-caps; letter-spacing: .22em; font-size: 3.4cqw;
-}
-.capa__foto {
-  align-self: center; width: 100%; aspect-ratio: 4 / 3; margin: 6cqw 0;
-  padding: 1.6cqw; background: #f4f0e8;
-  box-shadow: 0 1px 0 rgb(255 255 255 / .1), 0 3px 10px rgb(0 0 0 / .45), inset 0 0 0 1px rgb(0 0 0 / .08);
-}
-.capa__foto .zoom { cursor: inherit; pointer-events: none; }
-.capa__titulo { margin: 0; font-weight: 500; font-size: 15.5cqw; line-height: .95; letter-spacing: -.01em; }
-.capa__ed { margin-top: 3.2cqw; font-style: italic; font-size: 4.4cqw; }
+/* ---------- Rodapé ---------- */
+.rodape { background: var(--anil); color: #d6daf5; padding: 3.2rem 0 2.6rem; }
+.rodape .titulo { color: var(--sol); font-size: 2rem; margin-bottom: 1rem; }
+.rodape__grade { display: grid; gap: 2rem; }
+@media (min-width: 820px) { .rodape__grade { grid-template-columns: 2fr 1fr; } }
+.parceiros { display: grid; gap: .8rem; margin: 0; }
+.parceiros dt { font-weight: 800; font-stretch: 85%; color: var(--sol); font-size: .88rem; }
+.parceiros dd { margin: 0; }
+.rodape a { color: #fff; font-weight: 700; }
 
-.contracapa { display: grid; place-content: center; text-align: center; gap: 3cqw; padding: 12cqw 15cqw 12cqw 12cqw; }
-.contracapa__marca { font-weight: 500; font-size: 8cqw; }
-.contracapa__lema { font-style: italic; font-size: 4.2cqw; line-height: 1.35; }
-.contracapa__fino { margin-top: 8cqw; font-variant-caps: all-small-caps; letter-spacing: .14em; font-size: 3cqw; }
-
-/* ---------- Guardas ---------- */
-.guarda {
-  position: absolute; inset: 0; background-color: var(--guarda);
-  background-image:
-    radial-gradient(circle at 50% 50%, rgb(255 255 255 / .09) 0 1.2px, transparent 1.6px),
-    repeating-linear-gradient(45deg, rgb(0 0 0 / .05) 0 1px, transparent 1px 6px);
-  background-size: 4.2cqw 4.2cqw, auto;
+/* ---------- Janelas ---------- */
+dialog { border: 0; padding: 0; background: transparent; max-width: 100vw; max-height: 100vh; }
+dialog::backdrop { background: rgba(21, 29, 77, .94); }
+.janela { width: 100vw; height: 100dvh; display: grid; place-items: center; padding: 3.5rem 1rem 1.5rem; color: #fff; }
+.janela__fechar {
+  position: fixed; top: calc(.75rem + env(safe-area-inset-top, 0px)); right: .75rem; z-index: 2;
+  width: 48px; height: 48px; border-radius: 50%; border: 0; background: var(--sol); color: var(--anil); font-size: 1.6rem; line-height: 1; font-weight: 800;
 }
-
-/* ---------- Folha de rosto ---------- */
-.rosto { position: absolute; inset: 16cqw 11cqw 13cqw; display: grid; grid-template-rows: auto 1fr auto; text-align: center; }
-.rosto__lema { font-style: italic; color: var(--tinta-suave); font-size: 4cqw; line-height: 1.35; }
-.rosto__bloco { align-self: center; }
-.rosto__titulo { margin: 0; font-weight: 500; font-size: 13cqw; line-height: 1; }
-.rosto__fio { width: 14cqw; height: 1px; background: var(--tinta); margin: 5cqw auto; opacity: .6; }
-.rosto__sub { font-variant-caps: all-small-caps; letter-spacing: .16em; font-size: 4cqw; }
-.rosto__ed { font-style: italic; font-size: 4.6cqw; margin-top: 1.5cqw !important; }
-.rosto__pe { font-size: 3.3cqw; line-height: 1.5; color: var(--tinta-suave); }
-
-/* ---------- Sumário ---------- */
-.sumario ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 2.4cqw; }
-.sumario button {
-  width: 100%; display: flex; align-items: baseline; gap: .5em;
-  background: none; border: 0; padding: .35em 0; cursor: pointer; text-align: left;
-  color: var(--tinta); font-size: 1.08em;
-}
-.sumario button:hover .sumario__rotulo { color: var(--fita); }
-.sumario__num { font-variant-caps: all-small-caps; letter-spacing: .06em; min-width: 1.6em; color: var(--tinta-suave); }
-.sumario__pontos { flex: 1; border-bottom: 1.5px dotted rgb(34 30 26 / .35); translate: 0 -.3em; min-width: 1em; }
-.sumario__pag { font-variant-numeric: oldstyle-nums; }
-
-/* ---------- Abertura de capítulo ---------- */
-.capitulo { position: absolute; inset: 0; display: grid; align-content: center; padding: 0 12cqw; }
-.capitulo__num { font-size: 26cqw; line-height: .8; font-weight: 400; color: var(--fita); }
-.capitulo h2 { margin: 3cqw 0 0; font-weight: 500; font-size: 11cqw; line-height: 1; }
-.capitulo__fio { width: 12cqw; height: 1px; background: var(--tinta); opacity: .5; margin: 6cqw 0 5cqw; }
-.capitulo__sub { font-size: 4.2cqw; line-height: 1.5; color: var(--tinta-suave); }
-.capitulo__sub em { color: var(--tinta); }
-
-/* ---------- Diagramações de foto ---------- */
-.p-sangrada { position: absolute; inset: 0; }
-.p-sangrada .zoom { border-radius: 0; }
-
-.p-margem { position: absolute; inset: 14cqw 10cqw 14cqw; display: grid; grid-template-rows: 1fr auto; gap: 3.5cqw; }
-.p-margem .zoom { box-shadow: 0 0 0 1px rgb(0 0 0 / .04); }
-.legenda { font-style: italic; font-size: max(11.5px, 3cqw); color: var(--tinta-suave); line-height: 1.35; }
-.legenda b { font-style: normal; font-weight: 500; color: var(--tinta); font-variant-numeric: oldstyle-nums; margin-right: .35em; }
-
-.p-dupla { position: absolute; inset: 12cqw 10cqw 14cqw; display: grid; grid-template-rows: 1fr 1fr auto; gap: 3cqw; }
-.p-grade { position: absolute; inset: 14cqw 10cqw 14cqw; display: grid; grid-template: 1fr 1fr auto / 1fr 1fr; gap: 2.4cqw; }
-.p-grade .legenda { grid-column: 1 / -1; margin-top: 1cqw; }
-
-/* panorama: a mesma foto atravessa as duas páginas */
-.p-panorama { position: absolute; inset: 0; overflow: hidden; }
-.p-panorama .zoom { position: absolute; top: 0; height: 100%; width: 200%; background: transparent; }
-.p-panorama--esq .zoom { left: 0; }
-.p-panorama--dir .zoom { left: -100%; }
-
-/* ---------- Vídeos ---------- */
-.videos-intro .corpo p { text-indent: 0; margin-bottom: .6em; }
-.videos-intro .corpo p:first-child::first-letter { float: none; font-size: inherit; margin: 0; color: inherit; font-weight: inherit; line-height: inherit; }
-.videos-intro__nota { margin-top: auto !important; font-style: italic; color: var(--tinta-suave); font-size: .9em; }
-
-.p-videos { position: absolute; inset: 14cqw 9cqw 13cqw; display: grid; grid-template-rows: repeat(4, 1fr); gap: 3cqw; }
-.video {
-  display: grid; grid-template-columns: 48% 1fr; gap: 4cqw; align-items: center;
-  text-decoration: none; color: var(--tinta); min-height: 0;
-}
-.video__mini {
-  position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: #cfc7b7;
-  box-shadow: 0 2px 8px rgb(0 0 0 / .18);
-}
-.video__mini img { width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .6s, transform .5s var(--curva); }
-.video__mini img.is-carregada { opacity: 1; }
-.video__mini::after {
-  content: ""; position: absolute; inset: 0;
-  background: linear-gradient(180deg, transparent 50%, rgb(0 0 0 / .35));
-}
-.video__play {
-  position: absolute; z-index: 1; left: 50%; top: 50%; translate: -50% -50%;
-  width: 11cqw; height: 11cqw; border-radius: 50%;
-  background: rgb(241 237 228 / .92); display: grid; place-items: center;
-  box-shadow: 0 2px 10px rgb(0 0 0 / .35); transition: scale .25s var(--curva);
-}
-.video__play svg { width: 42%; height: 42%; margin-left: 8%; fill: var(--fita); }
-a.video:hover .video__mini img { transform: scale(1.05); }
-a.video:hover .video__play { scale: 1.1; }
-.video__titulo { font-size: 1.05em; line-height: 1.2; font-weight: 500; }
-.video__info { display: block; margin-top: .3em; font-style: italic; font-size: .82em; color: var(--tinta-suave); font-weight: 400; }
-.video.is-breve { cursor: default; }
-.video.is-breve .video__play { background: rgb(241 237 228 / .6); }
-.video.is-breve .video__play svg { fill: var(--tinta-suave); }
-
-/* ---------- Colofão ---------- */
-.colofao dl { margin: 0; display: grid; gap: 2.2cqw; }
-.colofao dt { font-variant-caps: all-small-caps; letter-spacing: .08em; color: var(--tinta-suave); font-size: .85em; }
-.colofao dd { margin: 0; font-weight: 500; line-height: 1.25; }
-.colofao__contato { margin-top: 5cqw !important; }
-.colofao__contato a { color: var(--fita); text-decoration-thickness: 1px; text-underline-offset: .2em; }
-.colofao__fim { margin-top: auto !important; font-style: italic; color: var(--tinta-suave); font-size: .88em; }
-
-/* ---------- Controles ---------- */
-.controles {
-  display: flex; justify-content: center; align-items: center; gap: clamp(1rem, 4vw, 2.5rem);
-  padding: .9rem 1rem 1.3rem;
-}
-.controles button {
-  display: inline-flex; align-items: center; gap: .45rem; cursor: pointer;
-  background: none; border: 1px solid rgb(233 224 207 / .22); border-radius: 999px;
-  padding: .45rem 1.1rem .5rem; font-size: 1.05rem; color: var(--texto-mesa);
-  transition: border-color .2s, background-color .2s, opacity .2s;
-}
-.controles button:hover:not(:disabled) { border-color: var(--ouro); background: rgb(201 166 100 / .1); }
-.controles button:disabled { opacity: .3; cursor: default; }
-.controles svg { width: 1rem; height: 1rem; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
-.indicador {
-  min-width: 13rem; text-align: center;
-  font-variant-caps: all-small-caps; letter-spacing: .1em; font-variant-numeric: oldstyle-nums;
-  color: rgb(233 224 207 / .7); font-size: 1.05rem;
-}
-@media (max-width: 820px) {
-  .controles button span { display: none; }
-  .controles button { padding: .6rem; }
-  .indicador { min-width: 11rem; }
-  .topo span { display: none; }
-}
-
-/* ---------- Lightbox ---------- */
-.lb { width: 100vw; height: 100dvh; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; background: rgb(12 9 7 / .97); color: var(--texto-mesa); overflow: hidden; }
-.lb[open] { display: grid; grid-template-rows: auto 1fr; }
-.lb::backdrop { background: rgb(12 9 7 / .9); }
-.lb__barra { display: flex; align-items: center; gap: 1rem; padding: calc(env(safe-area-inset-top, 0px) + .8rem) 1rem .6rem; font-variant-caps: all-small-caps; letter-spacing: .1em; }
-.lb__barra a { margin-left: auto; color: rgb(233 224 207 / .65); text-underline-offset: .2em; }
-.lb__fig { margin: 0; display: grid; grid-template-rows: 1fr auto; gap: .8rem; min-height: 0; padding: 0 clamp(1rem, 7vw, 6rem) calc(env(safe-area-inset-bottom, 0px) + 1.2rem); touch-action: pan-y pinch-zoom; }
-.lb__fig img { width: 100%; height: 100%; min-height: 0; object-fit: contain; transition: opacity .25s; }
-.lb__fig img.is-trocando { opacity: .15; }
-.lb__fig figcaption { text-align: center; font-style: italic; color: rgb(233 224 207 / .65); }
-.lb__btn { width: 2.8rem; height: 2.8rem; display: grid; place-items: center; cursor: pointer; border: 1px solid rgb(233 224 207 / .2); border-radius: 50%; background: rgb(0 0 0 / .3); }
-.lb__btn:hover { border-color: var(--ouro); }
-.lb__btn svg { width: 1.1rem; height: 1.1rem; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
-.lb__ant, .lb__prox { position: absolute; top: 50%; translate: 0 -50%; }
-.lb__ant { left: .8rem; } .lb__prox { right: .8rem; }
-@media (max-width: 640px) { .lb__ant, .lb__prox { top: auto; bottom: calc(env(safe-area-inset-bottom, 0px) + 3.4rem); translate: none; } }
+.lb__img { max-width: min(100%, 1400px); max-height: calc(100dvh - 9rem); object-fit: contain; border-radius: 8px; }
+.lb__legenda { text-align: center; margin: .75rem auto 0; max-width: 60ch; }
+.lb__seta { position: fixed; top: 50%; transform: translateY(-50%); width: 52px; height: 52px; border-radius: 50%; border: 0; background: rgba(255,255,255,.16); font-size: 1.6rem; }
+.lb__seta--ant { left: .75rem; } .lb__seta--prox { right: .75rem; }
+@media (max-width: 640px) { .lb__seta { top: auto; bottom: calc(1rem + env(safe-area-inset-bottom, 0px)); transform: none; } }
+.vd__quadro { width: min(100%, 1100px); aspect-ratio: 16 / 9; background: #000; border-radius: 10px; overflow: hidden; }
+.vd__quadro iframe { width: 100%; height: 100%; border: 0; display: block; }
+.vd__rodape { width: min(100%, 1100px); margin-top: .75rem; display: flex; flex-wrap: wrap; gap: .5rem 1.25rem; justify-content: space-between; }
+.vd__rodape a { color: var(--sol); font-weight: 700; }
 
 @media (prefers-reduced-motion: reduce) {
-  :root { --virar: .01s; }
-  .livro { animation: none; transition: none; }
-  .folha.is-movendo .face::after { animation: none; }
+  *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
+  .faixa__trilha { width: auto; flex-wrap: wrap; }
+  .faixa ul[aria-hidden] { display: none; }
 }
 </style>
 </head>
 <body>
-<div class="mesa" data-mesa>
-  <header class="topo">
-    <strong>Vai de Rural</strong>
-    <span>Mostra Audiovisual Itinerante, 7ª edição</span>
-  </header>
 
-  <main class="palco" data-palco>
-    <div class="livro is-fechado" data-livro aria-roledescription="livro" aria-label="Fotolivro Vai de Rural">
-      <div class="fita" aria-hidden="true"></div>
-    </div>
-  </main>
-
-  <nav class="controles" aria-label="Virar páginas">
-    <button type="button" data-anterior aria-label="Página anterior">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg><span>Anterior</span>
-    </button>
-    <p class="indicador" data-indicador aria-live="polite"></p>
-    <button type="button" data-proxima aria-label="Próxima página">
-      <span>Próxima</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
-    </button>
-  </nav>
-</div>
-
-<dialog class="lb" data-lb aria-label="Foto ampliada">
-  <div class="lb__barra">
-    <span data-lb-contador></span>
-    <a data-lb-original target="_blank" rel="noopener">Abrir original</a>
-    <button class="lb__btn" type="button" data-lb-fechar aria-label="Fechar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+<header class="topo">
+  <div class="envelope topo__linha">
+    <a class="marca" href="#/">Vai de Rural</a>
+    <nav class="menu" aria-label="Principal">
+      <a href="#/" data-rota="inicio">Início</a>
+      <a href="#/edicoes" data-rota="edicoes">Edições</a>
+      <a href="#/videos" data-rota="videos">Vídeos</a>
+      <a href="#/sobre" data-rota="sobre">Sobre</a>
+    </nav>
   </div>
-  <figure class="lb__fig"><img data-lb-img alt="" referrerpolicy="no-referrer" draggable="false"><figcaption data-lb-legenda></figcaption></figure>
-  <button class="lb__btn lb__ant" type="button" data-lb-ant aria-label="Foto anterior"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
-  <button class="lb__btn lb__prox" type="button" data-lb-prox aria-label="Próxima foto"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+  <svg class="bandeirinhas" data-bandeirinhas viewBox="0 0 1200 22" preserveAspectRatio="none" aria-hidden="true"></svg>
+</header>
+
+<main id="conteudo" tabindex="-1"></main>
+
+<footer class="rodape">
+  <div class="envelope rodape__grade">
+    <div>
+      <h2 class="titulo">Quem faz</h2>
+      <dl class="parceiros" data-parceiros></dl>
+    </div>
+    <div>
+      <h2 class="titulo">Contato</h2>
+      <p data-contato></p>
+    </div>
+  </div>
+</footer>
+
+<dialog id="lb" aria-label="Foto ampliada">
+  <div class="janela">
+    <button class="janela__fechar" data-fechar aria-label="Fechar">×</button>
+    <button class="lb__seta lb__seta--ant" data-lb="-1" aria-label="Foto anterior">‹</button>
+    <figure style="margin:0">
+      <img class="lb__img" alt="">
+      <figcaption class="lb__legenda"></figcaption>
+    </figure>
+    <button class="lb__seta lb__seta--prox" data-lb="1" aria-label="Próxima foto">›</button>
+  </div>
 </dialog>
 
+<dialog id="vd" aria-label="Vídeo">
+  <div class="janela">
+    <button class="janela__fechar" data-fechar aria-label="Fechar">×</button>
+    <div>
+      <div class="vd__quadro"></div>
+      <div class="vd__rodape"><strong class="vd__titulo"></strong><a class="vd__link" target="_blank" rel="noopener">Abrir no YouTube</a></div>
+    </div>
+  </div>
+</dialog>
+
+<template id="tpl-rural">
+  <svg viewBox="0 0 240 112" role="img" aria-label="A Rural">
+    <rect x="62" y="14" width="116" height="4" rx="2" class="rural__rack"/>
+    <rect x="104" y="2" width="32" height="13" rx="3" class="rural__projetor"/>
+    <circle cx="120" cy="3" r="3.2" class="rural__lente"/>
+    <path d="M6 58V26q0-6 6-6h154q4 0 6 4l18 34z" class="rural__blusa"/>
+    <path d="M8 56h222q6 0 6 6v20q0 6-6 6H8q-4 0-4-4V60q0-4 4-4z" class="rural__saia"/>
+    <rect x="14" y="27" width="40" height="22" rx="2" class="rural__vidro"/>
+    <rect x="60" y="27" width="44" height="22" rx="2" class="rural__vidro"/>
+    <rect x="110" y="27" width="50" height="22" rx="2" class="rural__vidro"/>
+    <path d="M166 27h3l12 23h-15z" class="rural__vidro"/>
+    <path d="M4 66h232" class="rural__friso"/>
+    <circle cx="230" cy="72" r="4" class="rural__farol"/>
+    <circle cx="50" cy="88" r="19" class="rural__caixa"/>
+    <circle cx="192" cy="88" r="19" class="rural__caixa"/>
+    <circle cx="50" cy="88" r="15" class="rural__pneu"/>
+    <circle cx="192" cy="88" r="15" class="rural__pneu"/>
+    <circle cx="50" cy="88" r="6" class="rural__calota"/>
+    <circle cx="192" cy="88" r="6" class="rural__calota"/>
+  </svg>
+</template>
+
 <script>
-/* ==========================================================================
-   CONTEÚDO — edite só este bloco.
-   fotos[].src   caminho/URL de imagem própria (tem prioridade sobre driveId)
-   fotos[].driveId  ID de arquivo do Drive compartilhado como "Qualquer pessoa com o link"
-   videos[].link URL do YouTube/Drive. Vazio = aparece como "em breve".
-   videos[].capa índice de uma foto; se omitido e o link for YouTube, usa a miniatura do YouTube.
-   ========================================================================== */
+/* =========================================================================
+   CONTEÚDO DO SITE
+   Tudo o que muda (textos, fotos, vídeos) fica aqui. Para atualizar o site,
+   edite só este objeto.
+
+   - edicoes[].fotos: IDs de arquivos do Google Drive (pasta pública).
+     `legenda` é opcional. A primeira foto vira destaque (se houver 5 ou mais).
+   - edicoes[].pendente: true mostra o aviso "página em montagem".
+   - videos[].edicao: número da edição (1–7) ou null. Se null, o site tenta
+     descobrir por "Nª edição" no título do YouTube.
+   - Números da seção "Sobre": só use dados confirmados pela produção.
+   ========================================================================= */
 const CONTEUDO = {
-  email: "contato@vaiderural.com.br",
-  fotos: [
-    // 7ª edição, Baixão
-    { driveId: "1rkLf_W5LWAeRgJJayJhr8Cm139Kl2sAj", grupo: "baixao" },
-    { driveId: "1hQySq2h7aiKtukulljfUBwPh_GRg_xtm", grupo: "baixao" },
-    { driveId: "1a1lF4Rya9yvRRGb5hQ_3Sv_fwsOK83ZB", grupo: "baixao" },
-    { driveId: "17S6L6ttxNNGn6JsCZqLKMCHQxIdnBrm_", grupo: "baixao" },
-    { driveId: "1bS9n4qTsoBaevKzWwwcJHn061wZdRwGv", grupo: "baixao" },
-    { driveId: "1Qud1F2T2ihEULpf2rh_IaKj8xm8Nh9Xo", grupo: "baixao" },
-    { driveId: "1bUQv0-fugBU2p344H9kCpdYrFgpaKn4p", grupo: "baixao" },
-    { driveId: "1Qvc4AExYJnWggB0iriJCh45SXFPd7nVm", grupo: "baixao" },
-    { driveId: "1z2eLbagEnDZBiNhokHFNpLpdmk1PeKlY", grupo: "baixao" },
-    { driveId: "1jkd_97Cdvcex_keoKWnNaJE_QKwzv_tY", grupo: "baixao" },
-    { driveId: "1alTvkV2Pqvog6Ia77hTPj62k8na2IJqF", grupo: "baixao" },
-    { driveId: "1dk6m2FUML6Apz2bfADcutYzzUbqZQ5QP", grupo: "baixao" },
-    { driveId: "1nX6WNrZrmpU9bUIA0TMsdopAavgLOVZv", grupo: "baixao" },
-    { driveId: "19z_NJ4fyN-y-uGf_f0-pbxjcDY7UdXne", grupo: "baixao" },
-    // 1ª e 2ª edições, Bacia do Paramirim
-    { driveId: "1rxnb-rZEclu72oCq5Lq-49szvg5QsLcS", grupo: "paramirim", legenda: "A Rural viaja pela Bacia do Paramirim, 1ª edição" },
-    { driveId: "1J1MVTLZCN34J95HVSCmRUDxGGN5WksNk", grupo: "paramirim", legenda: "A Rural viaja pela Bacia do Paramirim, 1ª edição" },
-    { driveId: "11Me3qjor7AixJ5asv7-zYLBhBUjlIYTU", grupo: "paramirim", legenda: "A Rural viaja pela Bacia do Paramirim, 2ª edição" },
+  projeto: {
+    nome: "Vai de Rural",
+    subtitulo: "Mostra Audiovisual Itinerante",
+    chamada: "Cinema, circo, fotografia e cultura popular nas comunidades rurais e quilombolas da Bahia.",
+    lema: "É no pé do morro, é lá no cafundó",
+    colagem: ["1rkLf_W5LWAeRgJJayJhr8Cm139Kl2sAj", "1rxnb-rZEclu72oCq5Lq-49szvg5QsLcS", "1Qud1F2T2ihEULpf2rh_IaKj8xm8Nh9Xo"],
+    sobre: [
+      "A mostra nasceu para exibir o documentário “É no pé do morro é lá no cafundó” (2011), de Denise Santos, para as próprias pessoas que aparecem no filme, gravado na Bacia do Paramirim. O título do filme virou o nome da mostra.",
+      "Desde então, a Rural pega a estrada de terra com um projetor e um telão improvisado. Pátios de escola e quintais viram sala de cinema, com circo, fotografia e a cultura de cada comunidade no mesmo palco."
+    ],
+    fatos: [
+      ["7", "edições realizadas"],
+      ["4", "linguagens: cinema, circo, fotografia e cultura popular"],
+      ["0", "reais de ingresso para o público"]
+    ],
+    linguagens: [
+      { nome: "Cinema", cor: "#e8452c", texto: "Curtas e documentários feitos por e sobre comunidades rurais." },
+      { nome: "Circo", cor: "#ffc21a", texto: "Malabares, equilíbrio, acrobacia e palhaçaria no terreiro." },
+      { nome: "Fotografia", cor: "#29a8e0", texto: "Exposição com os rostos e lugares das edições anteriores." },
+      { nome: "Cultura popular", cor: "#1f9d62", texto: "Apresentações e rodas de conversa com quem é da comunidade." }
+    ],
+    faixa: ["Cinema", "Circo", "Fotografia", "Cultura popular", "Bacia do Paramirim", "Boa Madeira", "Brejo Grande", "Paramirim das Crioulas", "Baixão", "Vitória da Conquista"],
+    contato: "contato@vaiderural.com.br",
+    parceiros: [
+      ["Realização", "La Bici Galeria Cultural"],
+      ["Apoio financeiro (7ª edição)", "Secretaria de Cultura e Prefeitura de Vitória da Conquista"],
+      ["Fomento", "Política Nacional Aldir Blanc, Ministério da Cultura, Governo Federal"]
+    ]
+  },
+
+  edicoes: [
+    {
+      n: 1, cor: "#1571ad", ano: "", titulo: "Bacia do Paramirim",
+      ficha: ["Bacia do Paramirim (BA)"],
+      texto: ["A primeira viagem da Rural pelas comunidades da Bacia do Paramirim, território onde foi gravado o filme que deu nome à mostra."],
+      pendente: true,
+      fotos: [
+        { id: "1rxnb-rZEclu72oCq5Lq-49szvg5QsLcS", legenda: "A Rural viaja pela Bacia do Paramirim" },
+        { id: "1J1MVTLZCN34J95HVSCmRUDxGGN5WksNk", legenda: "A Rural viaja pela Bacia do Paramirim" }
+      ]
+    },
+    {
+      n: 2, cor: "#17865a", ano: "", titulo: "Bacia do Paramirim",
+      ficha: ["Bacia do Paramirim (BA)"],
+      texto: ["A segunda edição volta às estradas da Bacia do Paramirim."],
+      pendente: true,
+      fotos: [{ id: "11Me3qjor7AixJ5asv7-zYLBhBUjlIYTU", legenda: "A Rural viaja pela Bacia do Paramirim" }]
+    },
+    {
+      n: 3, cor: "#ffc21a", ano: "", titulo: "Bacia do Paramirim",
+      ficha: ["Bacia do Paramirim (BA)"],
+      texto: ["Com a terceira edição, a mostra passa de 24 povoados e comunidades visitados na Bacia do Paramirim."],
+      pendente: true,
+      fotos: []
+    },
+    {
+      n: 4, cor: "#cc3219", ano: "2022", titulo: "Macaúbas, Boquira e Érico Cardoso",
+      ficha: ["21 a 23 de abril de 2022", "Boa Madeira, Macaúbas", "Brejo Grande, Boquira", "Quilombo Paramirim das Crioulas, Érico Cardoso"],
+      texto: [
+        "Em parceria com o produtor Helivelto Lima, de Macaúbas, a quarta edição passou por três comunidades em três dias.",
+        "A programação teve documentário sobre patrimônios culturais do Nordeste, circo e manifestações da cultura popular."
+      ],
+      pendente: true,
+      fotos: []
+    },
+    { n: 5, cor: "#ff5c9a", ano: "", titulo: "Local a definir", ficha: [], texto: [], pendente: true, fotos: [] },
+    { n: 6, cor: "#6e4bc0", ano: "", titulo: "Local a definir", ficha: [], texto: [], pendente: true, fotos: [] },
+    {
+      n: 7, cor: "#f0781a", ano: "2026", titulo: "Comunidade Quilombola do Baixão",
+      ficha: ["24 de março de 2026, 16h", "Escola Municipal Orlando Spinola", "Vitória da Conquista (BA)", "Gratuito, com Libras"],
+      texto: ["A sétima edição levou cinema, circo, fotografia e cultura popular para a Comunidade Quilombola do Baixão, em Vitória da Conquista, com a escola da comunidade como sala de exibição."],
+      pendente: true,
+      fotos: [
+        "1rkLf_W5LWAeRgJJayJhr8Cm139Kl2sAj", "17S6L6ttxNNGn6JsCZqLKMCHQxIdnBrm_", "1hQySq2h7aiKtukulljfUBwPh_GRg_xtm",
+        "1a1lF4Rya9yvRRGb5hQ_3Sv_fwsOK83ZB", "1bS9n4qTsoBaevKzWwwcJHn061wZdRwGv", "1Qud1F2T2ihEULpf2rh_IaKj8xm8Nh9Xo",
+        "1bUQv0-fugBU2p344H9kCpdYrFgpaKn4p", "1Qvc4AExYJnWggB0iriJCh45SXFPd7nVm", "1z2eLbagEnDZBiNhokHFNpLpdmk1PeKlY",
+        "1jkd_97Cdvcex_keoKWnNaJE_QKwzv_tY", "1alTvkV2Pqvog6Ia77hTPj62k8na2IJqF", "1dk6m2FUML6Apz2bfADcutYzzUbqZQ5QP",
+        "1nX6WNrZrmpU9bUIA0TMsdopAavgLOVZv", "19z_NJ4fyN-y-uGf_f0-pbxjcDY7UdXne"
+      ].map(id => ({ id }))
+    }
   ],
-  legendaPadrao: { baixao: "Comunidade Quilombola do Baixão, 7ª edição", paramirim: "Bacia do Paramirim" },
-  capa: 0,
+
   videos: [
-    { titulo: "Teaser da mostra", info: "7ª edição", link: "", capa: 10 },
-    { titulo: "O circo no pátio", info: "Espetáculo", link: "", capa: 5 },
-    { titulo: "A sessão de cinema", info: "Mostra de curtas", link: "", capa: 12 },
-    { titulo: "Quem estava lá", info: "Depoimentos", link: "", capa: 8 },
-  ],
-  parceiros: [
-    ["Realização", "La Bici Galeria Cultural"],
-    ["Apoio financeiro", "Secretaria de Cultura e Prefeitura de Vitória da Conquista"],
-    ["Fomento", "Política Nacional Aldir Blanc, Ministério da Cultura, Governo Federal"],
-  ],
+    { id: "ndI-yk68hZA", edicao: null },
+    { id: "Bc9Vgns9u7A", edicao: null },
+    { id: "tUGRXwzrBwc", edicao: null },
+    { id: "qz3x734Y_m8", edicao: null },
+    { id: "KZurJ5MyJDo", edicao: null },
+    { id: "cikCfKB4-KI", edicao: null },
+    { id: "YwnqLtXx7zY", edicao: null },
+    { id: "Ezu9kqwoWaE", edicao: null },
+    { id: "L7MnEOyoSJc", edicao: null },
+    { id: "YCdnMuJ2X1Y", edicao: null }
+  ]
 };
 
+/* =========================================================================
+   APLICAÇÃO
+   Roteamento por hash (#/, #/edicoes, #/edicao/7, #/videos, #/sobre):
+   funciona em hospedagem estática (GitHub Pages) sem configurar servidor.
+   ========================================================================= */
 (() => {
   "use strict";
   const $ = (s, r = document) => r.querySelector(s);
-  const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-  const F = CONTEUDO.fotos;
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const P = CONTEUDO.projeto, EDS = CONTEUDO.edicoes, VIDS = CONTEUDO.videos;
+  const main = $("#conteudo");
+  const ed = n => EDS.find(e => e.n === n);
 
-  /* ---------------- Imagens ----------------
-     Os JPGs originais têm 15–21 MB: o site nunca usa o original, só versões
-     redimensionadas. O endpoint de miniatura do Drive não é API documentada:
-     serve para demonstração; em produção prefira `src` com WebP próprio. */
-  const fontes = (foto, w) => foto.src ? [foto.src] : [
-    `https://drive.google.com/thumbnail?id=${encodeURIComponent(foto.driveId)}&sz=w${w}`,
-    `https://lh3.googleusercontent.com/d/${encodeURIComponent(foto.driveId)}=w${w}`,
-  ];
-  /* onload/onerror como propriedades: reusar o mesmo <img> não acumula handlers */
-  function carregar(img, lista, aoCarregar) {
-    let i = 0;
-    const tentar = () => { if (i < lista.length) img.src = lista[i++]; else img.onerror = null; };
-    img.onerror = tentar;
-    img.onload = () => { img.onerror = img.onload = null; img.classList.add("is-carregada"); aoCarregar?.(); };
-    tentar();
-  }
-  const legendaDe = (i) => F[i].legenda || CONTEUDO.legendaPadrao[F[i].grupo] || "";
-  const LARGURA_PAG = Math.min(2000, Math.round(900 * (window.devicePixelRatio || 1)));
-  const foto = (i, w = LARGURA_PAG) =>
-    `<button class="zoom" type="button" data-zoom="${i}" aria-label="Ampliar foto: ${esc(legendaDe(i))}"><img data-foto="${i}" data-w="${w}" alt="${esc(legendaDe(i))}" draggable="false" referrerpolicy="no-referrer"></button>`;
+  /* Cor do texto sobre uma cor de fundo: branco se tiver contraste AA (4,5:1),
+     senão anil. Qualquer cor nova nos dados continua legível. */
+  const luz = hex => hex.match(/\w\w/g).map(h => parseInt(h, 16) / 255)
+    .map(c => c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4)
+    .reduce((s, v, i) => s + v * [0.2126, 0.7152, 0.0722][i], 0);
+  const tinta = hex => 1.05 / (luz(hex) + 0.05) >= 4.5 ? "#fff" : "#1f2a6b";
+  EDS.forEach(e => { e.tinta = tinta(e.cor); });
+  P.linguagens.forEach(l => { l.tinta = tinta(l.cor); });
 
-  /* ---------------- Páginas ----------------
-     Cada página: { id, html, cabeco?, folio?, folioClaro? } */
-  const baixao = F.map((_, i) => i).filter((i) => F[i].grupo === "baixao");
-  const paramirim = F.map((_, i) => i).filter((i) => F[i].grupo === "paramirim");
-  /* numeração das pranchas (cada foto é uma prancha, como num fotolivro) */
-  const pranchas = (qtd) => {
-    const ini = prancha + 1; prancha += qtd;
-    return `<b>${qtd > 1 ? `${ini}–${prancha}` : ini}</b>`;
-  };
-  let prancha = 0; // numeração das fotos ao longo do livro
+  /* Fotos do Drive: miniatura redimensionada pelo próprio Google.
+     Não é API documentada; se falhar, tenta o CDN lh3. Para produção,
+     o ideal é hospedar as fotos otimizadas (WebP) junto com o site. */
+  const foto = (id, w) => `https://drive.google.com/thumbnail?id=${encodeURIComponent(id)}&sz=w${w}`;
+  const fotoReserva = (id, w) => `https://lh3.googleusercontent.com/d/${encodeURIComponent(id)}=w${w}`;
+  document.addEventListener("error", e => {
+    const img = e.target;
+    if (img.tagName !== "IMG" || !img.dataset.drive || img.dataset.tentou) return;
+    img.dataset.tentou = "1";
+    img.src = fotoReserva(img.dataset.drive, img.dataset.w);
+  }, true);
+  const imgDrive = (id, w, alt, extra = "") =>
+    `<img src="${foto(id, w)}" data-drive="${esc(id)}" data-w="${w}" alt="${esc(alt)}" loading="lazy" decoding="async" ${extra}>`;
+  const legendaFoto = (e, f) => f.legenda || `${e.titulo}, ${e.n}ª edição`;
+  const rotuloEd = e => `${e.n}ª edição`;
 
-  const P = {
-    capa: () => ({ id: "capa", html: `
-      <div class="tecido capa">
-        <p class="capa__sobre ouro">Mostra Audiovisual Itinerante</p>
-        <div class="capa__foto">${foto(CONTEUDO.capa, 900)}</div>
-        <h1 class="capa__titulo ouro">Vai de Rural</h1>
-        <p class="capa__ed ouro">7ª edição</p>
-      </div>` }),
-    guarda: (id) => ({ id, html: `<div class="guarda"></div>` }),
-    rosto: () => ({ id: "rosto", html: `
-      <div class="rosto">
-        <p class="rosto__lema">É no pé do morro,<br>é lá no cafundó</p>
-        <div class="rosto__bloco">
-          <h2 class="rosto__titulo">Vai de Rural</h2>
-          <div class="rosto__fio"></div>
-          <p class="rosto__sub">Mostra Audiovisual Itinerante</p>
-          <p class="rosto__ed">7ª edição</p>
-        </div>
-        <p class="rosto__pe">Comunidade Quilombola do Baixão<br>Vitória da Conquista, Bahia<br>2026</p>
-      </div>` }),
-    sumario: () => ({ id: "sumario", cabeco: "Vai de Rural", folio: true, html: `
-      <div class="miolo sumario">
-        <h2 class="h-livro">Sumário</h2>
-        <ol data-sumario></ol>
-      </div>` }),
-    apresentacao: () => ({ id: "apresentacao", cabeco: "Apresentação", folio: true, html: `
-      <div class="miolo">
-        <h2 class="h-livro">Cinema que viaja do morro ao cafundó</h2>
-        <div class="corpo">
-          <p>O Vai de Rural leva cinema, circo, fotografia e cultura popular para comunidades rurais e quilombolas da Bahia. Um lençol esticado vira telão, o pátio da escola vira plateia e a Rural carrega tudo pela estrada de terra.</p>
-          <p>Na 7ª edição, a mostra chegou à Comunidade Quilombola do Baixão, na Escola Municipal Orlando Spinola, para uma tarde inteira de filmes, circo e festa, gratuita e com intérprete de Libras.</p>
-          <p>São sete edições, mais de doze comunidades e mais de oitenta filmes exibidos. Este livro guarda um pouco dessa estrada.</p>
-        </div>
-      </div>` }),
-    capitulo: (id, numeral, titulo, sub) => ({ id, html: `
-      <div class="capitulo">
-        <p class="capitulo__num">${numeral}</p>
-        <h2>${titulo}</h2>
-        <div class="capitulo__fio"></div>
-        <p class="capitulo__sub">${sub}</p>
-      </div>` }),
-    sangrada: (i) => { prancha++; return { id: `f${i}`, folio: true, folioClaro: true, html: `<div class="p-sangrada">${foto(i)}</div>` }; },
-    margem: (i, cab) => ({ id: `f${i}`, cabeco: cab, folio: true, html: `
-      <figure class="p-margem">${foto(i)}<figcaption class="legenda">${pranchas(1)}${esc(legendaDe(i))}</figcaption></figure>` }),
-    dupla: (a, b, cab) => ({ id: `f${a}`, cabeco: cab, folio: true, html: `
-      <div class="p-dupla">${foto(a, 1200)}${foto(b, 1200)}<p class="legenda">${pranchas(2)}${esc(legendaDe(a))}</p></div>` }),
-    grade: (ids, cab) => ({ id: `f${ids[0]}`, cabeco: cab, folio: true, html: `
-      <div class="p-grade">${ids.map((i) => foto(i, 800)).join("")}<p class="legenda">${pranchas(ids.length)}${esc(legendaDe(ids[0]))}</p></div>` }),
-    panorama: (i, lado) => ({ id: `f${i}-${lado}`, folio: true, folioClaro: true, html: `<div class="p-panorama p-panorama--${lado}">${foto(i, Math.min(2400, LARGURA_PAG * 2))}</div>` }),
-    videosIntro: () => ({ id: "videos", cabeco: "Sessão de vídeos", folio: true, html: `
-      <div class="miolo videos-intro">
-        <h2 class="h-livro">Sessão de vídeos</h2>
-        <div class="corpo">
-          <p>Os filmes, o circo e as conversas da mostra, agora em movimento.</p>
-          <p>Toque numa miniatura para assistir.</p>
-        </div>
-        <p class="videos-intro__nota">Os vídeos abrem numa nova aba.</p>
-      </div>` }),
-    videos: () => ({ id: "videos-lista", cabeco: "Sessão de vídeos", folio: true, html: `
-      <div class="p-videos">${CONTEUDO.videos.map(videoCard).join("")}</div>` }),
-    colofao: () => ({ id: "colofao", cabeco: "Vai de Rural", folio: true, html: `
-      <div class="miolo colofao">
-        <h2 class="h-livro">Quem faz acontecer</h2>
-        <dl>${CONTEUDO.parceiros.map(([p, n]) => `<div><dt>${esc(p)}</dt><dd>${esc(n)}</dd></div>`).join("")}</dl>
-        <p class="colofao__contato">Contato: <a href="mailto:${esc(CONTEUDO.email)}">${esc(CONTEUDO.email)}</a></p>
-        <p class="colofao__fim">Composto em EB Garamond. Até a próxima estrada.</p>
-      </div>` }),
-    contracapa: () => ({ id: "contracapa", html: `
-      <div class="tecido contracapa">
-        <p class="contracapa__marca ouro">Vai de Rural</p>
-        <p class="contracapa__lema ouro">É no pé do morro,<br>é lá no cafundó</p>
-        <p class="contracapa__fino ouro">Evento gratuito e acessível em Libras</p>
-      </div>` }),
+  /* ---------- Vídeos ---------- */
+  const thumbYT = id => `https://i.ytimg.com/vi/${encodeURIComponent(id)}/hqdefault.jpg`;
+  const tituloVideo = v => v.titulo || `Vídeo ${VIDS.indexOf(v) + 1}`;
+  const cartaoVideo = v => {
+    const e = v.edicao ? ed(v.edicao) : null;
+    return `<button class="cartao" data-video="${VIDS.indexOf(v)}" style="${e ? `--vc:${e.cor}` : "--vc:var(--sol)"}">
+      <span class="cartao__capa">
+        <img src="${thumbYT(v.id)}" alt="" loading="lazy" decoding="async">
+        <span class="cartao__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg></span>
+      </span>
+      <span class="cartao__info">
+        <span class="cartao__titulo">${esc(tituloVideo(v))}</span>
+        ${e ? `<span class="cartao__etiqueta">${rotuloEd(e)}</span>` : ""}
+      </span>
+    </button>`;
   };
 
-  const ytId = (url) => (url.match(/(?:youtu\.be\/|v=|embed\/|shorts\/)([\w-]{11})/) || [])[1];
-  function videoCard(v) {
-    const breve = !v.link;
-    const id = !breve && ytId(v.link);
-    const mini = v.capa != null
-      ? `<img data-foto="${v.capa}" data-w="600" alt="" referrerpolicy="no-referrer">`
-      : id ? `<img data-src="https://i.ytimg.com/vi/${id}/hqdefault.jpg" alt="" referrerpolicy="no-referrer">` : "";
-    const corpo = `
-      <span class="video__mini">${mini}<span class="video__play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l12.5-7.5z"/></svg></span></span>
-      <span class="video__titulo">${esc(v.titulo)}<span class="video__info">${esc(breve ? `${v.info}, em breve` : v.info)}</span></span>`;
-    return breve
-      ? `<div class="video is-breve">${corpo}</div>`
-      : `<a class="video" href="${esc(v.link)}" target="_blank" rel="noopener" aria-label="Assistir: ${esc(v.titulo)} (abre em nova aba)">${corpo}</a>`;
-  }
-
-  /* Sequência de páginas. No livro aberto, índices ímpares ficam à esquerda
-     e pares à direita (a capa, 0, é a primeira direita). No celular cada
-     página é uma folha: guardas somem e o panorama vira foto sangrada. */
-  function montar(simples) {
-    prancha = 0;
-    const b = baixao, p = paramirim, I = "Baixão", II = "Bacia do Paramirim";
-    const lista = [
-      P.capa(),
-      !simples && P.guarda("guarda-1"),
-      P.rosto(),
-      P.sumario(),
-      P.apresentacao(),
-      P.sangrada(b[0]),
-      P.capitulo("cap1", "I", "Baixão", "<em>7ª edição</em><br>Comunidade Quilombola do Baixão<br>24 de março de 2026"),
-      P.sangrada(b[1]),
-      P.margem(b[2], I),
-      ...(simples ? [P.sangrada(b[3])] : (prancha++, [P.panorama(b[3], "esq"), P.panorama(b[3], "dir")])), // panorama conta como 1 prancha
-      P.dupla(b[4], b[5], I),
-      P.sangrada(b[6]),
-      P.margem(b[7], I),
-      P.grade([b[8], b[9], b[10], b[11]], I),
-      P.sangrada(b[12]),
-      P.margem(b[13], I),
-      P.capitulo("cap2", "II", "Bacia do Paramirim", "<em>1ª e 2ª edições</em><br>As primeiras viagens da Rural"),
-      P.sangrada(p[0]),
-      P.margem(p[1], II),
-      P.margem(p[2], II),
-      P.videosIntro(),
-      P.videos(),
-      P.colofao(),
-      !simples && P.guarda("guarda-2"),
-      P.contracapa(),
-    ].filter(Boolean);
-    if (!simples && lista.length % 2) lista.splice(lista.length - 1, 0, P.guarda("guarda-extra"));
-    return lista;
-  }
-
-  /* ---------------- Livro ---------------- */
-  const mesa = $("[data-mesa]");
-  const livro = $("[data-livro]");
-  const fita = $(".fita");
-  const indicador = $("[data-indicador]");
-  const btnAnt = $("[data-anterior]");
-  const btnProx = $("[data-proxima]");
-  const mqSimples = matchMedia("(max-width: 820px)");
-  const reduz = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const TEMPO = reduz ? 20 : 1100;
-
-  let simples, paginas, folhas, faces, L, t = 0;
-
-  function construir(paginaAlvo = 0) {
-    simples = mqSimples.matches;
-    mesa.classList.toggle("is-simples", simples);
-    paginas = montar(simples);
-    livro.querySelectorAll(".folha").forEach((f) => f.remove());
-    faces = [];
-    folhas = [];
-
-    const lado = (i) => (simples || i % 2 === 0 ? "dir" : "esq");
-    const html = (pg, i) => {
-      if (!pg) return `<div class="pagina"></div>`;
-      const cab = pg.cabeco ? `<span class="cabeco">${esc(pg.cabeco)}</span>` : "";
-      const fol = pg.folio ? `<span class="folio${pg.folioClaro ? " folio--claro" : ""}">${i}</span>` : "";
-      return `<div class="pagina pagina--${lado(i)}" data-pagina="${i}">${cab}${pg.html}${fol}</div>`;
+  /* Títulos pelo oEmbed do YouTube (com um serviço público de reserva).
+     Se o título trouxer "Nª edição", o vídeo entra na página da edição.
+     Se tudo falhar, os cartões seguem como "Vídeo N". */
+  async function carregarTitulos() {
+    const pega = async url => {
+      const ctrl = new AbortController();
+      const t = setTimeout(() => ctrl.abort(), 6000);
+      try {
+        const r = await fetch(url, { signal: ctrl.signal });
+        if (!r.ok) return null;
+        const j = await r.json();
+        return j && typeof j.title === "string" ? j.title : null;
+      } catch { return null; } finally { clearTimeout(t); }
     };
+    let mudou = false;
+    await Promise.all(VIDS.map(async v => {
+      const watch = encodeURIComponent(`https://www.youtube.com/watch?v=${v.id}`);
+      const titulo = await pega(`https://www.youtube.com/oembed?url=${watch}&format=json`)
+                  ?? await pega(`https://noembed.com/embed?url=${watch}`);
+      if (!titulo) return;
+      v.titulo = titulo; mudou = true;
+      if (v.edicao == null) {
+        const m = titulo.match(/\b([1-7])\s*[ªºa°]\s*edi[çc][ãa]o/i);
+        if (m) v.edicao = Number(m[1]);
+      }
+    }));
+    if (mudou) render(false, false);
+  }
 
-    const passo = simples ? 1 : 2;
-    for (let i = 0; i < paginas.length; i += passo) {
-      const folha = document.createElement("div");
-      folha.className = "folha";
-      folha.innerHTML =
-        `<div class="face face--frente">${html(paginas[i], i)}</div>` +
-        (simples ? `<div class="face face--verso"><div class="pagina"></div></div>` : `<div class="face face--verso">${html(paginas[i + 1], i + 1)}</div>`);
-      livro.insertBefore(folha, fita);
-      folhas.push(folha);
-      faces.push(folha.children[0]);
-      if (!simples) faces.push(folha.children[1]);
+  /* ---------- Blocos ---------- */
+  const letras = (txt, i0) => [...txt].map((c, k) => `<span class="l" style="--i:${i0 + k}">${c === " " ? "&nbsp;" : esc(c)}</span>`).join("");
+
+  function estrada() {
+    return `<section class="estrada-sec" aria-labelledby="t-estrada">
+      <div class="envelope">
+        <h2 class="titulo" id="t-estrada">A estrada da Rural</h2>
+        <p class="intro">Cada parada é uma edição. Toque numa delas para ver onde a mostra passou, as fotos e os vídeos.</p>
+        <div class="estrada" data-estrada>
+          <div class="estrada__trilho">
+            <div class="estrada__asfalto"></div>
+            <div class="estrada__rural" data-rural></div>
+            <ol class="estrada__paradas">
+              ${EDS.map(e => `<li class="parada">
+                <a href="#/edicao/${e.n}" style="--c:${e.cor};--t:${e.tinta}" data-parada>
+                  <span class="parada__num">${e.n}ª</span>
+                  <span class="parada__local">${esc(e.titulo)}</span>
+                  <span class="parada__ano">${esc(e.ano)}</span>
+                </a></li>`).join("")}
+            </ol>
+          </div>
+        </div>
+        <p class="estrada__dica">Arraste para o lado para ver todas as edições.</p>
+      </div>
+    </section>`;
+  }
+
+  function ligarEstrada() {
+    const box = $("[data-estrada]");
+    if (!box) return;
+    const rural = $("[data-rural]", box);
+    rural.appendChild($("#tpl-rural").content.cloneNode(true));
+    const paradas = $$("[data-parada]", box), inicial = paradas[paradas.length - 1];
+    const moverPara = a => {
+      const t = $(".estrada__trilho", box).getBoundingClientRect(), r = a.getBoundingClientRect();
+      rural.style.transform = `translateX(${Math.round(r.left - t.left + r.width / 2 - rural.offsetWidth / 2)}px)`;
+    };
+    // Posição inicial sem animação; o movimento fica só para a interação.
+    rural.style.transition = "none";
+    moverPara(inicial);
+    rural.getBoundingClientRect();
+    rural.style.transition = "";
+    paradas.forEach(a => ["mouseenter", "focus"].forEach(ev => a.addEventListener(ev, () => moverPara(a))));
+    box._reposicionar = () => moverPara(inicial);
+  }
+
+  function blocoSobre(tag = "h2") {
+    return `<section class="secao secao--ceu" aria-labelledby="t-sobre">
+      <div class="envelope sobre">
+        <div>
+          <${tag} class="titulo" id="t-sobre">Sobre a mostra</${tag}>
+          <div style="margin-top:1.2rem">${P.sobre.map(p => `<p>${esc(p)}</p>`).join("")}</div>
+        </div>
+        <dl class="fatos">${P.fatos.map(([n, t]) => `<div><dt>${esc(t)}</dt><dd>${esc(n)}</dd></div>`).join("")}</dl>
+      </div>
+    </section>`;
+  }
+
+  function blocoLinguagens() {
+    return `<section class="secao" aria-labelledby="t-ling">
+      <div class="envelope">
+        <h2 class="titulo" id="t-ling">O que a Rural leva</h2>
+        <p class="intro">Quatro linguagens na mesma tarde, no pátio da escola ou no terreiro da comunidade.</p>
+        <div class="linguagens">${P.linguagens.map(l => `
+          <article class="linguagem" style="--c:${l.cor};--t:${l.tinta}">
+            <h3>${esc(l.nome)}</h3><p>${esc(l.texto)}</p>
+          </article>`).join("")}</div>
+      </div>
+    </section>`;
+  }
+
+  function faixa() {
+    const itens = P.faixa.map(t => `<li>${esc(t)}</li>`).join("");
+    // A lista é duplicada para o loop não ter emenda; a cópia fica oculta para leitores de tela.
+    return `<div class="faixa"><div class="faixa__trilha"><ul>${itens}</ul><ul aria-hidden="true">${itens}</ul></div></div>`;
+  }
+
+  /* ---------- Páginas ---------- */
+  const paginas = {
+    inicio() {
+      return `
+      <section class="abertura">
+        <div class="envelope abertura__grade">
+          <div>
+            <p class="abertura__pre">${esc(P.subtitulo)}, ${EDS.length} edições</p>
+            <h1 aria-label="Vai de Rural" data-titulo><span aria-hidden="true">${letras("Vai de", 0)}<br><span class="rural">${letras("Rural", 6)}</span></span></h1>
+            <p class="abertura__sub">${esc(P.chamada)}</p>
+            <p class="abertura__lema">“${esc(P.lema)}”</p>
+            <div class="botoes">
+              <a class="botao" href="#/edicoes">Ver as ${EDS.length} edições</a>
+              <a class="botao botao--branco" href="#/videos">Assistir aos vídeos</a>
+            </div>
+          </div>
+          <div class="colagem">
+            ${P.colagem.map((id, k) => `<div class="polaroide">${imgDrive(id, 700, "Foto da mostra Vai de Rural", k === 0 ? 'fetchpriority="high" loading="eager"' : "")}</div>`).join("")}
+            <span class="selo selo--gratis">Entrada gratuita</span>
+            <span class="selo selo--libras">Libras na 7ª edição</span>
+          </div>
+        </div>
+      </section>
+      ${faixa()}
+      ${estrada()}
+      ${blocoLinguagens()}
+      ${blocoSobre()}
+      <section class="secao secao--rosa" aria-labelledby="t-videos">
+        <div class="envelope">
+          <h2 class="titulo" id="t-videos">Vídeos</h2>
+          <p class="intro">Toque para assistir aqui mesmo.</p>
+          <div class="cartoes">${VIDS.slice(0, 6).map(cartaoVideo).join("")}</div>
+          <p style="margin-top:2rem"><a class="botao" href="#/videos">Ver todos os ${VIDS.length} vídeos</a></p>
+        </div>
+      </section>`;
+    },
+
+    edicoes() {
+      return `<section class="secao" aria-labelledby="t-lista">
+        <div class="envelope">
+          <h1 class="titulo" id="t-lista">As ${EDS.length} edições</h1>
+          <p class="intro">Da primeira viagem pela Bacia do Paramirim até o Baixão.</p>
+          <div class="cartoes">
+            ${EDS.map(e => {
+              const capa = e.fotos[0];
+              return `<a class="cartao" href="#/edicao/${e.n}" style="--vc:${e.cor};--t:${e.tinta}">
+                <span class="cartao__capa">${capa ? imgDrive(capa.id, 640, "") : `<span class="cartao__num">${e.n}ª</span>`}</span>
+                <span class="cartao__info">
+                  <span class="cartao__etiqueta">${rotuloEd(e)}${e.ano ? `, ${e.ano}` : ""}</span>
+                  <span class="cartao__titulo">${esc(e.titulo)}</span>
+                </span>
+              </a>`;
+            }).join("")}
+          </div>
+        </div>
+      </section>
+      ${estrada()}`;
+    },
+
+    edicao(n) {
+      const e = ed(n);
+      if (!e) return paginas.naoEncontrada();
+      const i = EDS.indexOf(e), ant = EDS[i - 1], prox = EDS[i + 1];
+      const vids = VIDS.filter(v => v.edicao === n);
+      const raiz = document.documentElement.style;
+      raiz.setProperty("--cor", e.cor); raiz.setProperty("--tinta", e.tinta);
+      return `
+      <section class="ed-topo">
+        <span class="ed-topo__num" aria-hidden="true">${e.n}</span>
+        <div class="envelope">
+          <a class="ed-topo__voltar" href="#/edicoes">‹ Todas as edições</a>
+          <p class="ed-topo__edicao">${rotuloEd(e)}${e.ano ? `, ${e.ano}` : ""}</p>
+          <h1>${esc(e.titulo)}</h1>
+          ${e.ficha.length ? `<ul class="ficha">${e.ficha.map(f => `<li>${esc(f)}</li>`).join("")}</ul>` : ""}
+        </div>
+      </section>
+      <div class="envelope ed-corpo">
+        <div class="ed-texto">${e.texto.map(p => `<p>${esc(p)}</p>`).join("")}</div>
+        ${e.pendente ? `<p class="pendente"><strong>Página em montagem.</strong> O texto desta edição será completado com a linha editorial da produção.</p>` : ""}
+        <section class="bloco" aria-labelledby="t-fotos">
+          <h2 id="t-fotos">Fotos</h2>
+          ${e.fotos.length ? `<div class="galeria">${e.fotos.map((f, k) => `
+            <figure class="foto ${k === 0 && e.fotos.length > 4 ? "foto--destaque" : ""}">
+              <button data-foto="${k}" aria-label="Ampliar: ${esc(legendaFoto(e, f))}">${imgDrive(f.id, k === 0 ? 1100 : 600, legendaFoto(e, f))}</button>
+              ${f.legenda ? `<figcaption>${esc(f.legenda)}</figcaption>` : ""}
+            </figure>`).join("")}</div>`
+          : `<div class="vazio">As fotos desta edição ainda vão ser adicionadas.</div>`}
+        </section>
+        <section class="bloco" aria-labelledby="t-vids">
+          <h2 id="t-vids">Vídeos</h2>
+          ${vids.length ? `<div class="cartoes">${vids.map(cartaoVideo).join("")}</div>`
+          : `<div class="vazio"><span>Os vídeos desta edição ainda vão ser adicionados. <a href="#/videos">Ver todos os vídeos</a></span></div>`}
+        </section>
+        <nav class="ed-nav" aria-label="Outras edições">
+          ${ant ? `<a href="#/edicao/${ant.n}" style="--c:${ant.cor};--t:${ant.tinta}"><small>‹ Edição anterior</small><strong>${ant.n}ª</strong></a>` : "<span></span>"}
+          ${prox ? `<a href="#/edicao/${prox.n}" style="--c:${prox.cor};--t:${prox.tinta}"><small>Próxima edição ›</small><strong>${prox.n}ª</strong></a>` : ""}
+        </nav>
+      </div>`;
+    },
+
+    videos() {
+      const comEd = [...new Set(VIDS.map(v => v.edicao).filter(Boolean))].sort((a, b) => a - b);
+      return `<section class="secao" aria-labelledby="t-todos">
+        <div class="envelope">
+          <h1 class="titulo" id="t-todos">Vídeos</h1>
+          <p class="intro">Toque em qualquer um para assistir aqui mesmo.</p>
+          ${comEd.length ? `<div class="filtros" role="group" aria-label="Filtrar por edição">
+            <button class="filtro" data-filtro="" aria-pressed="true">Todos</button>
+            ${comEd.map(n => `<button class="filtro" data-filtro="${n}" aria-pressed="false" style="--fc:${ed(n).cor};--t:${ed(n).tinta}">${n}ª edição</button>`).join("")}
+          </div>` : ""}
+          <div class="cartoes" data-lista-videos>${VIDS.map(cartaoVideo).join("")}</div>
+        </div>
+      </section>`;
+    },
+
+    sobre() { return `${blocoSobre("h1")}${blocoLinguagens()}${estrada()}`; },
+
+    naoEncontrada() {
+      return `<section class="secao"><div class="envelope"><h1 class="titulo">Página não encontrada</h1>
+        <p class="intro">Esse endereço não existe. <a href="#/">Voltar ao início</a></p></div></section>`;
     }
-    L = folhas.length;
+  };
 
-    // sumário com números de página reais desta montagem
-    const idx = (id) => paginas.findIndex((p) => p.id === id);
-    const entradas = [
-      ["", "Apresentação", "apresentacao"],
-      ["I", "Baixão, 7ª edição", "cap1"],
-      ["II", "Bacia do Paramirim", "cap2"],
-      ["", "Sessão de vídeos", "videos"],
-      ["", "Quem faz acontecer", "colofao"],
-    ];
-    const ol = livro.querySelector("[data-sumario]");
-    ol.innerHTML = entradas.map(([n, r, id]) =>
-      `<li><button type="button" data-ir="${idx(id)}"><span class="sumario__num">${n}</span><span class="sumario__rotulo">${r}</span><span class="sumario__pontos"></span><span class="sumario__pag">${idx(id)}</span></button></li>`
-    ).join("");
-
-    t = Math.min(L - 1 + (simples ? 0 : 1), folhaDaPagina(paginaAlvo));
-    folhas.forEach((f, i) => f.classList.toggle("is-virada", i < t));
-    atualizar();
+  /* ---------- Roteador ---------- */
+  let edicaoAtual = null, animouTitulo = false;
+  function rotaAtual() {
+    const partes = location.hash.replace(/^#\/?/, "").split("/").filter(Boolean);
+    if (!partes.length) return { nome: "inicio" };
+    if (partes[0] === "edicao") return { nome: "edicao", n: Number(partes[1]) };
+    return { nome: ["edicoes", "videos", "sobre"].includes(partes[0]) ? partes[0] : "naoEncontrada" };
   }
 
-  const folhaDaPagina = (p) => (simples ? p : Math.ceil(p / 2));
-  const paginaAtual = () => (simples ? t : Math.max(0, 2 * t - 1));
-
-  function zIndex() {
-    folhas.forEach((f, i) => { if (!f.classList.contains("is-movendo")) f.style.zIndex = i < t ? i + 1 : L - i + 1; });
-  }
-
-  function atualizar() {
-    const max = simples ? L - 1 : L;
-    livro.classList.toggle("is-fechado", t === 0);
-    livro.classList.toggle("is-final", !simples && t === L);
-    btnAnt.disabled = t === 0;
-    btnProx.disabled = t >= max;
-    zIndex();
-
-    // só as páginas visíveis ficam acessíveis ao teclado / leitor de tela
-    const visiveis = simples ? [t] : [2 * t - 1, 2 * t];
-    faces.forEach((face) => {
-      const pg = face.querySelector("[data-pagina]");
-      const n = pg ? +pg.dataset.pagina : -1;
-      face.inert = !visiveis.includes(n);
+  /* focar: rola ao topo e leva o foco ao conteúdo (troca de página).
+     Re-render silencioso (títulos dos vídeos chegando) mantém rolagem e foco. */
+  function render(focar = false) {
+    const r = rotaAtual(), y = window.scrollY;
+    const raiz = document.documentElement.style;
+    raiz.removeProperty("--cor"); raiz.removeProperty("--tinta");
+    edicaoAtual = r.nome === "edicao" ? ed(r.n) : null;
+    main.innerHTML = r.nome === "edicao" ? paginas.edicao(r.n) : paginas[r.nome]();
+    $$(".menu a").forEach(a => {
+      const ativo = a.dataset.rota === r.nome || (r.nome === "edicao" && a.dataset.rota === "edicoes");
+      ativo ? a.setAttribute("aria-current", "page") : a.removeAttribute("aria-current");
     });
-
-    // texto do indicador
-    const n = paginas.length - 1;
-    if (t === 0) indicador.textContent = "Toque na capa para abrir";
-    else if (simples) indicador.textContent = t === n ? "Contracapa" : `Página ${t} de ${n}`;
-    else indicador.textContent = t === L ? "Contracapa" : `Páginas ${2 * t - 1} e ${2 * t} de ${n}`;
-
-    // carrega fotos das páginas próximas (economia de dados e memória)
-    const centro = paginaAtual();
-    const de = centro - (simples ? 2 : 4), ate = centro + (simples ? 4 : 7);
-    livro.querySelectorAll("[data-pagina]").forEach((pg) => {
-      const i = +pg.dataset.pagina;
-      if (i < de || i > ate) return;
-      pg.querySelectorAll("img[data-foto]:not([src]), img[data-src]:not([src])").forEach((img) => {
-        if (img.dataset.src) carregar(img, [img.dataset.src]);
-        else carregar(img, fontes(F[+img.dataset.foto], +img.dataset.w));
-      });
-    });
+    const h1 = $("h1", main);
+    document.title = r.nome === "inicio" ? `${P.nome} — ${P.subtitulo}` : `${h1 ? (h1.getAttribute("aria-label") || h1.textContent) : ""} — ${P.nome}`;
+    // O título "pula" só na primeira vez que a página inicial aparece.
+    const t = $("[data-titulo]", main);
+    if (t && !animouTitulo) { t.classList.add("entrar"); animouTitulo = true; }
+    ligarEstrada();
+    if (focar) { window.scrollTo(0, 0); main.focus({ preventScroll: true }); }
+    else window.scrollTo(0, y);
   }
+  window.addEventListener("hashchange", () => render(true));
+  window.addEventListener("resize", () => { const b = $("[data-estrada]"); b && b._reposicionar && b._reposicionar(); });
 
-  function mover(folha, virar, ordem) {
-    folha.classList.add("is-movendo");
-    folha.style.zIndex = 500 + ordem;
-    folha.classList.toggle("is-virada", virar);
-    clearTimeout(folha._fim);
-    folha._fim = setTimeout(() => { folha.classList.remove("is-movendo"); zIndex(); }, TEMPO + 60);
-  }
-
-  function irPara(alvo) {
-    const max = simples ? L - 1 : L;
-    alvo = Math.max(0, Math.min(max, alvo));
-    if (alvo === t) return;
-    const passo = alvo > t ? 1 : -1;
-    const intervalo = Math.abs(alvo - t) > 1 ? 110 : 0;   // folheia rápido ao pular
-    let k = 0;
-    for (let i = t; i !== alvo; i += passo) {
-      const folha = folhas[passo > 0 ? i : i - 1];
-      setTimeout(() => mover(folha, passo > 0, k), k * intervalo);
-      k++;
+  /* ---------- Cliques ---------- */
+  main.addEventListener("click", ev => {
+    const bFoto = ev.target.closest("[data-foto]");
+    if (bFoto && edicaoAtual) return abrirFoto(Number(bFoto.dataset.foto));
+    const bVid = ev.target.closest("[data-video]");
+    if (bVid) return abrirVideo(VIDS[Number(bVid.dataset.video)]);
+    const bFil = ev.target.closest("[data-filtro]");
+    if (bFil) {
+      const n = bFil.dataset.filtro ? Number(bFil.dataset.filtro) : null;
+      $$("[data-filtro]").forEach(b => b.setAttribute("aria-pressed", String(b === bFil)));
+      $("[data-lista-videos]").innerHTML = VIDS.filter(v => n == null || v.edicao === n).map(cartaoVideo).join("");
     }
-    t = alvo;
-    atualizar();
-  }
-  const proxima = () => irPara(t + 1);
-  const anterior = () => irPara(t - 1);
-
-  btnProx.addEventListener("click", proxima);
-  btnAnt.addEventListener("click", anterior);
-
-  // clique na página: direita avança, esquerda volta; foto abre ampliada
-  let arrastou = false;
-  livro.addEventListener("click", (e) => {
-    if (arrastou) { arrastou = false; return; }
-    const ir = e.target.closest("[data-ir]");
-    if (ir) { irPara(folhaDaPagina(+ir.dataset.ir)); return; }
-    const z = e.target.closest("[data-zoom]");
-    if (z && t > 0) { lightbox.abrir(+z.dataset.zoom); return; }
-    if (e.target.closest("a, .video")) return;
-    const face = e.target.closest(".face");
-    if (!face) return;
-    face.classList.contains("face--frente") ? proxima() : anterior();
   });
 
-  // swipe
-  let x0 = null, y0 = 0;
-  const palco = $("[data-palco]");
-  palco.addEventListener("pointerdown", (e) => { x0 = e.clientX; y0 = e.clientY; arrastou = false; });
-  palco.addEventListener("pointerup", (e) => {
-    if (x0 === null) return;
-    const dx = e.clientX - x0, dy = e.clientY - y0;
-    x0 = null;
-    if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy)) {
-      arrastou = true;
-      dx < 0 ? proxima() : anterior();
-    }
+  /* ---------- Janela de foto ---------- */
+  const lb = $("#lb"), lbImg = $(".lb__img", lb), lbLeg = $(".lb__legenda", lb);
+  let lbIdx = 0;
+  function mostrarFoto() {
+    const e = edicaoAtual, f = e.fotos[lbIdx];
+    lbImg.dataset.drive = f.id; lbImg.dataset.w = 1600; delete lbImg.dataset.tentou;
+    lbImg.src = foto(f.id, 1600);
+    lbImg.alt = legendaFoto(e, f);
+    lbLeg.textContent = `${legendaFoto(e, f)} (${lbIdx + 1} de ${e.fotos.length})`;
+    $$("[data-lb]", lb).forEach(b => { b.hidden = e.fotos.length < 2; });
+  }
+  function abrirFoto(k) { lbIdx = k; mostrarFoto(); lb.showModal(); }
+  function passo(d) { const t = edicaoAtual.fotos.length; lbIdx = (lbIdx + d + t) % t; mostrarFoto(); }
+  lb.addEventListener("click", ev => {
+    const s = ev.target.closest("[data-lb]");
+    if (s) return passo(Number(s.dataset.lb));
+    if (ev.target.closest("[data-fechar]") || ev.target.classList.contains("janela")) lb.close();
+  });
+  lb.addEventListener("keydown", ev => {
+    if (ev.key === "ArrowRight") passo(1);
+    if (ev.key === "ArrowLeft") passo(-1);
+  });
+  let x0 = null;
+  lb.addEventListener("touchstart", ev => { x0 = ev.touches[0].clientX; }, { passive: true });
+  lb.addEventListener("touchend", ev => {
+    if (x0 == null) return;
+    const dx = ev.changedTouches[0].clientX - x0; x0 = null;
+    if (Math.abs(dx) > 50) passo(dx < 0 ? 1 : -1);
   });
 
-  document.addEventListener("keydown", (e) => {
-    if (lightbox.aberto()) return;
-    if (e.key === "ArrowRight" || e.key === "PageDown") { e.preventDefault(); proxima(); }
-    if (e.key === "ArrowLeft" || e.key === "PageUp") { e.preventDefault(); anterior(); }
-    if (e.key === "Home") irPara(0);
-    if (e.key === "End") irPara(simples ? L - 1 : L);
+  /* ---------- Janela de vídeo ----------
+     youtube-nocookie: sem cookies de rastreamento antes do play.
+     O iframe é removido ao fechar, senão o áudio continua tocando. */
+  const vd = $("#vd"), vdQuadro = $(".vd__quadro", vd);
+  function abrirVideo(v) {
+    vdQuadro.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(v.id)}?autoplay=1&rel=0"
+      title="${esc(tituloVideo(v))}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>`;
+    $(".vd__titulo", vd).textContent = tituloVideo(v);
+    $(".vd__link", vd).href = `https://www.youtube.com/watch?v=${encodeURIComponent(v.id)}`;
+    vd.showModal();
+  }
+  vd.addEventListener("close", () => { vdQuadro.innerHTML = ""; });
+  vd.addEventListener("click", ev => {
+    if (ev.target.closest("[data-fechar]") || ev.target.classList.contains("janela")) vd.close();
   });
 
-  // troca de modo (girar o celular / redimensionar) mantendo a página
-  mqSimples.addEventListener("change", () => construir(paginas[paginaAtual()] ? paginaAtual() : 0));
-
-  /* ---------------- Lightbox ---------------- */
-  const lightbox = (() => {
-    const dlg = $("[data-lb]"), img = $("[data-lb-img]"), leg = $("[data-lb-legenda]");
-    const cont = $("[data-lb-contador]"), orig = $("[data-lb-original]");
-    const W = Math.min(2400, Math.ceil((screen.width || 1600) * (devicePixelRatio || 1)));
-    let atual = 0;
-    function mostrar(i) {
-      atual = (i + F.length) % F.length;
-      img.classList.add("is-trocando");
-      img.alt = legendaDe(atual);
-      carregar(img, fontes(F[atual], W), () => img.classList.remove("is-trocando"));
-      leg.textContent = legendaDe(atual);
-      cont.textContent = `${atual + 1} de ${F.length}`;
-      orig.href = F[atual].driveId ? `https://drive.google.com/file/d/${F[atual].driveId}/view` : F[atual].src;
-      [atual - 1, atual + 1].forEach((v) => { new Image().src = fontes(F[(v + F.length) % F.length], W)[0]; });
-    }
-    dlg.addEventListener("close", () => { img.removeAttribute("src"); });
-    $("[data-lb-fechar]").addEventListener("click", () => dlg.close());
-    $("[data-lb-ant]").addEventListener("click", () => mostrar(atual - 1));
-    $("[data-lb-prox]").addEventListener("click", () => mostrar(atual + 1));
-    dlg.addEventListener("keydown", (e) => {
-      if (e.key === "ArrowLeft") mostrar(atual - 1);
-      if (e.key === "ArrowRight") mostrar(atual + 1);
-    });
-    let lx = null;
-    const fig = $(".lb__fig");
-    fig.addEventListener("pointerdown", (e) => { lx = e.clientX; });
-    fig.addEventListener("pointerup", (e) => {
-      if (lx === null) return;
-      const dx = e.clientX - lx; lx = null;
-      if (Math.abs(dx) > 50) mostrar(atual + (dx < 0 ? 1 : -1));
-    });
-    return { abrir(i) { mostrar(i); dlg.showModal(); }, aberto: () => dlg.open };
+  /* ---------- Elementos fixos ---------- */
+  (function bandeirinhas() {
+    const svg = $("[data-bandeirinhas]"), cores = EDS.map(e => e.cor), w = 1200 / 40;
+    let d = "";
+    for (let k = 0; k < 40; k++) d += `<path d="M${k * w} 0h${w - 3}l-${(w - 3) / 2} 20z" fill="${cores[k % cores.length]}"/>`;
+    svg.innerHTML = `<rect width="1200" height="2" fill="#151d4d"/>${d}`;
   })();
+  $("[data-parceiros]").innerHTML = P.parceiros.map(([t, n]) => `<div><dt>${esc(t)}</dt><dd>${esc(n)}</dd></div>`).join("");
+  $("[data-contato]").innerHTML = `<a href="mailto:${esc(P.contato)}">${esc(P.contato)}</a>`;
 
-  construir(0);
+  render();
+  carregarTitulos();
 })();
 </script>
 </body>
