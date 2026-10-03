@@ -140,8 +140,8 @@ h1, h2, h3 { margin: 0; line-height: 1.02; }
 .estrada-sec .titulo { color: var(--sol); }
 .estrada-sec .intro { color: #cfd4f3; }
 .estrada { position: relative; margin-top: 2rem; overflow-x: auto; overscroll-behavior-x: contain; padding-bottom: .5rem; scrollbar-width: thin; }
-.estrada__trilho { position: relative; min-width: 880px; padding-top: 92px; }
-.estrada__asfalto { position: absolute; left: 0; right: 0; top: 124px; height: 28px; border-radius: 14px; background: var(--noite); }
+.estrada__trilho { position: relative; min-width: 880px; padding-top: 122px; }
+.estrada__asfalto { position: absolute; left: 0; right: 0; top: 154px; height: 28px; border-radius: 14px; background: var(--noite); }
 .estrada__asfalto::after {
   content: ""; position: absolute; left: 14px; right: 14px; top: 12px; height: 4px;
   background: repeating-linear-gradient(90deg, var(--sol) 0 24px, transparent 24px 44px);
@@ -157,14 +157,11 @@ h1, h2, h3 { margin: 0; line-height: 1.02; }
 .parada a:hover .parada__num, .parada a:focus-visible .parada__num { transform: scale(1.12) rotate(-6deg); }
 .parada__local { font-weight: 700; font-size: .92rem; line-height: 1.25; max-width: 15ch; }
 .parada__ano { font-size: .82rem; color: #aab2e6; min-height: 1.2em; }
-.estrada__rural { position: absolute; top: 26px; left: 0; width: 124px; transition: transform .8s cubic-bezier(.5, 0, .2, 1); pointer-events: none; }
-.estrada__rural svg { width: 100%; height: auto; display: block; }
+/* A Rural da estrada é o desenho de Pablo Sant'Ana do release da 3ª edição (assets/rural-3a.webp). */
+.estrada__rural { position: absolute; top: 12px; left: 0; width: 150px; transition: transform .8s cubic-bezier(.5, 0, .2, 1); pointer-events: none; }
+.estrada__rural img { width: 100%; height: auto; display: block; }
 .estrada__dica { font-size: .85rem; color: #aab2e6; margin-top: .5rem; }
 @media (min-width: 920px) { .estrada__dica { display: none; } }
-.rural__blusa { fill: var(--sol); } .rural__saia { fill: #fff; } .rural__vidro { fill: #9fd4ef; }
-.rural__friso { stroke: var(--urucum); stroke-width: 4; } .rural__rack, .rural__projetor { fill: #fff; }
-.rural__lente { fill: var(--urucum); } .rural__farol { fill: #fff3b0; } .rural__caixa { fill: var(--noite); }
-.rural__pneu { fill: #0e1334; } .rural__calota { fill: #d6d9ea; }
 
 /* ---------- Seções ---------- */
 .secao { padding: clamp(3.5rem, 8vw, 6rem) 0; }
@@ -466,27 +463,6 @@ body.com-fundo .vazio { background: rgba(255, 255, 255, .92); }
   </div>
 </dialog>
 
-<template id="tpl-rural">
-  <svg viewBox="0 0 240 112" role="img" aria-label="A Rural">
-    <rect x="62" y="14" width="116" height="4" rx="2" class="rural__rack"/>
-    <rect x="104" y="2" width="32" height="13" rx="3" class="rural__projetor"/>
-    <circle cx="120" cy="3" r="3.2" class="rural__lente"/>
-    <path d="M6 58V26q0-6 6-6h154q4 0 6 4l18 34z" class="rural__blusa"/>
-    <path d="M8 56h222q6 0 6 6v20q0 6-6 6H8q-4 0-4-4V60q0-4 4-4z" class="rural__saia"/>
-    <rect x="14" y="27" width="40" height="22" rx="2" class="rural__vidro"/>
-    <rect x="60" y="27" width="44" height="22" rx="2" class="rural__vidro"/>
-    <rect x="110" y="27" width="50" height="22" rx="2" class="rural__vidro"/>
-    <path d="M166 27h3l12 23h-15z" class="rural__vidro"/>
-    <path d="M4 66h232" class="rural__friso"/>
-    <circle cx="230" cy="72" r="4" class="rural__farol"/>
-    <circle cx="50" cy="88" r="19" class="rural__caixa"/>
-    <circle cx="192" cy="88" r="19" class="rural__caixa"/>
-    <circle cx="50" cy="88" r="15" class="rural__pneu"/>
-    <circle cx="192" cy="88" r="15" class="rural__pneu"/>
-    <circle cx="50" cy="88" r="6" class="rural__calota"/>
-    <circle cx="192" cy="88" r="6" class="rural__calota"/>
-  </svg>
-</template>
 
 <script>
 /* =========================================================================
@@ -802,7 +778,7 @@ const FUNDOS = {
     const box = $("[data-estrada]");
     if (!box) return;
     const rural = $("[data-rural]", box);
-    rural.appendChild($("#tpl-rural").content.cloneNode(true));
+    rural.innerHTML = `<img src="assets/rural-3a.webp" alt="A Rural" width="581" height="411">`;
     const paradas = $$("[data-parada]", box), inicial = paradas[paradas.length - 1];
     const moverPara = a => {
       const t = $(".estrada__trilho", box).getBoundingClientRect(), r = a.getBoundingClientRect();
