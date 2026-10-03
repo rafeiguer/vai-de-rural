@@ -44,6 +44,8 @@
   --largura: 1200px;
   --cor: var(--anil);
   --tinta: #fff;
+  /* Intensidade dos cartazes de fundo (0 = some, 1 = cor original). Ajuste só aqui. */
+  --fundo-opacidade: 0.9;
 }
 *, *::before, *::after { box-sizing: border-box; }
 html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
@@ -113,14 +115,6 @@ h1, h2, h3 { margin: 0; line-height: 1.02; }
 .polaroide:nth-child(2) { width: 50%; right: 0; top: 0; transform: rotate(5deg); }
 .polaroide:nth-child(3) { width: 46%; right: 8%; bottom: 0; transform: rotate(-2deg); z-index: 3; }
 .polaroide:hover { transform: rotate(0) scale(1.03); z-index: 5; }
-.selo {
-  position: absolute; z-index: 6; display: grid; place-items: center; text-align: center;
-  width: 108px; height: 108px; border-radius: 50%; font-weight: 800; font-stretch: 80%;
-  line-height: 1.1; font-size: .95rem; padding: .6rem; transform: rotate(-12deg);
-}
-.selo--gratis { background: var(--rosa); color: #fff; left: -6px; bottom: 4%; }
-.selo--libras { background: var(--ceu); color: var(--noite); right: -8px; top: 42%; transform: rotate(10deg); }
-@media (max-width: 600px) { .selo { width: 88px; height: 88px; font-size: .82rem; } }
 
 /* Animação de entrada do título: o único movimento automático do site */
 @keyframes pula {
@@ -200,6 +194,18 @@ body.com-fundo .chamada__grade { background: rgba(255, 255, 255, .92); border-ra
 body.com-fundo .chamada :is(.titulo, .intro) { text-shadow: none; }
 body.com-fundo .painel { background: rgba(255, 255, 255, .92); border-radius: var(--raio); padding: 1.1rem 1.4rem .6rem; }
 body.com-fundo .painel p { text-shadow: none; }
+/* Texto corrido longo (página Sobre): linha de leitura confortável, parágrafos bem separados. */
+.texto-longo { font-size: 1.15rem; line-height: 1.7; max-width: 68ch; margin-inline: auto; }
+.texto-longo p { margin: 0 0 1.2rem; }
+body.com-fundo .painel.texto-longo { padding: clamp(1.4rem, 4vw, 2.4rem) clamp(1.2rem, 4vw, 2.6rem) clamp(.4rem, 2vw, 1.2rem); }
+/* Texto branco sobre um véu roxo semitransparente: o cartaz aparece por trás, desfocado para não
+   misturar cores com as letras. Com alfa .78, o branco fica em ~5.5:1 mesmo sobre a parte mais clara do cartaz
+   (com .7 ou menos, deixa de passar 4.5:1). */
+body.com-fundo .painel.texto-longo {
+  background: rgba(75, 45, 143, .78); color: #fff; font-weight: 500;
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  box-shadow: 0 10px 30px rgba(10, 14, 45, .25);
+}
 
 /* O que a Rural leva */
 .linguagens { display: grid; gap: 1rem; margin-top: 2.25rem; grid-template-columns: 1fr; }
@@ -231,6 +237,8 @@ body.com-fundo .painel p { text-shadow: none; }
 .cartao:hover { transform: translate(-3px, -3px); box-shadow: 8px 8px 0 var(--vc, var(--anil)); }
 .cartao__capa { position: relative; aspect-ratio: 16 / 9; background: var(--vc, var(--noite)); overflow: hidden; border-bottom: 3px solid var(--anil); }
 .cartao__capa img { width: 100%; height: 100%; object-fit: cover; }
+/* Cartaz como capa: o recorte 16:9 puxa para cima do centro, onde costumam ficar o título e a arte. */
+.cartao__capa img.cartao__cartaz { object-position: center 30%; }
 .cartao__num { position: absolute; inset: 0; display: grid; place-items: center; font-family: var(--display); font-size: 5rem; color: var(--t, #fff); }
 .cartao__play {
   position: absolute; inset: 0; margin: auto; width: 64px; height: 64px; border-radius: 50%;
@@ -284,6 +292,9 @@ body.com-fundo .painel p { text-shadow: none; }
 .foto img { width: 100%; aspect-ratio: 1; object-fit: cover; background: #efeaf8; border-radius: 3px; }
 .foto figcaption { font-size: .85rem; color: var(--texto-2); padding: .45rem .2rem 0; line-height: 1.35; }
 .foto--destaque { grid-column: span 2; }
+/* Cartaz da edição: polaroide única, na proporção original (cartazes são retrato ou paisagem). */
+.cartaz-ed { max-width: min(100%, 420px); margin-top: 1.6rem; }
+.cartaz-ed img { aspect-ratio: auto; object-fit: contain; }
 .foto--destaque img { aspect-ratio: 16 / 10; }
 .vazio {
   display: grid; place-items: center; text-align: center; min-height: 170px; padding: 2rem; margin-top: 1.6rem;
@@ -324,12 +335,12 @@ dialog::backdrop { background: rgba(21, 29, 77, .94); }
 .vd__rodape a { color: var(--sol); font-weight: 700; }
 
 
-/* ---------- Fundo com os cartazes (só na página inicial) ----------
-   Cada cartaz entra só com a parte ilustrada, sem os textos, nítido e sem filtro
-   (sem desfoque, sem véu, cores originais). Os recortes vão embutidos neste arquivo.
-   Como o texto escuro ficaria ilegível sobre a arte, ele ganha um brilho branco ao
-   redor (e o texto claro da estrada, uma sombra escura). */
-.fundo-cartaz { display: none; position: fixed; inset: 0; z-index: -1; background: #fff; }
+/* ---------- Fundo com os cartazes (Início, Edições, Vídeos e Sobre) ----------
+   Cada cartaz entra só com a parte ilustrada, sem os textos, nítido e sem desfoque,
+   suavizado pela opacidade --fundo-opacidade (sobre branco). Os recortes ficam em assets/cartazes.
+   Títulos ganham um brilho branco ao redor (e o texto claro da estrada, uma sombra escura);
+   o texto corrido fica num .painel claro. */
+.fundo-cartaz { display: none; position: fixed; inset: 0; z-index: -1; background: #fff; opacity: var(--fundo-opacidade); }
 .fundo-cartaz img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; }
 body.com-fundo { --texto-2: #1b1f3a; }
 body.com-fundo .fundo-cartaz { display: block; }
@@ -337,7 +348,8 @@ body.com-fundo .abertura { background: transparent; }
 body.com-fundo .secao { background: transparent; }
 body.com-fundo .secao--rosa { background: transparent; }
 body.com-fundo .secao--ceu { background: transparent; }
-body.com-fundo .estrada-sec { background: transparent; }
+/* A estrada tem texto claro: com o fundo suavizado ela precisa de um véu anil, não de transparência. */
+body.com-fundo .estrada-sec { background: rgba(31, 42, 107, .9); }
 body.com-fundo :where(.abertura__pre, .abertura__sub, .abertura__lema, .abertura h1, .secao > .envelope > .titulo, .chamada .titulo, .secao .intro, .sobre .titulo, .sobre p) {
   text-shadow: 0 0 3px #fff, 0 0 8px #fff, 0 0 16px rgba(255,255,255,.95), 0 0 30px rgba(255,255,255,.85);
 }
@@ -352,7 +364,7 @@ body.com-fundo .estrada-sec :is(.titulo, .intro, .parada__local, .parada__ano, .
 </head>
 <body>
 
-<!-- Fundo da página inicial: os 7 cartazes desfocados, que se alternam conforme a rolagem -->
+<!-- Fundo de Início, Edições, Vídeos e Sobre: recortes dos cartazes, que se alternam conforme a rolagem -->
 <div class="fundo-cartaz" data-fundo-cartaz aria-hidden="true"></div>
 
 <header class="topo">
@@ -454,6 +466,16 @@ const CONTEUDO = {
       "A mostra nasceu para exibir o documentário “É no pé do morro é lá no cafundó” (2011), de Denise Santos, para as próprias pessoas que aparecem no filme, gravado na Bacia do Paramirim. O título do filme virou o nome da mostra.",
       "Desde então, a Rural pega a estrada de terra com um projetor e um telão improvisado. Pátios de escola e quintais viram sala de cinema, com circo, fotografia e a cultura de cada comunidade no mesmo palco."
     ],
+    // Texto principal da página Sobre (a Home usa o resumo `sobre`, acima).
+    textoSobre: [
+      "A Mostra Cultural Itinerante Vai de Rural já realizou sete edições passando por mais de 25 povoados e comunidades pelo interior da Bahia. Todas as edições foram totalmente gratuitas, com foco em povoados e comunidades quilombolas e/ou tradicionais, principalmente na região do Sudoeste Baiano e na Bacia do Paramirim. Desde a sexta edição contamos com uma tradutora de Libras.",
+      "A Rural é uma realização da LA Bici Galeria Cultural, um coletivo composto por produtores culturais, técnicos e artistas. Acreditamos que as expressões artísticas e culturais são ferramentas de transformação social. Nosso coletivo está em fase de certificação pelo Ministério da Cultura para se transformar em um Ponto de Cultura.",
+      "Carregamos na bagagem uma composição que permite o conhecimento local dialogar com diversas intervenções artísticas, harmonizando a cultura local com as vivências dos tripulantes da Rural. As atividades culturais que desenvolvemos em suas multilinguagens como exibição de filmes, espetáculos circenses, artes visuais, capoeira, manifestações populares são apresentadas pelas próprias comunidades contempladas no projeto, envolvendo os idosos, as crianças, as mulheres, pessoas negras etc.",
+      "A primeira edição da Rural visou inicialmente a exibição do documentário « É no pé do morro é lá no cafundó » (2011), de Denise Santos, como um feedback, em prática de alteridade, aos próprios personagens participantes do filme. Em sete edições da “Rural” já passaram artistas da França/Iran, Colômbia, Chile e várias partes do Brasil.",
+      // TODO: linkar "Um olhar sobre Boa Madeira: artesãs e sambadeiras" com fotos, vídeos e cards do projeto
+      "Em todas as edições da Rural, que é o nosso carro chefe, assim como na 1ª e 2ª edição do projeto Um olhar sobre Boa Madeira: artesãs e sambadeiras tivemos a participação especial das comunidades contempladas com a apresentação da sua cultura popular. Nós buscamos nos projetos que realizamos integrar às comunidades como protagonistas e não somente como público. Além disso, temos na Mostra feira de artesanatos e gastronomia local, contribuindo para a economia circular de forma criativa.",
+      "Nossos projetos têm se mostrado fruto de uma verdadeira integração comunitária, em que se prioriza um processo de construção coletiva, envolvendo as comunidades não somente como espectadores, mas, sobretudo como protagonistas, através da atuação dos mesmos com suas expressões culturais. A Rural segue construindo novos caminhos, aumentando a bagagem de mais histórias, causos e encantos através do cinema, do circo, da cultura popular e de outras artes integradas em diálogo com povos e comunidades."
+    ],
     fatos: [
       ["7", "edições realizadas"],
       ["4", "linguagens: cinema, circo, fotografia e cultura popular"],
@@ -469,16 +491,20 @@ const CONTEUDO = {
     contato: "contato@vaiderural.com.br",
     parceiros: [
       ["Realização", "La Bici Galeria Cultural"],
-      ["Apoio financeiro (7ª edição)", "Secretaria de Cultura e Prefeitura de Vitória da Conquista"],
-      ["Fomento", "Política Nacional Aldir Blanc, Ministério da Cultura, Governo Federal"]
+      ["Patrocínio", "A Rural, em suas edições, contou com apoio financeiro do Governo Federal e do Governo da Bahia através de editais culturais como o Edital Territórios Culturais e o Edital Audiovisual Geraldo Sarno, e também através da Lei Paulo Gustavo e da Lei Aldir Blanc."]
     ]
   },
 
   edicoes: [
     {
-      n: 1, cor: "#1571ad", ano: "", titulo: "Bacia do Paramirim",
-      ficha: ["Bacia do Paramirim (BA)"],
-      texto: ["A primeira viagem da Rural pelas comunidades da Bacia do Paramirim, território onde foi gravado o filme que deu nome à mostra."],
+      n: 1, cor: "#1571ad", ano: "2013", titulo: "Bacia do Paramirim",
+      ficha: ["27 de fevereiro a 2 de março", "Bacia do Paramirim (BA)", "Encerramento em Macaúbas", "Entrada gratuita"],
+      texto: [
+        "A primeira viagem da Rural pelas comunidades da Bacia do Paramirim, território onde foi gravado o filme que deu nome à mostra.",
+        "O encerramento foi em Macaúbas, na Biblioteca Municipal (antiga Prefeitura), com exposição fotográfica, exibição do filme de Denise Santos às 20h30 e festa com o Baile Tropical do DJ Macô.",
+        "A primeira edição foi realizada por meio do edital Microprojetos Culturais, da Funarte e do Ministério da Cultura."
+      ],
+      cartaz: "ed1-cartaz",
       pendente: true,
       fotos: [
         { id: "ed1-01", legenda: "A Rural viaja pela Bacia do Paramirim" },
@@ -486,35 +512,74 @@ const CONTEUDO = {
       ]
     },
     {
-      n: 2, cor: "#17865a", ano: "", titulo: "Bacia do Paramirim",
-      ficha: ["Bacia do Paramirim (BA)"],
-      texto: ["A segunda edição volta às estradas da Bacia do Paramirim."],
+      n: 2, cor: "#17865a", ano: "2015", titulo: "Bacia do Paramirim",
+      ficha: ["21 a 27 de abril de 2015", "Macaúbas, Érico Cardoso e Paramirim (BA)"],
+      texto: [
+        "A segunda edição voltou às estradas da Bacia do Paramirim em abril de 2015: Lagoa Clara e Lagoa do Maurício, em Macaúbas; Morro do Fogo, em Érico Cardoso; Pé do Morro e Canabravinha, em Paramirim; e a cidade de Paramirim, no encerramento.",
+        "A edição teve apoio do Governo do Estado da Bahia, através do Fundo de Cultura."
+      ],
+      cartaz: "ed2-cartaz",
       pendente: true,
       fotos: [{ id: "ed2-01", legenda: "A Rural viaja pela Bacia do Paramirim" }]
     },
     {
-      n: 3, cor: "#ffc21a", ano: "", titulo: "Bacia do Paramirim",
-      ficha: ["Bacia do Paramirim (BA)"],
-      texto: ["Com a terceira edição, a mostra passa de 24 povoados e comunidades visitados na Bacia do Paramirim."],
-      pendente: true,
+      n: 3, cor: "#ffc21a", ano: "2017", titulo: "Bacia do Paramirim",
+      ficha: ["14 a 20 de maio de 2017", "Preá, Botuporã", "Saco do Fogo, Ibipitanga", "Boa Madeira e Pajeú, Macaúbas"],
+      texto: [
+        "Depois de circular em duas edições por treze comunidades da Bacia do Paramirim, a Rural pediu passagem de novo: Preá, em Botuporã (14 de maio); Saco do Fogo, em Ibipitanga (15); Boa Madeira (16) e Pajeú (18), em Macaúbas; e a cidade de Macaúbas (19), com passeios ecológicos nos dias 17 e 20.",
+        "A programação trouxe vídeos sobre patrimônios culturais, materiais e imateriais, do Nordeste brasileiro, modalidades circenses, vídeo instalação, exposição fotográfica com as belezas naturais e culturais da região, manifestações populares e a distribuição de CD com músicas dos grupos de Terno de Reis da Bacia do Paramirim.",
+        "Passaram pela edição as artistas circenses Pusa Pinaud (Colômbia) e Ludmila Bas (Chile), o Palhaço Fuzuê, os cineastas Dario João de Souza (Saco do Fogo) e Pablo Sant'Ana (Barreiras), os grupos de samba de roda de Boa Madeira e do Preá e o Trio Mata Branca, de Macaúbas.",
+        "A terceira edição foi realizada pela Kinema Kortseco, em parceria com o produtor Helivelto Lima, pelo edital Territórios Culturais 2016, com apoio financeiro do Fundo de Cultura do Governo da Bahia e apoio cultural das prefeituras de Macaúbas, Ibipitanga e Botuporã."
+      ],
+      cartaz: "ed3-cartaz",
+      pendente: false,
       fotos: []
     },
     {
       n: 4, cor: "#cc3219", ano: "2022", titulo: "Macaúbas, Boquira e Érico Cardoso",
       ficha: ["21 a 23 de abril de 2022", "Boa Madeira, Macaúbas", "Brejo Grande, Boquira", "Quilombo Paramirim das Crioulas, Érico Cardoso"],
       texto: [
-        "Em parceria com o produtor Helivelto Lima, de Macaúbas, a quarta edição passou por três comunidades em três dias.",
-        "A programação teve documentário sobre patrimônios culturais do Nordeste, circo e manifestações da cultura popular."
+        "Depois de circular em três edições por mais de 24 povoados e comunidades, a LA BICI Galeria Cultural, em parceria com o produtor Helivelto Lima, de Macaúbas, levou a quarta edição a três comunidades em três dias.",
+        "Em Boa Madeira, Macaúbas (21 de abril), com o Samba de Roda das Mulheres de Boa Madeira; em Brejo Grande, Boquira (22), com o Reis das Mulheres e Cia; e no Quilombo Paramirim das Crioulas, Érico Cardoso (23), com o Reisado das Liras e Manjonas.",
+        "A programação teve exibição de documentário, exposição de artesanato, exposição fotográfica e apresentações circenses com Dan, o mágico, e o Palhaço Eleno.",
+        "A edição foi selecionada no edital Territórios Culturais 2019, com apoio financeiro do Fundo de Cultura do Governo da Bahia e apoio cultural das prefeituras de Macaúbas, Boquira e Érico Cardoso."
       ],
-      pendente: true,
+      cartaz: "ed4-cartaz",
+      pendente: false,
       fotos: []
     },
-    { n: 5, cor: "#ff5c9a", ano: "", titulo: "Local a definir", ficha: [], texto: [], pendente: true, fotos: [] },
-    { n: 6, cor: "#6e4bc0", ano: "", titulo: "Local a definir", ficha: [], texto: [], pendente: true, fotos: [] },
+    {
+      n: 5, cor: "#ff5c9a", ano: "2025", titulo: "Preá, Palmeira e Boa Madeira",
+      ficha: ["12, 14 e 15 de março de 2025", "Quilombo do Preá, Botuporã", "Palmeira, Boquira", "Boa Madeira, Macaúbas"],
+      texto: [
+        "Respeitável público, rufem os tambores, pois a Rural está chegando! Depois de quatro edições por mais de 30 povoados e comunidades da Bahia, a quinta edição viajou à Comunidade Quilombola do Preá, em Botuporã (12 de março), à comunidade rural de Palmeira, em Boquira (14), e a Boa Madeira, em Macaúbas (15), sempre às 16h, em frente à igrejinha.",
+        "Teve exibição de “O Palhaço” (2011), de Selton Mello, e de “É no pé do morro é lá no cafundó” (2011), de Denise Santos; o espetáculo “Circo Peligro”, com o artista circense colombiano Payaso Peligro; “O Fim da Mulher Cordial”, número em tecido marinho com Desa Aquino; e apresentação musical com o francês Navid Emadzadeh.",
+        "Cada comunidade também se apresentou: o samba de roda do Preá, a langa com músicos de Palmeira e o terno de reis e o samba de roda das mulheres de Boa Madeira. Completaram a programação a exposição fotográfica com as comunidades contempladas, o artesanato e a gastronomia local.",
+        "Uma realização da LA BICI Galeria Cultural e dos produtores culturais Helivelto Lima e Denise Santos, contemplada no edital PG08/2023 (Cineclubes, Mostras, Festivais e Eventos no Audiovisual), através da Lei Paulo Gustavo, com apoio institucional do Governo da Bahia e do Governo Federal."
+      ],
+      cartaz: "ed5-cartaz",
+      pendente: false,
+      fotos: []
+    },
+    // A 6ª (novembro de 2024) aconteceu antes da 5ª (março de 2025): a numeração segue os editais, não o calendário.
+    {
+      n: 6, cor: "#6e4bc0", ano: "2024", titulo: "Cachoeira das Araras e Baixão",
+      ficha: ["20 e 21 de novembro de 2024", "Quilombo Cachoeira das Araras", "Quilombo do Baixão", "Vitória da Conquista (BA)", "Com Libras"],
+      texto: [
+        "Depois de cinco edições por mais de 28 povoados e comunidades da Bahia, a Rural chegou às comunidades quilombolas de Vitória da Conquista: Cachoeira das Araras, em 20 de novembro, às 14h, na Escola Municipal Venceslau Ribeiro, e Baixão, em 21 de novembro, às 17h, na Escola Municipal Orlando Spínola.",
+        "Foram exibidos os documentários “É no pé do morro é lá no cafundó” (2011), de Denise Santos, e “Memórias de um Quilombo Vivo” (2019), do diretor baiano Rogério Sagui. No circo, “O Circo de um Homem Só”, com o Palhaço Tiziu, de Salvador, e “O Fim da Mulher Cordial”, em tecido marinho, com Denise Santos, além de exposição fotográfica e manifestações populares. Foi a primeira edição com tradutora de Libras.",
+        "A Rural integrou a 3ª edição da Mostra Circo no Cinema, contrapartida do projeto de formação de Denise Santos no Cirque Octave Singulier, na França, contemplado no edital de Mobilidade Cultural 2023/2024 do Governo da Bahia.",
+        "Esta edição foi contemplada no Edital Geraldo Sarno, através da Lei Paulo Gustavo, com apoio institucional do Governo Federal e do Ministério da Cultura."
+      ],
+      cartaz: "ed6-cartaz",
+      pendente: false,
+      fotos: []
+    },
     {
       n: 7, cor: "#f0781a", ano: "2026", titulo: "Comunidade Quilombola do Baixão",
       ficha: ["24 de março de 2026, 16h", "Escola Municipal Orlando Spinola", "Vitória da Conquista (BA)", "Gratuito, com Libras"],
       texto: ["A sétima edição levou cinema, circo, fotografia e cultura popular para a Comunidade Quilombola do Baixão, em Vitória da Conquista, com a escola da comunidade como sala de exibição."],
+      cartaz: "ed7-cartaz",
       pendente: true,
       fotos: [
         "ed7-01", "ed7-02", "ed7-03",
@@ -578,6 +643,7 @@ const FUNDOS = {
     `<img src="${foto(nome, w)}" alt="${esc(alt)}" loading="lazy" decoding="async" ${extra}>`;
   const legendaFoto = (e, f) => f.legenda || `${e.titulo}, ${e.n}ª edição`;
   const rotuloEd = e => `${e.n}ª edição`;
+  const cartazEd = e => ({ id: e.cartaz, legenda: `Cartaz da ${rotuloEd(e)}` });
 
   /* ---------- Vídeos ---------- */
   const thumbYT = id => `https://i.ytimg.com/vi/${encodeURIComponent(id)}/hqdefault.jpg`;
@@ -676,7 +742,7 @@ const FUNDOS = {
       <div class="envelope sobre">
         <div>
           <${tag} class="titulo" id="t-sobre">Sobre a mostra</${tag}>
-          <div style="margin-top:1.2rem">${P.sobre.map(p => `<p>${esc(p)}</p>`).join("")}</div>
+          <div class="painel" style="margin-top:1.2rem">${P.sobre.map(p => `<p>${esc(p)}</p>`).join("")}</div>
         </div>
         <dl class="fatos">${P.fatos.map(([n, t]) => `<div><dt>${esc(t)}</dt><dd>${esc(n)}</dd></div>`).join("")}</dl>
       </div>
@@ -735,8 +801,6 @@ const FUNDOS = {
           </div>
           <div class="colagem">
             ${P.colagem.map((id, k) => `<div class="polaroide">${imgFoto(id, 700, "Foto da mostra Vai de Rural", k === 0 ? 'fetchpriority="high" loading="eager"' : "")}</div>`).join("")}
-            <span class="selo selo--gratis">Entrada gratuita</span>
-            <span class="selo selo--libras">Libras na 7ª edição</span>
           </div>
         </div>
       </section>
@@ -755,6 +819,7 @@ const FUNDOS = {
     },
 
     edicoes() {
+      // Colagem: primeira, quarta e última edição, com o cartaz; sem cartaz, um quadrado na cor da edição.
       const amostra = [0, 3, EDS.length - 1].map(k => EDS[k]).filter(Boolean);
       return `
       <section class="abertura abertura--pagina">
@@ -765,10 +830,7 @@ const FUNDOS = {
             <p class="abertura__sub">Da primeira viagem pela Bacia do Paramirim até o Baixão.</p>
           </div>
           <div class="colagem" aria-hidden="true">
-            ${amostra.map(e => `<div class="polaroide"><div class="polaroide__arte" style="--c:${e.cor};--t:${e.tinta}">${e.n}ª</div></div>`).join("")}
-            <span class="selo selo--gratis">Entrada gratuita</span>
-            <span class="selo selo--libras">Libras na 7ª edição</span>
-          </div>
+            ${amostra.map(e => `<div class="polaroide">${e.cartaz ? imgFoto(e.cartaz, 800, "") : `<div class="polaroide__arte" style="--c:${e.cor};--t:${e.tinta}">${e.n}ª</div>`}</div>`).join("")}          </div>
         </div>
       </section>
       ${faixa()}
@@ -777,9 +839,10 @@ const FUNDOS = {
           <h2 class="sr" id="t-cartoes">Lista de edições</h2>
           <div class="cartoes" style="margin-top:0">
             ${EDS.map(e => {
-              const capa = e.fotos[0];
+              // Capa: primeira foto; sem foto, o cartaz; sem nenhum dos dois, o número na cor da edição.
+              const capa = e.fotos[0] ? e.fotos[0].id : e.cartaz;
               return `<a class="cartao" href="#/edicao/${e.n}" style="--vc:${e.cor};--t:${e.tinta}">
-                <span class="cartao__capa">${capa ? imgFoto(capa.id, 640, "") : `<span class="cartao__num">${e.n}ª</span>`}</span>
+                <span class="cartao__capa">${capa ? imgFoto(capa, 640, "", capa === e.cartaz ? 'class="cartao__cartaz"' : "") : `<span class="cartao__num">${e.n}ª</span>`}</span>
                 <span class="cartao__info">
                   <span class="cartao__etiqueta">${rotuloEd(e)}${e.ano ? `, ${e.ano}` : ""}</span>
                   <span class="cartao__titulo">${esc(e.titulo)}</span>
@@ -813,6 +876,12 @@ const FUNDOS = {
       <div class="envelope ed-corpo">
         <div class="ed-texto">${e.texto.map(p => `<p>${esc(p)}</p>`).join("")}</div>
         ${e.pendente ? `<p class="pendente"><strong>Página em montagem.</strong> O texto desta edição será completado com a linha editorial da produção.</p>` : ""}
+        ${e.cartaz ? `<section class="bloco" aria-labelledby="t-cartaz">
+          <h2 id="t-cartaz">Cartaz</h2>
+          <figure class="foto cartaz-ed">
+            <button data-cartaz aria-label="Ampliar: ${esc(cartazEd(e).legenda)}">${imgFoto(e.cartaz, 800, cartazEd(e).legenda)}</button>
+          </figure>
+        </section>` : ""}
         <section class="bloco" aria-labelledby="t-fotos">
           <h2 id="t-fotos">Fotos</h2>
           ${e.fotos.length ? `<div class="galeria">${e.fotos.map((f, k) => `
@@ -847,10 +916,7 @@ const FUNDOS = {
             <p class="abertura__sub">Toque em qualquer um para assistir aqui mesmo.</p>
           </div>
           <div class="colagem" aria-hidden="true">
-            ${amostra.map(([c, t]) => `<div class="polaroide"><div class="polaroide__arte" style="--c:${c};--t:${t}">${play}</div></div>`).join("")}
-            <span class="selo selo--gratis">Entrada gratuita</span>
-            <span class="selo selo--libras">${VIDS.length} vídeos</span>
-          </div>
+            ${amostra.map(([c, t]) => `<div class="polaroide"><div class="polaroide__arte" style="--c:${c};--t:${t}">${play}</div></div>`).join("")}          </div>
         </div>
       </section>
       ${faixa()}
@@ -875,9 +941,13 @@ const FUNDOS = {
           <div>
             <p class="abertura__pre">${esc(P.subtitulo)}</p>
             ${tituloPagina("t-sobre", "Sobre a", "mostra")}
-            <div class="painel" style="margin-top:1.4rem">${P.sobre.map(p => `<p>${esc(p)}</p>`).join("")}</div>
           </div>
           <dl class="fatos">${P.fatos.map(([n, t]) => `<div><dt>${esc(t)}</dt><dd>${esc(n)}</dd></div>`).join("")}</dl>
+        </div>
+      </section>
+      <section class="secao" aria-label="O projeto">
+        <div class="envelope">
+          <div class="painel texto-longo">${P.textoSobre.map(p => `<p>${esc(p)}</p>`).join("")}</div>
         </div>
       </section>
       ${faixa()}
@@ -980,7 +1050,8 @@ const FUNDOS = {
   /* ---------- Cliques ---------- */
   main.addEventListener("click", ev => {
     const bFoto = ev.target.closest("[data-foto]");
-    if (bFoto && edicaoAtual) return abrirFoto(Number(bFoto.dataset.foto));
+    if (bFoto && edicaoAtual) return abrirFoto(edicaoAtual.fotos, Number(bFoto.dataset.foto));
+    if (ev.target.closest("[data-cartaz]") && edicaoAtual) return abrirFoto([cartazEd(edicaoAtual)], 0);
     const bVid = ev.target.closest("[data-video]");
     if (bVid) return abrirVideo(VIDS[Number(bVid.dataset.video)]);
     const bFil = ev.target.closest("[data-filtro]");
@@ -993,16 +1064,17 @@ const FUNDOS = {
 
   /* ---------- Janela de foto ---------- */
   const lb = $("#lb"), lbImg = $(".lb__img", lb), lbLeg = $(".lb__legenda", lb);
-  let lbIdx = 0;
+  // lbLista: as fotos da galeria ou só o cartaz da edição.
+  let lbIdx = 0, lbLista = [];
   function mostrarFoto() {
-    const e = edicaoAtual, f = e.fotos[lbIdx];
+    const e = edicaoAtual, f = lbLista[lbIdx], t = lbLista.length;
     lbImg.src = foto(f.id, 1600);
     lbImg.alt = legendaFoto(e, f);
-    lbLeg.textContent = `${legendaFoto(e, f)} (${lbIdx + 1} de ${e.fotos.length})`;
-    $$("[data-lb]", lb).forEach(b => { b.hidden = e.fotos.length < 2; });
+    lbLeg.textContent = t > 1 ? `${legendaFoto(e, f)} (${lbIdx + 1} de ${t})` : legendaFoto(e, f);
+    $$("[data-lb]", lb).forEach(b => { b.hidden = t < 2; });
   }
-  function abrirFoto(k) { lbIdx = k; mostrarFoto(); lb.showModal(); }
-  function passo(d) { const t = edicaoAtual.fotos.length; lbIdx = (lbIdx + d + t) % t; mostrarFoto(); }
+  function abrirFoto(lista, k) { lbLista = lista; lbIdx = k; mostrarFoto(); lb.showModal(); }
+  function passo(d) { const t = lbLista.length; if (t < 2) return; lbIdx = (lbIdx + d + t) % t; mostrarFoto(); }
   lb.addEventListener("click", ev => {
     const s = ev.target.closest("[data-lb]");
     if (s) return passo(Number(s.dataset.lb));
