@@ -496,7 +496,7 @@ const CONTEUDO = {
     subtitulo: "Mostra Audiovisual Itinerante",
     chamada: "Cinema, circo, fotografia e cultura popular nas comunidades rurais e quilombolas da Bahia.",
     lema: "É no pé do morro, é lá no cafundó",
-    colagem: ["ed7-01", "ed1-01", "ed7-06"],
+    colagem: ["ed7-15", "ed1-01", "ed7-55"],
     sobre: [
       "A mostra nasceu para exibir o documentário “É no pé do morro é lá no cafundó” (2011), de Denise Santos, para as próprias pessoas que aparecem no filme, gravado na Bacia do Paramirim. O título do filme virou o nome da mostra.",
       "Desde então, a Rural pega a estrada de terra com um projetor e um telão improvisado. Pátios de escola e quintais viram sala de cinema, com circo, fotografia e a cultura de cada comunidade no mesmo palco."
@@ -544,7 +544,8 @@ const CONTEUDO = {
       pendente: true,
       fotos: [
         { id: "ed1-01", legenda: "A Rural viaja pela Bacia do Paramirim" },
-        { id: "ed1-02", legenda: "A Rural viaja pela Bacia do Paramirim" }
+        { id: "ed1-02", legenda: "A Rural viaja pela Bacia do Paramirim" },
+        { id: "ed1-03", legenda: "Exibição do documentário na casa do personagem Seu Zé" }
       ]
     },
     {
@@ -570,7 +571,11 @@ const CONTEUDO = {
       cartaz: "ed3-cartaz",
       release: ["ed3-release-01", "ed3-release-02", "ed3-release-03", "ed3-release-04", "ed3-release-05", "ed3-release-06", "ed3-release-07", "ed3-release-08"],
       pendente: false,
-      fotos: []
+      fotos: [
+        { id: "ed3-01", legenda: "Palhaço Fuzuê e Pusa Pinaud" },
+        { id: "ed3-02", legenda: "O realizador Dario comenta a produção de “Vaqueiro do Nordeste”" },
+        { id: "ed3-03", legenda: "O Palhaço Fuzuê interage com o público" }
+      ]
     },
     {
       n: 4, cor: "#cc3219", ano: "2022", titulo: "Macaúbas, Boquira e Érico Cardoso",
@@ -584,7 +589,7 @@ const CONTEUDO = {
       cartaz: "ed4-cartaz",
       release: ["ed4-release-01", "ed4-release-02", "ed4-release-03", "ed4-release-04", "ed4-release-05", "ed4-release-06"],
       pendente: false,
-      fotos: []
+      fotos: [{ id: "ed4-01", legenda: "Apresentação do mágico Dan em Boa Madeira, Macaúbas" }]
     },
     {
       n: 5, cor: "#ff5c9a", ano: "2025", titulo: "Preá, Palmeira e Boa Madeira",
@@ -613,7 +618,13 @@ const CONTEUDO = {
       cartaz: "ed6-cartaz",
       release: ["ed6-release-01", "ed6-release-02", "ed6-release-03", "ed6-release-04", "ed6-release-05", "ed6-release-06"],
       pendente: false,
-      fotos: []
+      // "Samba Baixao" no Drive: fotos de 21/11/2024 (20h16 a 20h44), mesma câmera do Terno de Reis.
+      fotos: [
+        { id: "ed6-01", legenda: "Terno de Reis da Comunidade Quilombola do Baixão" },
+        { id: "ed6-02", legenda: "Samba no Baixão" },
+        { id: "ed6-03", legenda: "Samba no Baixão" },
+        { id: "ed6-04", legenda: "Samba no Baixão" }
+      ]
     },
     {
       n: 7, cor: "#f0781a", ano: "2026", titulo: "Comunidade Quilombola do Baixão",
@@ -621,24 +632,48 @@ const CONTEUDO = {
       texto: ["A sétima edição levou cinema, circo, fotografia e cultura popular para a Comunidade Quilombola do Baixão, em Vitória da Conquista, com a escola da comunidade como sala de exibição."],
       cartaz: "ed7-cartaz",
       pendente: true,
+      // Fotos do Drive com o nome da 7ª (sem as cópias com outro nome) e só seis das _MG sem nome,
+      // as que mostram o público junto do palhaço. Ordem: Terno de Reis, crianças, público,
+      // música e Libras, circo.
       fotos: [
-        "ed7-01", "ed7-02", "ed7-03",
-        "ed7-04", "ed7-05", "ed7-06",
-        "ed7-07", "ed7-08", "ed7-09",
-        "ed7-10", "ed7-11", "ed7-12",
-        "ed7-13", "ed7-14"
-      ].map(id => ({ id }))
+        { id: "ed7-15", legenda: "Apresentação do Terno de Reis Estrela Guia, da Comunidade Quilombola do Baixão" },
+        { id: "ed7-55", legenda: "Crianças da Comunidade Quilombola do Baixão" },
+        { id: "ed7-60" },
+        { id: "ed7-61" },
+        { id: "ed7-57" },
+        { id: "ed7-52" },
+        { id: "ed7-18", legenda: "O público da Rural" },
+        { id: "ed7-56", legenda: "O público da Rural" },
+        { id: "ed7-58" },
+        { id: "ed7-59" },
+        { id: "ed7-62", legenda: "Na Comunidade Quilombola do Baixão, em Vitória da Conquista" },
+        { id: "ed7-19" },
+        { id: "ed7-16", legenda: "Apresentação musical de Cauê" },
+        { id: "ed7-17", legenda: "Apresentação musical com tradução em Libras" },
+        { id: "ed7-21", legenda: "Tradução em Libras durante a Rural" },
+        { id: "ed7-53", legenda: "Palhaço Peligro se apresenta na Comunidade Quilombola do Baixão" },
+        { id: "ed7-54", legenda: "Palhaço Peligro" },
+        ...["ed7-29", "ed7-36", "ed7-38", "ed7-42", "ed7-47", "ed7-50"].map(id => ({ id }))
+      ]
     }
   ],
 
-  // Começa com as fotos que já estão nas edições; as novas entram como { id: "mural-01" }.
+  // Mural: fotos de todas as edições que têm foto, em ordem de data (a 6ª, de 2024, vem antes da 7ª).
+  // A 5ª ainda não tem fotos. As mural-0N são _MG sem nome do Drive; entram como 7ª porque saíram
+  // da mesma exportação (25/03/2026) e do mesmo lugar das fotos com o nome da 7ª.
   mural: [
-    { id: "ed7-01", edicao: 7 }, { id: "ed1-01", edicao: 1 }, { id: "ed7-02", edicao: 7 },
-    { id: "ed7-03", edicao: 7 }, { id: "ed2-01", edicao: 2 }, { id: "ed7-04", edicao: 7 },
-    { id: "ed7-05", edicao: 7 }, { id: "ed1-02", edicao: 1 }, { id: "ed7-06", edicao: 7 },
-    { id: "ed7-07", edicao: 7 }, { id: "ed7-08", edicao: 7 }, { id: "ed7-09", edicao: 7 },
-    { id: "ed7-10", edicao: 7 }, { id: "ed7-11", edicao: 7 }, { id: "ed7-12", edicao: 7 },
-    { id: "ed7-13", edicao: 7 }, { id: "ed7-14", edicao: 7 }
+    { id: "ed1-01", edicao: 1 }, { id: "ed1-03", edicao: 1, legenda: "Exibição do documentário na casa do personagem Seu Zé" },
+    { id: "ed2-01", edicao: 2 },
+    { id: "ed3-01", edicao: 3, legenda: "Palhaço Fuzuê e Pusa Pinaud" },
+    { id: "ed3-03", edicao: 3, legenda: "O Palhaço Fuzuê interage com o público" },
+    { id: "ed4-01", edicao: 4, legenda: "Apresentação do mágico Dan em Boa Madeira, Macaúbas" },
+    { id: "ed6-01", edicao: 6, legenda: "Terno de Reis da Comunidade Quilombola do Baixão" },
+    { id: "ed6-03", edicao: 6, legenda: "Samba no Baixão" },
+    { id: "ed7-55", edicao: 7, legenda: "Crianças da Comunidade Quilombola do Baixão" },
+    { id: "ed7-15", edicao: 7, legenda: "Apresentação do Terno de Reis Estrela Guia, da Comunidade Quilombola do Baixão" },
+    { id: "ed7-17", edicao: 7, legenda: "Apresentação musical com tradução em Libras" },
+    { id: "ed7-56", edicao: 7, legenda: "O público da Rural" },
+    { id: "mural-01", edicao: 7 }, { id: "mural-02", edicao: 7 }, { id: "mural-04", edicao: 7 }, { id: "mural-05", edicao: 7 }
   ],
 
   // Ex.: { nome: "Nome Sobrenome", funcao: "Produção", texto: "Uma ou duas frases.", foto: "tripulantes-01" }
