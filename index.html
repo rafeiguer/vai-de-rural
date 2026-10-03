@@ -159,8 +159,7 @@ h1, h2, h3 { margin: 0; line-height: 1.02; }
 .parada__ano { font-size: .82rem; color: #aab2e6; min-height: 1.2em; }
 /* A Rural da estrada é o desenho de Pablo Sant'Ana do release da 3ª edição (assets/rural-3a.webp). */
 .estrada__rural { position: absolute; top: 12px; left: 0; width: 150px; transition: transform .8s cubic-bezier(.5, 0, .2, 1); pointer-events: none; }
-.estrada__rural img { width: 100%; height: auto; display: block; }
-.estrada__dica { font-size: .85rem; color: #aab2e6; margin-top: .5rem; }
+.estrada__rural img { width: 100%; height: auto; display: block; }.estrada__dica { font-size: .85rem; color: #aab2e6; margin-top: .5rem; }
 @media (min-width: 920px) { .estrada__dica { display: none; } }
 
 /* ---------- Seções ---------- */
@@ -780,10 +779,36 @@ const FUNDOS = {
     const rural = $("[data-rural]", box);
     rural.innerHTML = `<img src="assets/rural-3a.webp" alt="A Rural" width="581" height="411">`;
     const paradas = $$("[data-parada]", box), inicial = paradas[paradas.length - 1];
-    const moverPara = a => {
+    const xDe = a => {
       const t = $(".estrada__trilho", box).getBoundingClientRect(), r = a.getBoundingClientRect();
-      rural.style.transform = `translateX(${Math.round(r.left - t.left + r.width / 2 - rural.offsetWidth / 2)}px)`;
+      return Math.round(r.left - t.left + r.width / 2 - rural.offsetWidth / 2);
     };
+    const moverPara = a => { rural.style.transform = `translateX(${xDe(a)}px)`; };
+    /* Tela de toque (sem mouse): a Rural vai sozinha da 1ª à última parada e volta, em loop de 18 s.
+       Na volta o desenho vira (scaleX -1) para andar de frente. Para quando a página troca. */
+    if (matchMedia("(hover: none)").matches && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      let x0 = 0, x1 = 0, t0 = null;
+      const limites = () => { x0 = xDe(paradas[0]); x1 = xDe(inicial); };
+      const suave = p => p < .5 ? 2 * p * p : 1 - (-2 * p + 2) ** 2 / 2;
+      const DUR = 18000;
+      rural.style.transition = "none";
+      limites();
+      box._reposicionar = limites;
+      const quadro = agora => {
+        if (!box.isConnected) return;
+        t0 ??= agora;
+        const f = ((agora - t0) % DUR) / DUR;
+        let x, s;
+        if (f < .47)      { x = x0 + (x1 - x0) * suave(f / .47); s = 1; }
+        else if (f < .5)  { x = x1; s = 1 - 2 * (f - .47) / .03; }
+        else if (f < .97) { x = x1 - (x1 - x0) * suave((f - .5) / .47); s = -1; }
+        else              { x = x0; s = -1 + 2 * (f - .97) / .03; }
+        rural.style.transform = `translateX(${x.toFixed(1)}px) scaleX(${s.toFixed(3)})`;
+        requestAnimationFrame(quadro);
+      };
+      requestAnimationFrame(quadro);
+      return;
+    }
     // Posição inicial sem animação; o movimento fica só para a interação.
     rural.style.transition = "none";
     moverPara(inicial);
