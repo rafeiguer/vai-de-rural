@@ -1,0 +1,9 @@
+# Originais pesados das fotos: só os .webp gerados entram no site
+originais/
+*.jpg
+*.jpeg
+*.JPG
+*.png
+*.PNG
+!assets/og.jpg
+__pycache__/
