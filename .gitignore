@@ -6,4 +6,5 @@ originais/
 *.png
 *.PNG
 !assets/og.jpg
+!assets/logo-*.png
 __pycache__/

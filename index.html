@@ -71,10 +71,12 @@ h1, h2, h3 { margin: 0; line-height: 1.02; }
 .menu a { text-decoration: none; font-weight: 700; font-size: .98rem; padding: .45rem .85rem; border-radius: 999px; white-space: nowrap; }
 .menu a:hover { background: rgba(255,255,255,.12); }
 .menu a[aria-current="page"] { background: var(--sol); color: var(--anil); }
-@media (max-width: 600px) {
+/* Com seis itens, marca e menu deixam de caber lado a lado abaixo de ~700 px: o menu desce para a linha de baixo. */
+@media (max-width: 720px) {
   .topo__linha { flex-wrap: wrap; gap: .1rem; padding: .5rem 0 .45rem; min-height: 0; }
-  .menu { margin-left: 0; width: 100%; justify-content: space-between; }
-  .menu a { padding: .4rem .7rem; font-size: .95rem; }
+  /* Seis itens não cabem numa linha de celular: quebram em duas, centralizadas. */
+  .menu { margin-left: 0; width: 100%; flex-wrap: wrap; justify-content: center; gap: .15rem .1rem; }
+  .menu a { padding: .35rem .7rem; font-size: .92rem; }
 }
 .bandeirinhas { display: block; width: 100%; height: 22px; transform-origin: top; }
 
@@ -252,6 +254,17 @@ body.com-fundo .painel.texto-longo {
 .cartao__etiqueta { font-size: .85rem; font-weight: 700; font-stretch: 85%; color: var(--texto-2); display: flex; align-items: center; gap: .45rem; }
 .cartao__etiqueta::before { content: ""; width: .75rem; height: .75rem; border-radius: 50%; background: var(--vc, var(--anil)); flex: none; }
 
+/* Tripulantes: cartão com retrato 4:5; sem foto, as iniciais na cor do cartão. */
+.tripulante { cursor: default; }
+.tripulante:hover { transform: none; box-shadow: 5px 5px 0 var(--vc, var(--anil)); }
+.tripulante .cartao__capa { aspect-ratio: 4 / 5; }
+.tripulante .cartao__capa img { object-position: center 25%; }
+.tripulante .cartao__num { font-size: clamp(3.5rem, 12vw, 5.5rem); }
+/* "Tripulantes" é a palavra mais longa dos títulos: fonte um pouco menor e sem quebra entre as letras. */
+.abertura--pagina h1#t-trip { font-size: clamp(2.6rem, 8vw, 5.2rem); }
+#t-trip .rural { white-space: nowrap; }
+.tripulante__texto { margin: .25rem 0 0; font-size: .95rem; line-height: 1.5; color: var(--texto-2); }
+
 .filtros { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1.5rem; }
 .filtro { border: 3px solid var(--anil); background: #fff; border-radius: 999px; padding: .4rem 1rem; font-weight: 700; }
 .filtro[aria-pressed="true"] { background: var(--fc, var(--anil)); color: var(--t, #fff); }
@@ -296,6 +309,24 @@ body.com-fundo .painel.texto-longo {
 .cartaz-ed { max-width: min(100%, 420px); margin-top: 1.6rem; }
 .cartaz-ed img { aspect-ratio: auto; object-fit: contain; }
 .foto--destaque img { aspect-ratio: 16 / 10; }
+/* Release: páginas do PDF lado a lado, na proporção original, sem a inclinação das polaroides
+   (é um documento para ler). Na ampliação, a página ocupa a altura toda da tela. */
+.bloco__dica { margin: .9rem 0 0; color: var(--texto-2); font-weight: 600; }
+.release { display: grid; gap: 1.2rem 1rem; grid-template-columns: repeat(2, 1fr); margin-top: 1.4rem; }
+@media (min-width: 700px) { .release { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 1040px) { .release { grid-template-columns: repeat(4, 1fr); } }
+.release .foto button, .release .foto button:hover { transform: none; padding: 6px; }
+.release .foto button:hover { box-shadow: 0 0 0 3px var(--cor), 0 10px 24px rgba(31, 42, 107, .22); }
+.release .foto img { aspect-ratio: auto; object-fit: contain; }
+.release figcaption { text-align: center; font-weight: 700; }
+body.com-fundo .bloco__dica { text-shadow: 0 0 3px #fff, 0 0 8px #fff, 0 0 16px rgba(255,255,255,.95); }
+
+/* Mural: polaroides em colunas (alvenaria), cada foto na proporção original. */
+.mural { columns: 2; column-gap: 1rem; margin-top: 1.6rem; }
+@media (min-width: 700px) { .mural { columns: 3; } }
+@media (min-width: 1040px) { .mural { columns: 4; } }
+.mural .foto { break-inside: avoid; margin-bottom: 1.4rem; }
+.mural .foto img { aspect-ratio: auto; object-fit: contain; }
 .vazio {
   display: grid; place-items: center; text-align: center; min-height: 170px; padding: 2rem; margin-top: 1.6rem;
   border-radius: var(--raio); border: 3px dashed var(--cor); color: var(--texto-2); font-weight: 600;
@@ -314,6 +345,7 @@ body.com-fundo .painel.texto-longo {
 .parceiros { display: grid; gap: .8rem; margin: 0; }
 .parceiros dt { font-weight: 800; font-stretch: 85%; color: var(--sol); font-size: .88rem; }
 .parceiros dd { margin: 0; }
+.parceiros__logo { display: block; width: auto; height: 72px; max-width: 100%; margin-top: .35rem; }
 .rodape a { color: #fff; font-weight: 700; }
 
 /* ---------- Janelas ---------- */
@@ -325,6 +357,10 @@ dialog::backdrop { background: rgba(21, 29, 77, .94); }
   width: 48px; height: 48px; border-radius: 50%; border: 0; background: var(--sol); color: var(--anil); font-size: 1.6rem; line-height: 1; font-weight: 800;
 }
 .lb__img { max-width: min(100%, 1400px); max-height: calc(100dvh - 9rem); object-fit: contain; border-radius: 8px; }
+#lb.lb--doc { overflow-y: auto; overscroll-behavior: contain; }
+.lb--doc .janela { height: auto; min-height: 100dvh; place-items: start center; }
+.lb--doc figure { width: min(100%, 900px); }
+.lb--doc .lb__img { width: 100%; max-height: none; }
 .lb__legenda { text-align: center; margin: .75rem auto 0; max-width: 60ch; }
 .lb__seta { position: fixed; top: 50%; transform: translateY(-50%); width: 52px; height: 52px; border-radius: 50%; border: 0; background: rgba(255,255,255,.16); font-size: 1.6rem; }
 .lb__seta--ant { left: .75rem; } .lb__seta--prox { right: .75rem; }
@@ -354,6 +390,17 @@ body.com-fundo :where(.abertura__pre, .abertura__sub, .abertura__lema, .abertura
   text-shadow: 0 0 3px #fff, 0 0 8px #fff, 0 0 16px rgba(255,255,255,.95), 0 0 30px rgba(255,255,255,.85);
 }
 body.com-fundo .estrada-sec :is(.titulo, .intro, .parada__local, .parada__ano, .estrada__dica) { text-shadow: 0 0 3px #0a0e2d, 0 0 8px #0a0e2d, 0 1px 14px rgba(10,14,45,.95), 0 0 28px rgba(10,14,45,.85); }
+/* Página de edição: o topo perde a faixa de cor e segue o padrão das outras aberturas (título anil com brilho
+   branco); a cor da edição fica no número gigante, nas etiquetas da ficha e no traço dos subtítulos. */
+body.com-fundo .ed-topo { background: transparent; color: var(--texto); }
+body.com-fundo .ed-topo h1 { color: var(--anil); }
+body.com-fundo .ed-topo__num { color: var(--cor); opacity: .5; }
+body.com-fundo .ficha li { background: rgba(255, 255, 255, .92); border-color: var(--cor); color: var(--texto); }
+body.com-fundo :where(.ed-topo__voltar, .ed-topo__edicao, .ed-topo h1, .bloco h2, .foto figcaption) {
+  text-shadow: 0 0 3px #fff, 0 0 8px #fff, 0 0 16px rgba(255,255,255,.95), 0 0 30px rgba(255,255,255,.85);
+}
+body.com-fundo .ed-texto.painel { max-width: calc(64ch + 2.8rem); }
+body.com-fundo .vazio { background: rgba(255, 255, 255, .92); }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
@@ -374,6 +421,8 @@ body.com-fundo .estrada-sec :is(.titulo, .intro, .parada__local, .parada__ano, .
       <a href="#/" data-rota="inicio">Início</a>
       <a href="#/edicoes" data-rota="edicoes">Edições</a>
       <a href="#/videos" data-rota="videos">Vídeos</a>
+      <a href="#/mural" data-rota="mural">Mural</a>
+      <a href="#/tripulantes" data-rota="tripulantes">Tripulantes</a>
       <a href="#/sobre" data-rota="sobre">Sobre</a>
     </nav>
   </div>
@@ -450,7 +499,18 @@ body.com-fundo .estrada-sec :is(.titulo, .intro, .parada__local, .parada__ano, .
      python ferramentas/otimizar_fotos.py ed7 caminho/das/fotos/*.jpg
      e cole aqui os nomes que ele imprimir. projeto.colagem segue a mesma regra.
      `legenda` é opcional. A primeira foto vira destaque (se houver 5 ou mais).
+   - edicoes[].release: páginas do release, na ordem do PDF. Gere com
+     python ferramentas/release_pdf.py ed3 caminho/do/release.pdf
+     e cole a linha que ele imprimir. Sem release, o bloco não aparece.
    - edicoes[].pendente: true mostra o aviso "página em montagem".
+   - mural: fotos da página Mural, na ordem em que aparecem. Para incluir, rode
+     python ferramentas/otimizar_fotos.py mural caminho/das/fotos/*.jpg
+     e cole os nomes aqui. `edicao` (1–7) e `legenda` são opcionais; com `edicao`,
+     a foto ganha o filtro e a legenda daquela edição.
+   - tripulantes: integrantes do movimento, na ordem da página. Cada um é
+     { nome, funcao, texto, foto }; só `nome` é obrigatório. A foto sai de
+     python ferramentas/otimizar_fotos.py tripulantes caminho/da/foto.jpg
+     Sem foto, o cartão mostra as iniciais.
    - videos[].edicao: número da edição (1–7) ou null. Se null, o site tenta
      descobrir por "Nª edição" no título do YouTube.
    - Números da seção "Sobre": só use dados confirmados pela produção.
@@ -490,7 +550,8 @@ const CONTEUDO = {
     faixa: ["Cinema", "Circo", "Fotografia", "Cultura popular", "Bacia do Paramirim", "Boa Madeira", "Brejo Grande", "Paramirim das Crioulas", "Baixão", "Vitória da Conquista"],
     contato: "contato@vaiderural.com.br",
     parceiros: [
-      ["Realização", "La Bici Galeria Cultural"],
+      // O terceiro item (opcional) é o logo, em versão clara para o fundo anil do rodapé.
+      ["Realização", "La Bici Galeria Cultural", "assets/logo-la-bici-branco.png"],
       ["Patrocínio", "A Rural, em suas edições, contou com apoio financeiro do Governo Federal e do Governo da Bahia através de editais culturais como o Edital Territórios Culturais e o Edital Audiovisual Geraldo Sarno, e também através da Lei Paulo Gustavo e da Lei Aldir Blanc."]
     ]
   },
@@ -532,6 +593,7 @@ const CONTEUDO = {
         "A terceira edição foi realizada pela Kinema Kortseco, em parceria com o produtor Helivelto Lima, pelo edital Territórios Culturais 2016, com apoio financeiro do Fundo de Cultura do Governo da Bahia e apoio cultural das prefeituras de Macaúbas, Ibipitanga e Botuporã."
       ],
       cartaz: "ed3-cartaz",
+      release: ["ed3-release-01", "ed3-release-02", "ed3-release-03", "ed3-release-04", "ed3-release-05", "ed3-release-06", "ed3-release-07", "ed3-release-08"],
       pendente: false,
       fotos: []
     },
@@ -545,6 +607,7 @@ const CONTEUDO = {
         "A edição foi selecionada no edital Territórios Culturais 2019, com apoio financeiro do Fundo de Cultura do Governo da Bahia e apoio cultural das prefeituras de Macaúbas, Boquira e Érico Cardoso."
       ],
       cartaz: "ed4-cartaz",
+      release: ["ed4-release-01", "ed4-release-02", "ed4-release-03", "ed4-release-04", "ed4-release-05", "ed4-release-06"],
       pendente: false,
       fotos: []
     },
@@ -558,6 +621,7 @@ const CONTEUDO = {
         "Uma realização da LA BICI Galeria Cultural e dos produtores culturais Helivelto Lima e Denise Santos, contemplada no edital PG08/2023 (Cineclubes, Mostras, Festivais e Eventos no Audiovisual), através da Lei Paulo Gustavo, com apoio institucional do Governo da Bahia e do Governo Federal."
       ],
       cartaz: "ed5-cartaz",
+      release: ["ed5-release-01", "ed5-release-02", "ed5-release-03", "ed5-release-04", "ed5-release-05", "ed5-release-06", "ed5-release-07", "ed5-release-08", "ed5-release-09"],
       pendente: false,
       fotos: []
     },
@@ -572,6 +636,7 @@ const CONTEUDO = {
         "Esta edição foi contemplada no Edital Geraldo Sarno, através da Lei Paulo Gustavo, com apoio institucional do Governo Federal e do Ministério da Cultura."
       ],
       cartaz: "ed6-cartaz",
+      release: ["ed6-release-01", "ed6-release-02", "ed6-release-03", "ed6-release-04", "ed6-release-05", "ed6-release-06"],
       pendente: false,
       fotos: []
     },
@@ -591,6 +656,19 @@ const CONTEUDO = {
     }
   ],
 
+  // Começa com as fotos que já estão nas edições; as novas entram como { id: "mural-01" }.
+  mural: [
+    { id: "ed7-01", edicao: 7 }, { id: "ed1-01", edicao: 1 }, { id: "ed7-02", edicao: 7 },
+    { id: "ed7-03", edicao: 7 }, { id: "ed2-01", edicao: 2 }, { id: "ed7-04", edicao: 7 },
+    { id: "ed7-05", edicao: 7 }, { id: "ed1-02", edicao: 1 }, { id: "ed7-06", edicao: 7 },
+    { id: "ed7-07", edicao: 7 }, { id: "ed7-08", edicao: 7 }, { id: "ed7-09", edicao: 7 },
+    { id: "ed7-10", edicao: 7 }, { id: "ed7-11", edicao: 7 }, { id: "ed7-12", edicao: 7 },
+    { id: "ed7-13", edicao: 7 }, { id: "ed7-14", edicao: 7 }
+  ],
+
+  // Ex.: { nome: "Nome Sobrenome", funcao: "Produção", texto: "Uma ou duas frases.", foto: "tripulantes-01" }
+  tripulantes: [],
+
   videos: [
     { id: "ndI-yk68hZA", edicao: null },
     { id: "Bc9Vgns9u7A", edicao: null },
@@ -607,7 +685,7 @@ const CONTEUDO = {
 
 /* =========================================================================
    APLICAÇÃO
-   Roteamento por hash (#/, #/edicoes, #/edicao/7, #/videos, #/sobre):
+   Roteamento por hash (#/, #/edicoes, #/edicao/7, #/videos, #/mural, #/tripulantes, #/sobre):
    funciona em hospedagem estática (GitHub Pages) sem configurar servidor.
    ========================================================================= */
 /* Recortes dos cartazes (só a arte, sem textos), nítidos e sem filtro, em assets/cartazes.
@@ -622,7 +700,7 @@ const FUNDOS = {
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
   const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-  const P = CONTEUDO.projeto, EDS = CONTEUDO.edicoes, VIDS = CONTEUDO.videos;
+  const P = CONTEUDO.projeto, EDS = CONTEUDO.edicoes, VIDS = CONTEUDO.videos, MURAL = CONTEUDO.mural, TRIP = CONTEUDO.tripulantes;
   const main = $("#conteudo");
   const ed = n => EDS.find(e => e.n === n);
 
@@ -642,8 +720,10 @@ const FUNDOS = {
   const imgFoto = (nome, w, alt, extra = "") =>
     `<img src="${foto(nome, w)}" alt="${esc(alt)}" loading="lazy" decoding="async" ${extra}>`;
   const legendaFoto = (e, f) => f.legenda || `${e.titulo}, ${e.n}ª edição`;
+  const legendaMural = f => f.edicao && ed(f.edicao) ? legendaFoto(ed(f.edicao), f) : (f.legenda || "Foto da mostra Vai de Rural");
   const rotuloEd = e => `${e.n}ª edição`;
   const cartazEd = e => ({ id: e.cartaz, legenda: `Cartaz da ${rotuloEd(e)}` });
+  const releaseEd = e => (e.release || []).map((id, k) => ({ id, legenda: `Release da ${rotuloEd(e)}, página ${k + 1}` }));
 
   /* ---------- Vídeos ---------- */
   const thumbYT = id => `https://i.ytimg.com/vi/${encodeURIComponent(id)}/hqdefault.jpg`;
@@ -783,6 +863,19 @@ const FUNDOS = {
     return `<div class="faixa"><div class="faixa__trilha"><ul>${itens}</ul><ul aria-hidden="true">${itens}</ul></div></div>`;
   }
 
+  // Fotos do mural com o filtro aplicado (n = número da edição, ou null para todas).
+  // data-foto guarda a posição em MURAL, para a ampliação seguir a mesma lista filtrada.
+  let muralFiltro = null;
+  const muralVisivel = () => MURAL.filter(f => muralFiltro == null || f.edicao === muralFiltro);
+  function fotosMural(n) {
+    muralFiltro = n;
+    return muralVisivel().map((f, k) => `
+      <figure class="foto">
+        <button data-foto-mural="${k}" aria-label="Ampliar: ${esc(legendaMural(f))}">${imgFoto(f.id, 800, legendaMural(f))}</button>
+        ${f.legenda ? `<figcaption>${esc(f.legenda)}</figcaption>` : ""}
+      </figure>`).join("");
+  }
+
   /* ---------- Páginas ---------- */
   const paginas = {
     inicio() {
@@ -874,13 +967,22 @@ const FUNDOS = {
         </div>
       </section>
       <div class="envelope ed-corpo">
-        <div class="ed-texto">${e.texto.map(p => `<p>${esc(p)}</p>`).join("")}</div>
+        ${e.texto.length ? `<div class="ed-texto painel">${e.texto.map(p => `<p>${esc(p)}</p>`).join("")}</div>` : ""}
         ${e.pendente ? `<p class="pendente"><strong>Página em montagem.</strong> O texto desta edição será completado com a linha editorial da produção.</p>` : ""}
         ${e.cartaz ? `<section class="bloco" aria-labelledby="t-cartaz">
           <h2 id="t-cartaz">Cartaz</h2>
           <figure class="foto cartaz-ed">
             <button data-cartaz aria-label="Ampliar: ${esc(cartazEd(e).legenda)}">${imgFoto(e.cartaz, 800, cartazEd(e).legenda)}</button>
           </figure>
+        </section>` : ""}
+        ${e.release && e.release.length ? `<section class="bloco" aria-labelledby="t-release">
+          <h2 id="t-release">Release</h2>
+          <p class="bloco__dica">O material de divulgação da edição, página por página. Toque numa página para ler.</p>
+          <div class="release">${e.release.map((id, k) => `
+            <figure class="foto">
+              <button data-release="${k}" aria-label="Ampliar: ${esc(releaseEd(e)[k].legenda)}">${imgFoto(id, 800, releaseEd(e)[k].legenda)}</button>
+              <figcaption>Página ${k + 1}</figcaption>
+            </figure>`).join("")}</div>
         </section>` : ""}
         <section class="bloco" aria-labelledby="t-fotos">
           <h2 id="t-fotos">Fotos</h2>
@@ -933,6 +1035,79 @@ const FUNDOS = {
       ${chamada("Onde a Rural passou", `As ${EDS.length} edições, uma parada de cada vez.`, "#/edicoes", "Ver as edições")}`;
     },
 
+    mural() {
+      const comEd = [...new Set(MURAL.map(f => f.edicao).filter(n => ed(n)))].sort((a, b) => a - b);
+      const cores = ["var(--sol)", "var(--rosa)", "var(--ceu)"];
+      return `
+      <section class="abertura abertura--pagina">
+        <div class="envelope abertura__grade">
+          <div>
+            <p class="abertura__pre">${esc(P.subtitulo)}</p>
+            ${tituloPagina("t-mural", "", "Mural")}
+            <p class="abertura__sub">Retratos da estrada, das comunidades e de quem faz a Rural. Toque numa foto para ampliar.</p>
+          </div>
+          <div class="colagem" aria-hidden="true">
+            ${[0, 1, 2].map(k => `<div class="polaroide">${MURAL[k] ? imgFoto(MURAL[k].id, 800, "") : `<div class="polaroide__arte" style="--c:${cores[k]};--t:var(--anil)"></div>`}</div>`).join("")}
+          </div>
+        </div>
+      </section>
+      ${faixa()}
+      <section class="secao" aria-labelledby="t-lista-mural">
+        <div class="envelope">
+          <h2 class="sr" id="t-lista-mural">Fotos</h2>
+          ${comEd.length > 1 ? `<div class="filtros" role="group" aria-label="Filtrar por edição">
+            <button class="filtro" data-filtro-mural="" aria-pressed="true">Todas</button>
+            ${comEd.map(n => `<button class="filtro" data-filtro-mural="${n}" aria-pressed="false" style="--fc:${ed(n).cor};--t:${ed(n).tinta}">${n}ª edição</button>`).join("")}
+          </div>` : ""}
+          ${MURAL.length ? `<div class="mural" data-lista-mural>${fotosMural(null)}</div>`
+          : `<div class="vazio">As fotos do mural ainda vão ser adicionadas.</div>`}
+        </div>
+      </section>
+      ${chamada("A Rural em movimento", "Os registros em vídeo de cada parada da mostra.", "#/videos", "Assistir aos vídeos")}`;
+    },
+
+    tripulantes() {
+      // Cada cartão pega a cor de uma edição, em rodízio.
+      const cor = k => EDS[k % EDS.length];
+      // Primeira letra do primeiro e do último nome, sem "de", "da", "dos" etc.
+      const iniciais = nome => {
+        const p = nome.trim().split(/\s+/).filter(w => !/^(d[aeo]s?|e)$/i.test(w));
+        return (p[0][0] + (p.length > 1 ? p[p.length - 1][0] : "")).toUpperCase();
+      };
+      const pessoa = `<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4.2" fill="currentColor"/><path d="M3.5 21c.8-4.6 4.2-7 8.5-7s7.7 2.4 8.5 7z" fill="currentColor"/></svg>`;
+      const amostra = [["var(--sol)", "var(--anil)"], ["var(--rosa)", "#fff"], ["var(--ceu)", "var(--noite)"]];
+      return `
+      <section class="abertura abertura--pagina">
+        <div class="envelope abertura__grade">
+          <div>
+            <p class="abertura__pre">${esc(P.subtitulo)}</p>
+            ${tituloPagina("t-trip", "", "Tripulantes")}
+            <p class="abertura__sub">Quem pega a estrada com a Rural: produção, técnica, artistas e parceiros do movimento.</p>
+          </div>
+          <div class="colagem" aria-hidden="true">
+            ${amostra.map(([c, t], k) => `<div class="polaroide">${TRIP[k] && TRIP[k].foto ? imgFoto(TRIP[k].foto, 800, "") : `<div class="polaroide__arte" style="--c:${c};--t:${t}">${pessoa}</div>`}</div>`).join("")}
+          </div>
+        </div>
+      </section>
+      ${faixa()}
+      <section class="secao" aria-labelledby="t-lista-trip">
+        <div class="envelope">
+          <h2 class="sr" id="t-lista-trip">Integrantes</h2>
+          ${TRIP.length ? `<div class="cartoes" style="margin-top:0">${TRIP.map((p, k) => `
+            <article class="cartao tripulante" style="--vc:${cor(k).cor};--t:${cor(k).tinta}">
+              <span class="cartao__capa">${p.foto ? imgFoto(p.foto, 800, `Retrato de ${p.nome}`) : `<span class="cartao__num" aria-hidden="true">${esc(iniciais(p.nome))}</span>`}</span>
+              <span class="cartao__info">
+                <h3 class="cartao__titulo">${esc(p.nome)}</h3>
+                ${p.funcao ? `<span class="cartao__etiqueta">${esc(p.funcao)}</span>` : ""}
+                ${p.texto ? `<p class="tripulante__texto">${esc(p.texto)}</p>` : ""}
+              </span>
+            </article>`).join("")}</div>`
+          : `<div class="vazio">Os tripulantes da Rural ainda vão ser apresentados aqui.</div>`}
+        </div>
+      </section>
+      ${chamada("Onde a Rural passou", `As ${EDS.length} edições, uma parada de cada vez.`, "#/edicoes", "Ver as edições")}`;
+    },
+
     // Mesmos fundos da home, em outra ordem: amarelo, rosa, azul-anil e branco.
     sobre() {
       return `
@@ -977,8 +1152,17 @@ const FUNDOS = {
     inicio:  ["3", "5", "2", "4", "6", "7"],
     edicoes: ["7", "4", "6", "3"],
     videos:  ["6", "2", "3", "7"],
+    mural:   ["5", "7", "2", "4"],
+    tripulantes: ["2", "6", "4", "7"],
     sobre:   ["4", "5", "2", "6"]
   };
+  /* Página de uma edição: abre com o cartaz dela e segue com outros três. A 1ª, sem cartaz recortado,
+     usa a sequência da página Edições. */
+  function ordemEdicao(n) {
+    const proprio = String(n);
+    if (!CARTAZES.includes(proprio)) return ORDEM.edicoes;
+    return [proprio, ...["7", "4", "6", "3", "2", "5"].filter(c => c !== proprio)].slice(0, 4);
+  }
   let ordem = ORDEM.inicio;
   camada.innerHTML = CARTAZES.map(() => `<img alt="">`).join("");
   const fundoImgs = $$("img", camada);
@@ -1017,7 +1201,7 @@ const FUNDOS = {
     const partes = location.hash.replace(/^#\/?/, "").split("/").filter(Boolean);
     if (!partes.length) return { nome: "inicio" };
     if (partes[0] === "edicao") return { nome: "edicao", n: Number(partes[1]) };
-    return { nome: ["edicoes", "videos", "sobre"].includes(partes[0]) ? partes[0] : "naoEncontrada" };
+    return { nome: ["edicoes", "videos", "mural", "tripulantes", "sobre"].includes(partes[0]) ? partes[0] : "naoEncontrada" };
   }
 
   /* focar: rola ao topo e leva o foco ao conteúdo (troca de página).
@@ -1027,8 +1211,9 @@ const FUNDOS = {
     const raiz = document.documentElement.style;
     raiz.removeProperty("--cor"); raiz.removeProperty("--tinta");
     edicaoAtual = r.nome === "edicao" ? ed(r.n) : null;
-    document.body.classList.toggle("com-fundo", r.nome in ORDEM);
+    document.body.classList.toggle("com-fundo", r.nome in ORDEM || !!edicaoAtual);
     if (r.nome in ORDEM) ordem = ORDEM[r.nome];
+    else if (edicaoAtual) ordem = ordemEdicao(edicaoAtual.n);
     main.innerHTML = r.nome === "edicao" ? paginas.edicao(r.n) : paginas[r.nome]();
     $$(".menu a").forEach(a => {
       const ativo = a.dataset.rota === r.nome || (r.nome === "edicao" && a.dataset.rota === "edicoes");
@@ -1050,8 +1235,18 @@ const FUNDOS = {
   /* ---------- Cliques ---------- */
   main.addEventListener("click", ev => {
     const bFoto = ev.target.closest("[data-foto]");
-    if (bFoto && edicaoAtual) return abrirFoto(edicaoAtual.fotos, Number(bFoto.dataset.foto));
+    if (bFoto && edicaoAtual) return abrirFoto(edicaoAtual.fotos.map(f => ({ id: f.id, legenda: legendaFoto(edicaoAtual, f) })), Number(bFoto.dataset.foto));
     if (ev.target.closest("[data-cartaz]") && edicaoAtual) return abrirFoto([cartazEd(edicaoAtual)], 0);
+    const bRel = ev.target.closest("[data-release]");
+    if (bRel && edicaoAtual) return abrirFoto(releaseEd(edicaoAtual), Number(bRel.dataset.release), true);
+    const bMural = ev.target.closest("[data-foto-mural]");
+    if (bMural) return abrirFoto(muralVisivel().map(f => ({ id: f.id, legenda: legendaMural(f) })), Number(bMural.dataset.fotoMural));
+    const bFilM = ev.target.closest("[data-filtro-mural]");
+    if (bFilM) {
+      $$("[data-filtro-mural]").forEach(b => b.setAttribute("aria-pressed", String(b === bFilM)));
+      $("[data-lista-mural]").innerHTML = fotosMural(bFilM.dataset.filtroMural ? Number(bFilM.dataset.filtroMural) : null);
+      return;
+    }
     const bVid = ev.target.closest("[data-video]");
     if (bVid) return abrirVideo(VIDS[Number(bVid.dataset.video)]);
     const bFil = ev.target.closest("[data-filtro]");
@@ -1064,16 +1259,21 @@ const FUNDOS = {
 
   /* ---------- Janela de foto ---------- */
   const lb = $("#lb"), lbImg = $(".lb__img", lb), lbLeg = $(".lb__legenda", lb);
-  // lbLista: as fotos da galeria ou só o cartaz da edição.
+  // lbLista: { id, legenda } da galeria da edição, do cartaz ou do mural.
   let lbIdx = 0, lbLista = [];
   function mostrarFoto() {
-    const e = edicaoAtual, f = lbLista[lbIdx], t = lbLista.length;
+    const f = lbLista[lbIdx], t = lbLista.length;
     lbImg.src = foto(f.id, 1600);
-    lbImg.alt = legendaFoto(e, f);
-    lbLeg.textContent = t > 1 ? `${legendaFoto(e, f)} (${lbIdx + 1} de ${t})` : legendaFoto(e, f);
+    lbImg.alt = f.legenda;
+    lbLeg.textContent = t > 1 ? `${f.legenda} (${lbIdx + 1} de ${t})` : f.legenda;
+    lb.scrollTop = 0;
     $$("[data-lb]", lb).forEach(b => { b.hidden = t < 2; });
   }
-  function abrirFoto(lista, k) { lbLista = lista; lbIdx = k; mostrarFoto(); lb.showModal(); }
+  // documento: páginas de release abrem na largura de leitura e rolam, em vez de caber inteiras na tela.
+  function abrirFoto(lista, k, documento = false) {
+    lb.classList.toggle("lb--doc", documento);
+    lbLista = lista; lbIdx = k; mostrarFoto(); lb.showModal();
+  }
   function passo(d) { const t = lbLista.length; if (t < 2) return; lbIdx = (lbIdx + d + t) % t; mostrarFoto(); }
   lb.addEventListener("click", ev => {
     const s = ev.target.closest("[data-lb]");
@@ -1115,7 +1315,8 @@ const FUNDOS = {
     for (let k = 0; k < 40; k++) d += `<path d="M${k * w} 0h${w - 3}l-${(w - 3) / 2} 20z" fill="${cores[k % cores.length]}"/>`;
     svg.innerHTML = `<rect width="1200" height="2" fill="#151d4d"/>${d}`;
   })();
-  $("[data-parceiros]").innerHTML = P.parceiros.map(([t, n]) => `<div><dt>${esc(t)}</dt><dd>${esc(n)}</dd></div>`).join("");
+  $("[data-parceiros]").innerHTML = P.parceiros.map(([t, n, logo]) =>
+    `<div><dt>${esc(t)}</dt><dd>${logo ? `<img class="parceiros__logo" src="${esc(logo)}" alt="${esc(n)}" loading="lazy">` : esc(n)}</dd></div>`).join("");
   $("[data-contato]").innerHTML = `<a href="mailto:${esc(P.contato)}">${esc(P.contato)}</a>`;
 
   render();
