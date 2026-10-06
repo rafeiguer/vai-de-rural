@@ -16,13 +16,14 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎬</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Shrikhand&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Baloo+2:wght@400..800&display=swap" rel="stylesheet">
 <style>
 /* =========================================================================
    TOKENS
-   Shrikhand: letreiro de circo/festa, só para títulos grandes (tem um peso só).
-   Bricolage Grotesque: texto e interface; os eixos de largura e tamanho óptico
-   dão variação sem precisar de uma terceira fonte.
+   Alfa Slab One: serifa quadrada e grossa de cartaz de circo e feira, só para
+   títulos e números grandes (tem um peso só).
+   Baloo 2: texto e interface; arredondada e alegre, com pesos de 400 a 800
+   e boa leitura no celular.
    Cada edição tem cor própria (nos dados). A cor do texto sobre ela é
    calculada no JS para manter contraste legível.
    ========================================================================= */
@@ -39,8 +40,8 @@
   --texto-2: #4a4f6e;
   --borda: #e6e2f0;
   --raio: 18px;
-  --display: "Shrikhand", "Cooper Black", "Georgia", serif;
-  --corpo: "Bricolage Grotesque", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --display: "Alfa Slab One", "Rockwell", "Georgia", serif;
+  --corpo: "Baloo 2", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --largura: 1200px;
   --cor: var(--anil);
   --tinta: #fff;
@@ -76,7 +77,7 @@ h1, h2, h3 { margin: 0; line-height: 1.02; }
   .topo__linha { flex-wrap: wrap; gap: .1rem; padding: .5rem 0 .45rem; min-height: 0; }
   /* Seis itens não cabem numa linha de celular: quebram em duas, centralizadas. */
   .menu { margin-left: 0; width: 100%; flex-wrap: wrap; justify-content: center; gap: .15rem .1rem; }
-  .menu a { padding: .35rem .7rem; font-size: .92rem; }
+  .menu a { padding: .35rem .5rem; font-size: .9rem; }
 }
 .bandeirinhas { display: block; width: 100%; height: 22px; transform-origin: top; }
 
@@ -93,7 +94,6 @@ h1, h2, h3 { margin: 0; line-height: 1.02; }
 .abertura h1 .rural .l:nth-child(4) { color: var(--mato); }
 .abertura h1 .rural .l:nth-child(5) { color: #6e4bc0; }
 .abertura__sub { font-size: clamp(1.15rem, 2.3vw, 1.45rem); font-weight: 600; line-height: 1.4; margin: 1.4rem 0 .4rem; max-width: 30ch; color: var(--anil); }
-.abertura__lema { font-family: var(--display); font-size: 1.2rem; color: var(--urucum); margin: 0 0 1.8rem; }
 .botoes { display: flex; flex-wrap: wrap; gap: .75rem; }
 .botao {
   display: inline-flex; align-items: center; text-decoration: none; border: 0;
@@ -118,7 +118,105 @@ h1, h2, h3 { margin: 0; line-height: 1.02; }
 .polaroide:nth-child(3) { width: 46%; right: 8%; bottom: 0; transform: rotate(-2deg); z-index: 3; }
 .polaroide:hover { transform: rotate(0) scale(1.03); z-index: 5; }
 
-/* Animação de entrada do título: o único movimento automático do site */
+/* Baralho da página Edições: cartas espalhadas na mesa (posições em --x, --y, --r, --z, vindas do JS).
+   A mesa tem proporção 5:4 e a carta 3:4 com 40% da largura, então cabem com folga de x 0–60% e y 0–33%. */
+.baralho-mesa { display: grid; justify-items: center; gap: 1rem; }
+.baralho { position: relative; width: min(100%, 560px); aspect-ratio: 5 / 4; }
+.carta {
+  position: absolute; left: var(--x, 30%); top: var(--y, 16%); z-index: var(--z, 1);
+  width: 40%; aspect-ratio: 3 / 4; padding: 7px; border-radius: 14px; background: #fff; text-decoration: none;
+  transform: rotate(var(--r, 0deg)); box-shadow: 0 10px 24px rgba(21, 29, 77, .28);
+  transition: left .7s cubic-bezier(.2, .8, .2, 1) var(--atraso, 0ms), top .7s cubic-bezier(.2, .8, .2, 1) var(--atraso, 0ms),
+              transform .45s cubic-bezier(.3, 1.4, .5, 1) var(--atraso, 0ms), box-shadow .25s ease;
+}
+.carta:hover, .carta:focus-visible { z-index: 30; transform: rotate(0deg) translateY(-12px) scale(1.07); box-shadow: 0 20px 40px rgba(21, 29, 77, .35); }
+.carta__foto { display: block; width: 100%; height: 100%; border-radius: 9px; overflow: hidden; background: var(--c); }
+.carta__foto img { width: 100%; height: 100%; object-fit: cover; }
+/* O número é o destaque: grande, na cor da edição, com borda branca para descolar da foto. */
+.carta__num {
+  position: absolute; top: 12px; left: 12px; display: grid; place-items: center;
+  min-width: 2.3em; height: 2.3em; padding: 0 .25em; border-radius: 999px; border: 3px solid #fff;
+  background: var(--c); color: var(--t); font-family: var(--display); font-size: clamp(1.25rem, 3.6vw, 2.1rem); line-height: 1;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, .3);
+}
+.carta__num--pe { top: auto; left: auto; bottom: 12px; right: 12px; font-size: clamp(.85rem, 2.2vw, 1.2rem); transform: rotate(180deg); }
+.carta__ano {
+  position: absolute; left: 12px; bottom: 12px; padding: .1rem .55rem; border-radius: 999px;
+  background: rgba(255, 255, 255, .92); color: var(--texto); font-weight: 800; font-size: .8rem;
+}
+.baralho__embaralhar { position: relative; z-index: 31; }
+
+/* Leitor de releases: uma página grande por vez, numa moldura branca com a cor da edição (--c),
+   que "vira" ao trocar (vira-prox / vira-ant); embaixo, as miniaturas soltas como papéis na mesa. */
+.abertura.abertura--curta { padding-bottom: .5rem; }
+.secao.leitor-sec { padding-top: 1rem; }
+.leitor { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: clamp(.3rem, 2vw, 1.2rem); margin-top: 1.4rem; }
+.leitor__pagina { margin: 0; display: grid; justify-items: center; gap: .8rem; }
+.leitor__folha {
+  border: 0; padding: 8px; background: #fff; border-radius: 10px; cursor: zoom-in; max-width: 100%;
+  box-shadow: 0 0 0 5px var(--c, var(--sol)), 0 22px 48px rgba(0, 0, 0, .45);
+  transform: rotate(-1deg); transition: transform .25s ease;
+}
+.leitor__folha:hover { transform: rotate(0deg) scale(1.01); }
+.leitor__folha img { display: block; width: auto; max-width: 100%; max-height: min(78vh, 920px); border-radius: 4px; }
+.leitor__folha.vira-prox { transform-origin: left center; animation: vira-prox .55s cubic-bezier(.2, .8, .2, 1); }
+.leitor__folha.vira-ant { transform-origin: right center; animation: vira-ant .55s cubic-bezier(.2, .8, .2, 1); }
+@keyframes vira-prox { from { transform: perspective(1600px) rotateY(-80deg) translateX(18%); opacity: .15; } to { transform: perspective(1600px) rotateY(0) rotate(-1deg); opacity: 1; } }
+@keyframes vira-ant { from { transform: perspective(1600px) rotateY(80deg) translateX(-18%); opacity: .15; } to { transform: perspective(1600px) rotateY(0) rotate(-1deg); opacity: 1; } }
+.leitor__seta {
+  width: clamp(44px, 6vw, 60px); height: clamp(44px, 6vw, 60px); border-radius: 50%; border: 3px solid #fff;
+  background: var(--sol); color: var(--anil); font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 800; line-height: 1;
+  box-shadow: 0 4px 0 #b88400; transition: transform .2s cubic-bezier(.3, 1.6, .5, 1);
+}
+.leitor__seta:hover { transform: scale(1.12) rotate(-8deg); }
+.leitor__seta:active { transform: translateY(3px); box-shadow: 0 1px 0 #b88400; }
+.leitor__legenda { font-weight: 800; color: #fff; text-shadow: 0 0 6px #0a0e2d, 0 0 14px #0a0e2d; }
+.leitor__miniaturas { display: flex; gap: .8rem; overflow-x: auto; padding: 1.1rem .6rem .7rem; margin-top: 1.2rem; scrollbar-width: thin; }
+.leitor__mini {
+  flex: none; position: relative; width: 84px; padding: 4px; border: 0; border-radius: 6px; background: #fff; opacity: .78;
+  transform: rotate(-2.5deg); transition: transform .2s ease, opacity .2s ease, box-shadow .2s ease;
+}
+.leitor__mini:nth-child(even) { transform: rotate(2.5deg); }
+
+.leitor__mini img { display: block; width: 100%; height: auto; border-radius: 3px; }
+.leitor__mini span {
+  position: absolute; top: -9px; left: -9px; display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%;
+  background: var(--sol); color: var(--anil); font-weight: 800; font-size: .8rem;
+}
+.leitor__mini:hover { opacity: 1; transform: rotate(0deg) translateY(-4px); }
+.leitor__mini[aria-current] { opacity: 1; transform: rotate(0deg) translateY(-6px) scale(1.08); box-shadow: 0 0 0 3px var(--c, var(--sol)); }
+.leitor__dica { margin: .6rem 0 0; text-align: center; font-size: .92rem; color: #fff; text-shadow: 0 0 6px #0a0e2d; }
+
+/* Ouvir: botões de leitura em voz alta. Amarelos com ícone de alto-falante, fáceis de achar mesmo para
+   quem não lê. O trecho sendo lido ganha um realce (.lendo). */
+.ouvir {
+  display: inline-flex; align-items: center; gap: .45rem; border: 0; border-radius: 999px; cursor: pointer;
+  padding: .45rem 1rem .45rem .8rem; background: var(--sol); color: var(--anil); font-weight: 800; font-size: .95rem;
+  box-shadow: 0 3px 0 #b88400; transition: transform .15s ease;
+}
+.ouvir[hidden] { display: none; }
+.ouvir svg { width: 1.35em; height: 1.35em; flex: none; }
+.ouvir:hover { transform: translateY(-2px); }
+.ouvir[aria-pressed="true"] { background: var(--rosa); color: #fff; box-shadow: 0 3px 0 #b8386c; }
+.ouvir[aria-pressed="true"] svg { animation: fala-pulsa .7s ease-in-out infinite alternate; }
+@keyframes fala-pulsa { to { transform: scale(1.18); } }
+.painel > .ouvir, .ed-texto > .ouvir { margin: 0 0 .9rem; }
+.ouvir--grande { font-size: 1.15rem; padding: .75rem 1.4rem .75rem 1.1rem; }
+.ouvir--pagina {
+  position: fixed; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 40;
+  box-shadow: 0 3px 0 #b88400, 0 10px 24px rgba(0, 0, 0, .35);
+}
+.lendo { background: rgba(255, 194, 26, .22); box-shadow: 0 0 0 4px rgba(255, 194, 26, .22); border-radius: 6px; }
+.resumo__texto { max-width: 68ch; margin-top: 1.4rem; font-size: 1.15rem; line-height: 1.7; }
+/* No celular, o "Ouvir a página" vira um círculo só com o alto-falante, para cobrir menos texto. */
+@media (max-width: 600px) {
+  .ouvir--pagina { width: 58px; height: 58px; padding: 0; justify-content: center; }
+  .ouvir--pagina svg { width: 28px; height: 28px; }
+  .ouvir--pagina span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+}
+.resumo__texto p { margin: 0 0 .9rem; }
+
+/* Animação de entrada do título (junto com a distribuição do baralho, os únicos movimentos automáticos do site) */
 @keyframes pula {
   0% { opacity: 0; transform: translateY(40%) scale(.6) rotate(-8deg); }
   60% { opacity: 1; transform: translateY(-6%) scale(1.08) rotate(3deg); }
@@ -188,9 +286,9 @@ h1, h2, h3 { margin: 0; line-height: 1.02; }
 .chamada__grade { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.4rem 2rem; }
 .chamada .titulo { font-size: clamp(1.8rem, 4.5vw, 2.6rem); }
 /* Sobre os cartazes, a faixa de convite vira um painel claro: o texto escuro não se lê sobre rostos e cores escuras. */
-body.com-fundo .chamada__grade { background: rgba(255, 255, 255, .92); border-radius: var(--raio); padding: 1.4rem 1.6rem; }
+body.com-fundo .chamada__grade { background: var(--vidro); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); border-radius: var(--raio); padding: 1.4rem 1.6rem; }
 body.com-fundo .chamada :is(.titulo, .intro) { text-shadow: none; }
-body.com-fundo .painel { background: rgba(255, 255, 255, .92); border-radius: var(--raio); padding: 1.1rem 1.4rem .6rem; }
+body.com-fundo .painel { background: var(--vidro); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); color: #fff; border-radius: var(--raio); padding: 1.1rem 1.4rem .6rem; }
 body.com-fundo .painel p { text-shadow: none; }
 /* Texto corrido longo (página Sobre): linha de leitura confortável, parágrafos bem separados. */
 .texto-longo { font-size: 1.15rem; line-height: 1.7; max-width: 68ch; margin-inline: auto; }
@@ -315,7 +413,7 @@ body.com-fundo .painel.texto-longo {
 .release .foto button:hover { box-shadow: 0 0 0 3px var(--cor), 0 10px 24px rgba(31, 42, 107, .22); }
 .release .foto img { aspect-ratio: auto; object-fit: contain; }
 .release figcaption { text-align: center; font-weight: 700; }
-body.com-fundo .bloco__dica { text-shadow: 0 0 3px #fff, 0 0 8px #fff, 0 0 16px rgba(255,255,255,.95); }
+body.com-fundo .bloco__dica { color: var(--t-tinta); text-shadow: var(--t-halo); }
 
 /* Mural: polaroides em colunas (alvenaria), cada foto na proporção original. */
 .mural { columns: 2; column-gap: 1rem; margin-top: 1.6rem; }
@@ -367,36 +465,89 @@ dialog::backdrop { background: rgba(21, 29, 77, .94); }
 .vd__rodape a { color: var(--sol); font-weight: 700; }
 
 
-/* ---------- Fundo com os cartazes (Início, Edições, Vídeos e Sobre) ----------
-   Cada cartaz entra só com a parte ilustrada, sem os textos, nítido e sem desfoque,
-   suavizado pela opacidade --fundo-opacidade (sobre branco). Os recortes ficam em assets/cartazes.
-   Títulos ganham um brilho branco ao redor (e o texto claro da estrada, uma sombra escura);
-   o texto corrido fica num .painel claro. */
-.fundo-cartaz { display: none; position: fixed; inset: 0; z-index: -1; background: #fff; opacity: var(--fundo-opacidade); }
-.fundo-cartaz img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; }
-body.com-fundo { --texto-2: #1b1f3a; }
+/* ---------- Fundo com as paletas dos cartazes ----------
+   Cada edição vira um degradê com as cores do seu cartaz (PALETAS, no JS), escurecidas para o texto
+   branco e misturadas à base escura pela --fundo-opacidade. As paletas se alternam conforme a rolagem.
+   Títulos e textos são brancos (--t-tinta), com halo escuro (--t-brilho); o texto corrido fica num .painel. */
+.fundo-cartaz { display: none; position: fixed; inset: 0; z-index: -1; background: rgb(11, 16, 51); }
+.fundo-cor { position: absolute; inset: 0; opacity: 0; }
+/* Véu da cor da base: com --fundo-opacidade 0.9, a tela mostra 90% da cor e 10% da base escura. */
+.fundo-cartaz::after { content: ""; position: absolute; inset: 0; background: rgb(11, 16, 51); opacity: calc(1 - var(--fundo-opacidade)); }
+body.com-fundo {
+  /* Modo noite: todo o texto em branco sobre o fundo escurecido; painéis viram vidro escuro. */
+  --texto: #fff; --texto-2: #e3e6f7; --vidro: rgba(11, 16, 51, .62);
+  --t-tinta: #fff; --t-brilho: #0a0e2d;
+  --t-halo: 0 0 3px var(--t-brilho), 0 0 8px var(--t-brilho), 0 0 16px color-mix(in srgb, var(--t-brilho) 95%, transparent), 0 0 30px color-mix(in srgb, var(--t-brilho) 85%, transparent);
+}
+body.com-fundo :is(.abertura h1, .abertura__pre, .abertura__sub, .secao > .envelope > .titulo, .secao .intro:not(.chamada .intro), .sobre .titulo,
+  .ed-topo__voltar, .ed-topo__edicao, .ed-topo h1, .bloco h2, .foto figcaption) {
+  color: var(--t-tinta); transition: color .6s ease, text-shadow .6s ease;
+}
+/* Títulos todos em branco (sem as letras coloridas da versão clara do site). */
+body.com-fundo .abertura h1 .rural .l { color: var(--t-tinta); }
 body.com-fundo .fundo-cartaz { display: block; }
+/* Faixa corrida translúcida: o fundo aparece por trás (já escurecido para o branco, então segue legível). */
+body.com-fundo .faixa { background: rgba(31, 42, 107, .38); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); border-color: rgba(255, 92, 154, .75); }
+body.com-fundo .faixa li { text-shadow: 0 0 6px #0a0e2d, 0 0 14px rgba(10, 14, 45, .8); }
+/* A Rural em movimento: atravessa a tela no rodapé do fundo, vira fora da tela e volta (30 s por volta),
+   sacolejando como carro em estrada de terra. Tamanho proporcional à tela: ~40% da largura. */
+.fundo-rural { display: none; position: fixed; left: 0; bottom: 2vh; z-index: -1; width: clamp(220px, 40vw, 640px); pointer-events: none; animation: rural-viaja 30s linear infinite; }
+.fundo-rural img { width: 100%; height: auto; display: block; }
+/* Peças que reagem quando a Rural passa perto (--rural de 0 a 1 e --lado ±1, vindos do JS): pulam e se
+   inclinam para longe dela (até 40 px para cima, 14 px para o lado, 10° e 8% maiores). Usa translate, rotate e scale, que somam com o transform próprio de cada peça
+   (inclinação de polaroide, hover etc.) sem mexer nas transições dela. */
+:is(.cartao, .carta, .polaroide, .foto > button, .leitor__folha, .leitor__mini, .parada a, .linguagem, .fatos div, .botao, .filtro, .ed-nav a) {
+  translate: calc(var(--rural, 0) * var(--lado, 1) * 14px) calc(var(--rural, 0) * -40px);
+  rotate: calc(var(--rural, 0) * var(--lado, 1) * 10deg);
+  scale: calc(1 + var(--rural, 0) * .08);
+}
+body.com-fundo .fundo-rural { display: block; }
+.fundo-rural img, .estrada__rural img { transform-origin: 50% 90%; animation: rural-sacode .45s ease-in-out infinite alternate; }
+@keyframes rural-viaja {
+  0%   { transform: translateX(-100%) scaleX(1); }
+  48%  { transform: translateX(100vw) scaleX(1); }
+  50%  { transform: translateX(100vw) scaleX(-1); }
+  98%  { transform: translateX(-100%) scaleX(-1); }
+  100% { transform: translateX(-100%) scaleX(1); }
+}
+@keyframes rural-sacode {
+  from { transform: translateY(0) rotate(-1.2deg); }
+  to   { transform: translateY(-1.2%) rotate(1deg); }
+}
 body.com-fundo .abertura { background: transparent; }
 body.com-fundo .secao { background: transparent; }
 body.com-fundo .secao--rosa { background: transparent; }
 body.com-fundo .secao--ceu { background: transparent; }
 /* A estrada tem texto claro: com o fundo suavizado ela precisa de um véu anil, não de transparência. */
 body.com-fundo .estrada-sec { background: rgba(31, 42, 107, .9); }
-body.com-fundo :where(.abertura__pre, .abertura__sub, .abertura__lema, .abertura h1, .secao > .envelope > .titulo, .chamada .titulo, .secao .intro, .sobre .titulo, .sobre p) {
-  text-shadow: 0 0 3px #fff, 0 0 8px #fff, 0 0 16px rgba(255,255,255,.95), 0 0 30px rgba(255,255,255,.85);
+body.com-fundo :where(.abertura__pre, .abertura__sub, .abertura h1, .secao > .envelope > .titulo, .chamada .titulo, .secao .intro, .sobre .titulo, .sobre p) {
+  text-shadow: var(--t-halo);
 }
 body.com-fundo .estrada-sec :is(.titulo, .intro, .parada__local, .parada__ano, .estrada__dica) { text-shadow: 0 0 3px #0a0e2d, 0 0 8px #0a0e2d, 0 1px 14px rgba(10,14,45,.95), 0 0 28px rgba(10,14,45,.85); }
 /* Página de edição: o topo perde a faixa de cor e segue o padrão das outras aberturas (título anil com brilho
    branco); a cor da edição fica no número gigante, nas etiquetas da ficha e no traço dos subtítulos. */
 body.com-fundo .ed-topo { background: transparent; color: var(--texto); }
-body.com-fundo .ed-topo h1 { color: var(--anil); }
 body.com-fundo .ed-topo__num { color: var(--cor); opacity: .5; }
-body.com-fundo .ficha li { background: rgba(255, 255, 255, .92); border-color: var(--cor); color: var(--texto); }
+body.com-fundo .ficha li { background: var(--vidro); border-color: var(--cor); color: #fff; }
 body.com-fundo :where(.ed-topo__voltar, .ed-topo__edicao, .ed-topo h1, .bloco h2, .foto figcaption) {
-  text-shadow: 0 0 3px #fff, 0 0 8px #fff, 0 0 16px rgba(255,255,255,.95), 0 0 30px rgba(255,255,255,.85);
+  text-shadow: var(--t-halo);
 }
 body.com-fundo .ed-texto.painel { max-width: calc(64ch + 2.8rem); }
-body.com-fundo .vazio { background: rgba(255, 255, 255, .92); }
+body.com-fundo .vazio { background: var(--vidro); color: #fff; }
+/* Modo noite, demais peças: texto branco sobre vidro escuro ou sobre o azul-noite dos cartões. As peças
+   pintadas na cor de uma edição (números, linguagens, filtro ativo) mantêm a tinta calculada para
+   contraste (branco ou anil), porque branco não se lê sobre amarelo ou rosa. */
+body.com-fundo .chamada .titulo { color: var(--sol); }
+body.com-fundo .chamada .intro { color: #fff; }
+body.com-fundo .pendente { background: var(--vidro); border-color: var(--sol); color: #fff; }
+body.com-fundo .fatos div { background: var(--vidro); border-color: var(--sol); box-shadow: 5px 5px 0 var(--sol); color: #fff; }
+body.com-fundo .fatos dd { color: var(--sol); }
+body.com-fundo .cartao { background: var(--noite); border-color: #fff; color: #fff; }
+body.com-fundo .cartao__capa { border-bottom-color: #fff; }
+body.com-fundo .filtro { background: var(--vidro); border-color: #fff; color: #fff; }
+body.com-fundo .filtro[aria-pressed="true"] { background: var(--fc, var(--sol)); color: var(--t, var(--anil)); }
+body.com-fundo .botao--branco { background: #6e4bc0; color: #fff; box-shadow: 0 4px 0 #3f2a80; }
+body.com-fundo .carta__ano { background: rgba(11, 16, 51, .85); color: #fff; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
@@ -409,6 +560,8 @@ body.com-fundo .vazio { background: rgba(255, 255, 255, .92); }
 
 <!-- Fundo de Início, Edições, Vídeos e Sobre: recortes dos cartazes, que se alternam conforme a rolagem -->
 <div class="fundo-cartaz" data-fundo-cartaz aria-hidden="true"></div>
+<!-- A Rural (desenho do release da 3ª edição) passeando no fundo, atrás do conteúdo -->
+<div class="fundo-rural" aria-hidden="true"><img src="assets/rural-3a.webp" alt="" width="581" height="411"></div>
 
 <header class="topo">
   <div class="envelope topo__linha">
@@ -416,6 +569,7 @@ body.com-fundo .vazio { background: rgba(255, 255, 255, .92); }
     <nav class="menu" aria-label="Principal">
       <a href="#/" data-rota="inicio">Início</a>
       <a href="#/edicoes" data-rota="edicoes">Edições</a>
+      <a href="#/releases" data-rota="releases">Releases</a>
       <a href="#/videos" data-rota="videos">Vídeos</a>
       <a href="#/mural" data-rota="mural">Mural</a>
       <a href="#/tripulantes" data-rota="tripulantes">Tripulantes</a>
@@ -426,6 +580,8 @@ body.com-fundo .vazio { background: rgba(255, 255, 255, .92); }
 </header>
 
 <main id="conteudo" tabindex="-1"></main>
+<!-- Ouvir a página: lê em voz alta títulos e textos (aparece só se o navegador tiver voz) -->
+<button class="ouvir ouvir--pagina" data-ouvir-pagina aria-pressed="false" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span>Ouvir a página</span></button>
 
 <footer class="rodape">
   <div class="envelope rodape__grade">
@@ -511,6 +667,15 @@ const CONTEUDO = {
       "Em todas as edições da Rural, que é o nosso carro chefe, assim como na 1ª e 2ª edição do projeto Um olhar sobre Boa Madeira: artesãs e sambadeiras tivemos a participação especial das comunidades contempladas com a apresentação da sua cultura popular. Nós buscamos nos projetos que realizamos integrar às comunidades como protagonistas e não somente como público. Além disso, temos na Mostra feira de artesanatos e gastronomia local, contribuindo para a economia circular de forma criativa.",
       "Nossos projetos têm se mostrado fruto de uma verdadeira integração comunitária, em que se prioriza um processo de construção coletiva, envolvendo as comunidades não somente como espectadores, mas, sobretudo como protagonistas, através da atuação dos mesmos com suas expressões culturais. A Rural segue construindo novos caminhos, aumentando a bagagem de mais histórias, causos e encantos através do cinema, do circo, da cultura popular e de outras artes integradas em diálogo com povos e comunidades."
     ],
+    // Resumo da página inicial: frases curtas e simples, pensadas também para ouvir (botão "Ouvir").
+    resumo: [
+      "A Vai de Rural é uma mostra de cinema que viaja pelo interior da Bahia dentro de um carro: a Rural.",
+      "Ela leva filmes, circo, fotografia e cultura popular para comunidades rurais e quilombolas. Tudo é de graça. Desde a sexta edição, tem tradutora de Libras.",
+      "Já foram sete edições, de 2013 a 2026, em mais de 25 povoados e comunidades, na Bacia do Paramirim e no Sudoeste da Bahia.",
+      "A primeira viagem levou o filme “É no pé do morro é lá no cafundó”, de Denise Santos, para as próprias pessoas que aparecem nele.",
+      "Em cada parada, a comunidade também se apresenta, com samba de roda, terno de reis, reisado, langa e outras manifestações. Tem ainda feira de artesanato e comida da região.",
+      "Quem faz a Rural é a La Bici Galeria Cultural, um coletivo de produtores culturais, técnicos e artistas, com apoio financeiro do Governo Federal e do Governo da Bahia, por meio de editais culturais e das leis Paulo Gustavo e Aldir Blanc."
+    ],
     fatos: [
       ["7", "edições realizadas"],
       ["4", "linguagens: cinema, circo, fotografia e cultura popular"],
@@ -527,7 +692,7 @@ const CONTEUDO = {
     parceiros: [
       // O terceiro item (opcional) é o logo, em versão clara para o fundo anil do rodapé.
       ["Realização", "La Bici Galeria Cultural", "assets/logo-la-bici-branco.png"],
-      ["Patrocínio", "A Rural, em suas edições, contou com apoio financeiro do Governo Federal e do Governo da Bahia através de editais culturais como o Edital Territórios Culturais e o Edital Audiovisual Geraldo Sarno, e também através da Lei Paulo Gustavo e da Lei Aldir Blanc."]
+      ["Apoio financeiro", "A Rural, em suas edições, contou com apoio financeiro do Governo Federal e do Governo da Bahia através de editais culturais como o Edital Territórios Culturais e o Edital Audiovisual Geraldo Sarno, e também através da Lei Paulo Gustavo e da Lei Aldir Blanc."]
     ]
   },
 
@@ -698,11 +863,18 @@ const CONTEUDO = {
    Roteamento por hash (#/, #/edicoes, #/edicao/7, #/videos, #/mural, #/tripulantes, #/sobre):
    funciona em hospedagem estática (GitHub Pages) sem configurar servidor.
    ========================================================================= */
-/* Recortes dos cartazes (só a arte, sem textos), nítidos e sem filtro, em assets/cartazes.
-   O cartaz da 5ª é quadrado, então serve igual para os dois conjuntos. */
-const FUNDOS = {
-  paisagem: { "1": "assets/cartazes/paisagem-1.webp", "2": "assets/cartazes/paisagem-2.webp", "3": "assets/cartazes/paisagem-3.webp", "4": "assets/cartazes/paisagem-4.webp", "5": "assets/cartazes/cartaz-5.webp", "6": "assets/cartazes/paisagem-6.webp", "7": "assets/cartazes/paisagem-7.webp" },
-  retrato: { "1": "assets/cartazes/retrato-1.webp", "2": "assets/cartazes/retrato-2.webp", "3": "assets/cartazes/retrato-3.webp", "4": "assets/cartazes/retrato-4.webp", "5": "assets/cartazes/cartaz-5.webp", "6": "assets/cartazes/retrato-6.webp", "7": "assets/cartazes/retrato-7.webp" }
+/* Paletas do fundo: 4 cores tiradas do cartaz de cada edição (assets/fotos/edN-cartaz).
+   Ordem: [esquerda em cima, direita em cima, direita embaixo, esquerda embaixo]. No JS, cada cor é
+   escurecida até o texto branco ter contraste folgado, e as letras coloridas dos títulos usam os
+   tons da 2ª, 3ª e 1ª cor, clareados. */
+const PALETAS = {
+  "1": ["#d5ddc7", "#839783", "#56434c", "#a5ad94"],   // legenda clara, película verde-acinzentada, ameixa
+  "2": ["#f8eeee", "#ed1b2c", "#b41824", "#e08a8c"],   // o branco do papel e o vermelho do cartaz
+  "3": ["#c2af85", "#3a67a3", "#1c2f5a", "#d9a06a"],   // areia, céu azul, noite e chão de terra
+  "4": ["#faa800", "#0f42a0", "#944721", "#dcc46f"],   // amarelo, noite azul, terra e lua
+  "5": ["#e3bb53", "#cb3334", "#641610", "#f1e473"],   // ouro, vermelho, vinho e amarelo
+  "6": ["#dbd9c7", "#5e7aa3", "#4f392f", "#a69670"],   // creme, azul do papel, café e palha
+  "7": ["#ead8ae", "#b46d39", "#592d13", "#d99552"]    // creme, marrons e o laranja do pôr do sol
 };
 
 (() => {
@@ -732,6 +904,8 @@ const FUNDOS = {
   const legendaFoto = (e, f) => f.legenda || `${e.titulo}, ${e.n}ª edição`;
   const legendaMural = f => f.edicao && ed(f.edicao) ? legendaFoto(ed(f.edicao), f) : (f.legenda || "Foto da mostra Vai de Rural");
   const rotuloEd = e => `${e.n}ª edição`;
+  const ICONE_FALA = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`;
+  const botaoOuvir = (rotulo, extra = "") => `<button class="ouvir ${extra}" data-ouvir aria-pressed="false">${ICONE_FALA}<span>${esc(rotulo)}</span></button>`;
   const cartazEd = e => ({ id: e.cartaz, legenda: `Cartaz da ${rotuloEd(e)}` });
   const releaseEd = e => (e.release || []).map((id, k) => ({ id, legenda: `Release da ${rotuloEd(e)}, página ${k + 1}` }));
 
@@ -853,6 +1027,19 @@ const FUNDOS = {
     box._reposicionar = () => moverPara(inicial);
   }
 
+  // Resumo da página inicial, com botão grande de ouvir (para quem não lê ou prefere escutar).
+  function blocoResumo() {
+    return `<section class="secao resumo" aria-labelledby="t-resumo">
+      <div class="envelope">
+        <h2 class="titulo" id="t-resumo">A Rural em poucas palavras</h2>
+        <div class="painel resumo__texto" data-falar-bloco>
+          ${botaoOuvir("Ouvir o resumo", "ouvir--grande")}
+          ${P.resumo.map(p => `<p>${esc(p)}</p>`).join("")}
+        </div>
+      </div>
+    </section>`;
+  }
+
   function blocoSobre(tag = "h2") {
     return `<section class="secao secao--ceu" aria-labelledby="t-sobre">
       <div class="envelope sobre">
@@ -893,6 +1080,64 @@ const FUNDOS = {
     </section>`;
   }
 
+  /* Baralho da página Edições: uma carta por edição, espalhadas na mesa. A foto é a primeira da
+     edição (ou o cartaz); o número aparece grande no canto, e invertido no canto oposto, como numa
+     carta de verdade. As posições são aplicadas em ligarBaralho(). */
+  function baralho() {
+    return `<div class="baralho-mesa">
+      <div class="baralho" data-baralho>
+        ${EDS.map(e => {
+          const capa = e.fotos[0] ? e.fotos[0].id : e.cartaz;
+          return `<a class="carta" href="#/edicao/${e.n}" style="--c:${e.cor};--t:${e.tinta}"
+              aria-label="${esc(`${rotuloEd(e)}${e.ano ? `, ${e.ano}` : ""}: ${e.titulo}`)}">
+            <span class="carta__foto">${capa ? imgFoto(capa, 600, "") : ""}</span>
+            <span class="carta__num" aria-hidden="true">${e.n}ª</span>
+            <span class="carta__num carta__num--pe" aria-hidden="true">${e.n}ª</span>
+            ${e.ano ? `<span class="carta__ano" aria-hidden="true">${esc(e.ano)}</span>` : ""}
+          </a>`;
+        }).join("")}
+      </div>
+      <button class="botao botao--branco baralho__embaralhar" data-embaralhar>Embaralhar</button>
+    </div>`;
+  }
+
+  /* Lugares na mesa (em %: a carta ocupa 40% da largura, então x vai até 60 e y até ~33), na ordem
+     de empilhamento: quatro atrás, três na frente e mais abaixo. Cada carta cobre só a direita e a
+     parte de baixo das anteriores, então o número (no canto de cima, à esquerda) fica sempre à vista. */
+  const MESA = [
+    { x: 0, y: 3, r: -10 }, { x: 19, y: 0, r: -4 }, { x: 40, y: 4, r: 5 }, { x: 60, y: 1, r: 12 },
+    { x: 7, y: 31, r: -7 }, { x: 30, y: 33, r: 3 }, { x: 53, y: 30, r: 9 }
+  ];
+  let baralhoAnimado = false;
+  /* Põe cada carta num lugar da mesa. distribuir: as cartas saem do monte, uma de cada vez.
+     aleatorio: embaralha (troca as edições de lugar e varia um pouco posição e inclinação). */
+  function espalharCartas(caixa, { distribuir = false, aleatorio = false } = {}) {
+    const cartas = $$(".carta", caixa);
+    const lugares = MESA.map((_, i) => i);
+    if (aleatorio) for (let i = lugares.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [lugares[i], lugares[j]] = [lugares[j], lugares[i]]; }
+    const variar = v => aleatorio ? v + (Math.random() - 0.5) * 6 : v;
+    cartas.forEach((c, i) => {
+      const k = lugares[i % lugares.length], p = MESA[k];
+      if (distribuir) c.style.setProperty("--atraso", `${k * 90}ms`);
+      c.style.setProperty("--x", `${Math.min(60, Math.max(0, variar(p.x)))}%`);
+      c.style.setProperty("--y", `${Math.min(33, Math.max(0, variar(p.y)))}%`);
+      c.style.setProperty("--r", `${aleatorio ? p.r + (Math.random() - 0.5) * 10 : p.r}deg`);
+      c.style.setProperty("--z", k + 1);
+    });
+  }
+  function ligarBaralho() {
+    const caixa = $("[data-baralho]");
+    if (!caixa) { baralhoAnimado = false; return; }
+    // A distribuição só acontece ao chegar na página (não quando os títulos dos vídeos re-renderizam).
+    if (baralhoAnimado || matchMedia("(prefers-reduced-motion: reduce)").matches) return espalharCartas(caixa);
+    baralhoAnimado = true;
+    $$(".carta", caixa).forEach(c => { c.style.setProperty("--x", "30%"); c.style.setProperty("--y", "16%"); c.style.setProperty("--r", "0deg"); });
+    caixa.getBoundingClientRect();
+    requestAnimationFrame(() => espalharCartas(caixa, { distribuir: true }));
+    // Depois da distribuição, tira o atraso para o passar do mouse responder na hora.
+    setTimeout(() => $$(".carta", caixa).forEach(c => c.style.setProperty("--atraso", "0ms")), 1600);
+  }
+
   function faixa() {
     const itens = P.faixa.map(t => `<li>${esc(t)}</li>`).join("");
     // A lista é duplicada para o loop não ter emenda; a cópia fica oculta para leitores de tela.
@@ -922,8 +1167,7 @@ const FUNDOS = {
             <p class="abertura__pre">${esc(P.subtitulo)}, ${EDS.length} edições</p>
             <h1 aria-label="Vai de Rural" data-titulo><span aria-hidden="true">${letras("Vai de", 0)}<br><span class="rural">${letras("Rural", 6)}</span></span></h1>
             <p class="abertura__sub">${esc(P.chamada)}</p>
-            <p class="abertura__lema">“${esc(P.lema)}”</p>
-            <div class="botoes">
+            <div class="botoes" style="margin-top:1.6rem">
               <a class="botao" href="#/edicoes">Ver as ${EDS.length} edições</a>
               <a class="botao botao--branco" href="#/videos">Assistir aos vídeos</a>
             </div>
@@ -934,6 +1178,7 @@ const FUNDOS = {
         </div>
       </section>
       ${faixa()}
+      ${blocoResumo()}
       ${estrada()}
       ${blocoLinguagens()}
       ${blocoSobre()}
@@ -948,8 +1193,6 @@ const FUNDOS = {
     },
 
     edicoes() {
-      // Colagem: primeira, quarta e última edição, com o cartaz; sem cartaz, um quadrado na cor da edição.
-      const amostra = [0, 3, EDS.length - 1].map(k => EDS[k]).filter(Boolean);
       return `
       <section class="abertura abertura--pagina">
         <div class="envelope abertura__grade">
@@ -958,8 +1201,7 @@ const FUNDOS = {
             ${tituloPagina("t-lista", `As ${EDS.length}`, "edições")}
             <p class="abertura__sub">Da primeira viagem pela Bacia do Paramirim até o Baixão.</p>
           </div>
-          <div class="colagem" aria-hidden="true">
-            ${amostra.map(e => `<div class="polaroide">${e.cartaz ? imgFoto(e.cartaz, 800, "") : `<div class="polaroide__arte" style="--c:${e.cor};--t:${e.tinta}">${e.n}ª</div>`}</div>`).join("")}          </div>
+          ${baralho()}
         </div>
       </section>
       ${faixa()}
@@ -1167,6 +1409,39 @@ const FUNDOS = {
       ${chamada("Veja a Rural em movimento", "Os registros em vídeo de cada edição.", "#/videos", "Assistir aos vídeos")}`;
     },
 
+    // Releases: abre direto no leitor, na edição pedida (#/releases/5) ou na mais recente com release.
+    releases() {
+      const eds = EDS.filter(e => e.release && e.release.length);
+      return `
+      <section class="abertura abertura--pagina abertura--curta">
+        <div class="envelope">
+          <p class="abertura__pre">${esc(P.subtitulo)}</p>
+          ${tituloPagina("t-releases", "", "Releases")}
+          <p class="abertura__sub">O material de divulgação de cada edição, página por página. Escolha a edição e vire as páginas.</p>
+        </div>
+      </section>
+      <section class="secao leitor-sec" aria-labelledby="t-leitor">
+        <div class="envelope">
+          <h2 class="sr" id="t-leitor">Leitor de releases</h2>
+          <div class="filtros leitor__edicoes" role="group" aria-label="Escolher a edição">
+            ${eds.map(e => `<button class="filtro" data-leitor-ed="${e.n}" aria-pressed="false" style="--fc:${e.cor};--t:${e.tinta}">${e.n}ª edição${e.ano ? `, ${e.ano}` : ""}</button>`).join("")}
+          </div>
+          <div class="leitor" data-leitor>
+            <button class="leitor__seta" data-leitor-passo="-1" aria-label="Página anterior">‹</button>
+            <figure class="leitor__pagina">
+              <button class="leitor__folha" data-leitor-ampliar aria-label="Ampliar a página"><img alt="" decoding="async"></button>
+              <figcaption class="leitor__legenda" aria-live="polite"></figcaption>
+            </figure>
+            <button class="leitor__seta" data-leitor-passo="1" aria-label="Próxima página">›</button>
+          </div>
+          <div class="leitor__miniaturas" data-leitor-minis role="group" aria-label="Páginas"></div>
+          <p class="leitor__dica">Use as setas, deslize para o lado ou toque numa miniatura. Toque na página para ler em tela cheia.</p>
+        </div>
+      </section>
+      ${faixa()}
+      ${chamada("Onde a Rural passou", `As ${EDS.length} edições, uma parada de cada vez.`, "#/edicoes", "Ver as edições")}`;
+    },
+
     naoEncontrada() {
       return `<section class="secao"><div class="envelope"><h1 class="titulo">Página não encontrada</h1>
         <p class="intro">Esse endereço não existe. <a href="#/">Voltar ao início</a></p></div></section>`;
@@ -1174,25 +1449,23 @@ const FUNDOS = {
   };
 
 
-  /* ---------- Fundo de cartazes ----------
-     A posição de rolagem (0 a 1) vira um índice de 0 a (cartazes da página - 1); cada cartaz fica
-     visível perto do seu índice e some linearmente, então dois cartazes se misturam entre um e outro. */
+  /* ---------- Fundo com as paletas dos cartazes ----------
+     A posição de rolagem (0 a 1) vira um índice de 0 a (paletas da página - 1); cada paleta fica
+     visível perto do seu índice e some linearmente, então duas paletas se misturam entre uma e outra. */
   const camada = $("[data-fundo-cartaz]");
-  /* Dois conjuntos de recortes: "paisagem" para telas largas e "retrato" para o celular em pé.
-     Assim o cartaz não é esticado demais (no celular, um recorte largo viraria só uma mancha de cor). */
-  /* O fundo é o mesmo em todas as páginas, mas cada uma mistura os cartazes à sua maneira: abre com
-     um cartaz diferente e mostra uma sequência própria. Páginas curtas usam 4 cartazes (com 6, a troca
-     ficaria rápida demais). A 1ª edição não entra (só tinha fotos). Para mudar, basta editar ORDEM. */
-  const CARTAZES = ["2", "3", "4", "5", "6", "7"];
+  /* Cada página mistura as paletas à sua maneira: abre com uma diferente e mostra uma sequência
+     própria. Páginas curtas usam 4 paletas (com 6, a troca ficaria rápida demais). Para mudar, edite ORDEM. */
+  const CARTAZES = ["1", "2", "3", "4", "5", "6", "7"];
   const ORDEM = {
     inicio:  ["3", "5", "2", "4", "6", "7"],
     edicoes: ["7", "4", "6", "3"],
     videos:  ["6", "2", "3", "7"],
     mural:   ["5", "7", "2", "4"],
     tripulantes: ["2", "6", "4", "7"],
+    releases: ["6", "5", "4", "3"],
     sobre:   ["4", "5", "2", "6"]
   };
-  /* Página de uma edição: abre com o cartaz dela e segue com outros três. A 1ª, sem cartaz recortado,
+  /* Página de uma edição: abre com a paleta dela e segue com outras três. A 1ª, fora de CARTAZES,
      usa a sequência da página Edições. */
   function ordemEdicao(n) {
     const proprio = String(n);
@@ -1200,36 +1473,232 @@ const FUNDOS = {
     return [proprio, ...["7", "4", "6", "3", "2", "5"].filter(c => c !== proprio)].slice(0, 4);
   }
   let ordem = ORDEM.inicio;
-  camada.innerHTML = CARTAZES.map(() => `<img alt="">`).join("");
-  const fundoImgs = $$("img", camada);
-  let conjuntoAtual = "";
-  function escolherConjunto() {
-    const c = innerHeight > innerWidth ? "retrato" : "paisagem";
-    if (c === conjuntoAtual) return;
-    conjuntoAtual = c;
-    fundoImgs.forEach((img, i) => {
-      img.src = FUNDOS[c][CARTAZES[i]];
-      // O cartaz da 5ª (quadrado) aparece inteiro, sem cortar; o resto da tela fica na cor dele.
-      const inteiro = CARTAZES[i] === "5";
-      img.style.objectFit = inteiro ? "contain" : "";
-      img.style.backgroundColor = inteiro ? "#bd2628" : "";
-    });
+
+  const hexRgb = h => h.match(/\w\w/g).map(x => parseInt(x, 16));
+  const rgbHex = c => "#" + c.map(v => Math.round(Math.min(255, Math.max(0, v))).toString(16).padStart(2, "0")).join("");
+  const contraste = (x, y) => { const [a, b] = [luz(x), luz(y)].sort((m, n) => n - m); return (a + 0.05) / (b + 0.05); };
+  const hsl = ([r, g, b]) => {
+    r /= 255; g /= 255; b /= 255;
+    const mx = Math.max(r, g, b), mn = Math.min(r, g, b), l = (mx + mn) / 2, d = mx - mn;
+    if (!d) return [0, 0, l];
+    const s = d / (1 - Math.abs(2 * l - 1));
+    const h = mx === r ? ((g - b) / d) % 6 : mx === g ? (b - r) / d + 2 : (r - g) / d + 4;
+    return [h * 60, s, l];
+  };
+  const rgbDeHsl = (h, s, l) => {
+    const c = (1 - Math.abs(2 * l - 1)) * s, x = c * (1 - Math.abs(((h / 60) % 2) - 1)), m = l - c / 2;
+    const [r, g, b] = h < 60 ? [c, x, 0] : h < 120 ? [x, c, 0] : h < 180 ? [0, c, x] : h < 240 ? [0, x, c] : h < 300 ? [x, 0, c] : [c, 0, x];
+    return [r + m, g + m, b + m].map(v => v * 255);
+  };
+  /* Fundo escuro para o texto branco: cada cor da paleta é escurecida (mesmo tom e saturação, menos luz)
+     até o branco passar de 6:1 sobre ela, já contando a mistura com a base escura da camada
+     (.fundo-cartaz, cor FUNDO_BASE) pela --fundo-opacidade. Assim o texto é legível em qualquer ponto. */
+  const FUNDO_BASE = [11, 16, 51];
+  const alfaFundo = () => parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--fundo-opacidade")) || 1;
+  const naTela = h => rgbHex(hexRgb(h).map((v, i) => v * alfaFundo() + FUNDO_BASE[i] * (1 - alfaFundo())));
+  function escurecer(h) {
+    const [hh, s, l0] = hsl(hexRgb(h));
+    for (let l = l0; l > 0.04; l -= 0.01) {
+      const cor = rgbHex(rgbDeHsl(hh, s, l));
+      if (contraste("#ffffff", naTela(cor)) >= 6) return cor;
+    }
+    return rgbHex(rgbDeHsl(hh, s, 0.08));
   }
-  escolherConjunto();
+  const PALETAS_ESCURAS = Object.fromEntries(Object.entries(PALETAS).map(([k, p]) => [k, p.map(escurecer)]));
+
+  // Degradê de manchas: cada cor da paleta nasce num canto e se funde com as vizinhas.
+  const degrade = ([a, b, c, d]) => [
+    `radial-gradient(ellipse 75% 65% at 10% 12%, ${a} 0%, transparent 70%)`,
+    `radial-gradient(ellipse 70% 60% at 92% 20%, ${b} 0%, transparent 70%)`,
+    `radial-gradient(ellipse 80% 70% at 85% 92%, ${c} 0%, transparent 70%)`,
+    `radial-gradient(ellipse 70% 65% at 8% 88%, ${d} 0%, transparent 70%)`,
+    `linear-gradient(160deg, ${a}, ${b} 45%, ${c})`
+  ].join(", ");
+  camada.innerHTML = CARTAZES.map(c => `<div class="fundo-cor" style="background:${degrade(PALETAS_ESCURAS[c])}"></div>`).join("");
+  const fundoCamadas = $$(".fundo-cor", camada);
+
+
   let fundoAgendado = false;
   function atualizarFundo() {
     fundoAgendado = false;
     const max = document.documentElement.scrollHeight - innerHeight;
     const p = max > 0 ? Math.min(1, Math.max(0, scrollY / max)) : 0;
     const pos = p * (ordem.length - 1);
-    fundoImgs.forEach((img, i) => {
-      const k = ordem.indexOf(CARTAZES[i]);   // posição deste cartaz na página; -1 = não aparece
-      img.style.opacity = k < 0 ? "0" : String(Math.max(0, 1 - Math.abs(pos - k)));
+    fundoCamadas.forEach((div, i) => {
+      const k = ordem.indexOf(CARTAZES[i]);   // posição desta paleta na página; -1 = não aparece
+      div.style.opacity = k < 0 ? "0" : String(Math.max(0, 1 - Math.abs(pos - k)));
     });
   }
   const pedirFundo = () => { if (!fundoAgendado) { fundoAgendado = true; requestAnimationFrame(atualizarFundo); } };
   addEventListener("scroll", pedirFundo, { passive: true });
-  addEventListener("resize", () => { escolherConjunto(); pedirFundo(); });
+  addEventListener("resize", pedirFundo);
+
+  /* ---------- Leitor de releases ----------
+     Uma página por vez, grande, com efeito de virar (classe vira-prox / vira-ant). Trocar de edição
+     muda também a paleta do fundo para a da edição escolhida. */
+  const leitor = { e: null, k: 0, hash: "" };
+  function mostrarLeitor(n, k, dir = 0) {
+    const caixa = $("[data-leitor]");
+    if (!caixa) return;
+    const e = ed(n), paginasRel = releaseEd(e), trocouEd = leitor.e !== e;
+    leitor.e = e; leitor.k = (k + paginasRel.length) % paginasRel.length;
+    const pag = paginasRel[leitor.k], folha = $(".leitor__folha", caixa), img = $("img", folha);
+    img.src = foto(pag.id, 1600); img.alt = pag.legenda;
+    caixa.style.setProperty("--c", e.cor);
+    $(".leitor__legenda", caixa).textContent = `${rotuloEd(e)}: página ${leitor.k + 1} de ${paginasRel.length}`;
+    folha.classList.remove("vira-prox", "vira-ant");
+    if (dir) { folha.getBoundingClientRect(); folha.classList.add(dir > 0 ? "vira-prox" : "vira-ant"); }
+    $$("[data-leitor-ed]").forEach(b => b.setAttribute("aria-pressed", String(Number(b.dataset.leitorEd) === e.n)));
+    const minis = $("[data-leitor-minis]");
+    if (trocouEd) {
+      minis.innerHTML = paginasRel.map((p, i) => `<button class="leitor__mini" data-leitor-mini="${i}" aria-label="Página ${i + 1}">${imgFoto(p.id, 800, "")}<span>${i + 1}</span></button>`).join("");
+      ordem = ordemEdicao(e.n); atualizarFundo();
+    }
+    $$("[data-leitor-mini]", minis).forEach((b, i) => b.toggleAttribute("aria-current", i === leitor.k));
+    const atual = $(`[data-leitor-mini="${leitor.k}"]`, minis);
+    if (atual) atual.scrollIntoView({ block: "nearest", inline: "center", behavior: "smooth" });
+  }
+  function ligarLeitor(n) {
+    const eds = EDS.filter(e => e.release && e.release.length);
+    // Re-render silencioso (títulos dos vídeos chegando) mantém a edição e a página em que a pessoa está.
+    const manter = leitor.e && leitor.hash === location.hash;
+    const inicial = manter ? leitor.e : (eds.find(e => e.n === n) || eds[eds.length - 1]);
+    const k = manter ? leitor.k : 0;
+    leitor.e = null; leitor.hash = location.hash;
+    if (inicial) mostrarLeitor(inicial.n, k);
+    // Deslizar o dedo na página vira a folha.
+    const caixa = $("[data-leitor]");
+    let xi = null;
+    caixa.addEventListener("touchstart", ev => { xi = ev.touches[0].clientX; }, { passive: true });
+    caixa.addEventListener("touchend", ev => {
+      if (xi == null) return;
+      const dx = ev.changedTouches[0].clientX - xi; xi = null;
+      if (Math.abs(dx) > 50) mostrarLeitor(leitor.e.n, leitor.k + (dx < 0 ? 1 : -1), dx < 0 ? 1 : -1);
+    });
+  }
+  // Setas do teclado viram a página quando o leitor está na tela (e nenhuma janela está aberta).
+  addEventListener("keydown", ev => {
+    if (!$("[data-leitor]") || document.querySelector("dialog[open]") || !leitor.e) return;
+    if (ev.key === "ArrowRight") mostrarLeitor(leitor.e.n, leitor.k + 1, 1);
+    if (ev.key === "ArrowLeft") mostrarLeitor(leitor.e.n, leitor.k - 1, -1);
+  });
+
+  /* ---------- Leitura em voz alta ----------
+     Usa a voz do próprio aparelho (Web Speech API, em pt-BR), sem serviço externo. Lê frase por frase
+     (o Chrome corta falas longas) e destaca o trecho que está sendo lido (.lendo). Um botão "Ouvir"
+     em cada bloco de texto (data-falar-bloco) e um "Ouvir a página" fixo, que lê títulos e textos. */
+  const temFala = "speechSynthesis" in window && "SpeechSynthesisUtterance" in window;
+  const fala = { botao: null };
+  const vozPt = () => {
+    const vozes = speechSynthesis.getVoices();
+    return vozes.find(v => /^pt[-_]BR/i.test(v.lang)) || vozes.find(v => /^pt/i.test(v.lang)) || null;
+  };
+  function rotularBotao(b, falando) {
+    if (!b) return;
+    b.setAttribute("aria-pressed", String(falando));
+    const span = $("span", b);
+    if (!b.dataset.rotulo) b.dataset.rotulo = span.textContent;
+    span.textContent = falando ? "Parar" : b.dataset.rotulo;
+  }
+  function pararFala() {
+    const b = fala.botao;
+    fala.botao = null;            // antes do cancel: o onend da fala cortada não segue para a próxima
+    if (temFala) speechSynthesis.cancel();
+    $$(".lendo").forEach(el => el.classList.remove("lendo"));
+    rotularBotao(b, false);
+  }
+  // Texto visível de um elemento, sem os rótulos dos botões de ouvir.
+  const textoDe = el => {
+    const copia = el.cloneNode(true);
+    $$("[data-ouvir], .sr, [aria-hidden='true']", copia).forEach(n => n.remove());
+    return copia.textContent.replace(/\s+/g, " ").trim();
+  };
+  function falar(elementos, botao) {
+    pararFala();
+    const partes = [];
+    elementos.forEach(el => {
+      const t = el.getAttribute("aria-label") || textoDe(el);
+      if (t) t.split(/(?<=[.!?:;])\s+/).forEach(frase => partes.push({ el, frase }));
+    });
+    if (!partes.length) return;
+    fala.botao = botao; rotularBotao(botao, true);
+    let i = 0;
+    const proxima = () => {
+      if (fala.botao !== botao) return;
+      $$(".lendo").forEach(el => el.classList.remove("lendo"));
+      if (i >= partes.length) return pararFala();
+      const { el, frase } = partes[i++];
+      el.classList.add("lendo");
+      const u = new SpeechSynthesisUtterance(frase);
+      u.lang = "pt-BR"; u.rate = 0.95;
+      const v = vozPt(); if (v) u.voice = v;
+      u.onend = u.onerror = proxima;
+      speechSynthesis.speak(u);
+    };
+    proxima();
+  }
+  // O que "Ouvir a página" lê: títulos, parágrafos e itens de ficha visíveis no conteúdo.
+  const trechosDaPagina = () => $$("h1, h2:not(.sr), h3, p, .ficha li", main).filter(el => el.offsetParent !== null && !el.closest("[data-ouvir]") && textoDe(el));
+  function ligarFala() {
+    if (!temFala) return;
+    // Um botão "Ouvir" no começo de cada bloco de texto que ainda não tem.
+    $$(".painel, .ed-texto", main).forEach(b => {
+      b.setAttribute("data-falar-bloco", "");
+      if (!$("[data-ouvir]", b)) b.insertAdjacentHTML("afterbegin", botaoOuvir("Ouvir"));
+    });
+  }
+  if (temFala) {
+    speechSynthesis.getVoices();   // alguns navegadores só carregam as vozes depois da primeira chamada
+    const flutuante = $("[data-ouvir-pagina]");
+    flutuante.hidden = false;
+    flutuante.addEventListener("click", () => fala.botao === flutuante ? pararFala() : falar(trechosDaPagina(), flutuante));
+    main.addEventListener("click", ev => {
+      const b = ev.target.closest("[data-ouvir]");
+      if (!b) return;
+      if (fala.botao === b) return pararFala();
+      const bloco = b.closest("[data-falar-bloco]");
+      falar(bloco ? $$("h1, h2, h3, p, li", bloco).filter(el => !el.closest("[data-ouvir]")) : [], b);
+    });
+  }
+
+  /* ---------- Peças que reagem à Rural ----------
+     A cada quadro, mede a distância entre o centro da Rural do fundo e cada peça interativa visível.
+     Perto (menos de metade da largura da Rural), a peça recebe --rural de 0 a 1 (com suavização, para ir e
+     voltar sem tranco) e --lado (+1 se está à direita da Rural, -1 à esquerda), que o CSS transforma em
+     pulo e inclinação. Vale ao rolar a página e com a Rural andando, no celular e no computador. */
+  const PECAS_REAGEM = ".cartao, .carta, .polaroide, .foto > button, .leitor__folha, .leitor__mini, .parada a, .linguagem, .fatos div, .botao, .filtro, .ed-nav a";
+  function ligarReacaoRural() {
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const rural = $(".fundo-rural");
+    let pecas = [], quadros = 0;
+    const quadro = () => {
+      requestAnimationFrame(quadro);
+      if (!document.body.classList.contains("com-fundo") || document.hidden) return;
+      if (quadros++ % 30 === 0) pecas = $$(PECAS_REAGEM, main);   // pega peças novas (filtros, troca de página)
+      const r = rural.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height * .55;
+      const alcance = r.width * .55;
+      for (const el of pecas) {
+        const b = el.getBoundingClientRect();
+        let alvo = 0;
+        if (b.bottom > 0 && b.top < innerHeight) {
+          const dx = Math.max(b.left - cx, 0, cx - b.right), dy = Math.max(b.top - cy, 0, cy - b.bottom);
+          const f = Math.max(0, 1 - Math.hypot(dx, dy) / alcance);
+          alvo = f * f * (3 - 2 * f);
+        }
+        // Sobe rápido (.2 por quadro) e desce devagar (.05), para a volta ser tão suave quanto a subida.
+        const atual = el._rural || 0, novo = atual + (alvo - atual) * (alvo > atual ? .2 : .05);
+        // O lado também muda aos poucos: quando a Rural passa do meio da peça, a inclinação vira
+        // de um lado para o outro em vez de saltar de +10° para -10° num quadro.
+        const ladoAlvo = b.left + b.width / 2 >= cx ? 1 : -1, lado = (el._lado ?? ladoAlvo) + (ladoAlvo - (el._lado ?? ladoAlvo)) * .06;
+        if (novo < .003 && alvo === 0) { if (atual) { el.style.removeProperty("--rural"); el.style.removeProperty("--lado"); el._rural = 0; el._lado = undefined; } continue; }
+        el._rural = novo; el._lado = lado;
+        el.style.setProperty("--rural", novo.toFixed(3));
+        el.style.setProperty("--lado", lado.toFixed(3));
+      }
+    };
+    requestAnimationFrame(quadro);
+  }
+  ligarReacaoRural();
 
   /* ---------- Roteador ---------- */
   let edicaoAtual = null, animouTitulo = false;
@@ -1237,6 +1706,7 @@ const FUNDOS = {
     const partes = location.hash.replace(/^#\/?/, "").split("/").filter(Boolean);
     if (!partes.length) return { nome: "inicio" };
     if (partes[0] === "edicao") return { nome: "edicao", n: Number(partes[1]) };
+    if (partes[0] === "releases") return { nome: "releases", n: Number(partes[1]) || null };
     return { nome: ["edicoes", "videos", "mural", "tripulantes", "sobre"].includes(partes[0]) ? partes[0] : "naoEncontrada" };
   }
 
@@ -1251,6 +1721,7 @@ const FUNDOS = {
     if (r.nome in ORDEM) ordem = ORDEM[r.nome];
     else if (edicaoAtual) ordem = ordemEdicao(edicaoAtual.n);
     main.innerHTML = r.nome === "edicao" ? paginas.edicao(r.n) : paginas[r.nome]();
+    if (r.nome === "releases") ligarLeitor(r.n);
     $$(".menu a").forEach(a => {
       const ativo = a.dataset.rota === r.nome || (r.nome === "edicao" && a.dataset.rota === "edicoes");
       ativo ? a.setAttribute("aria-current", "page") : a.removeAttribute("aria-current");
@@ -1261,6 +1732,9 @@ const FUNDOS = {
     const t = $("[data-titulo]", main);
     if (t && !animouTitulo) { t.classList.add("entrar"); animouTitulo = true; }
     ligarEstrada();
+    ligarBaralho();
+    if (focar) pararFala();
+    ligarFala();
     atualizarFundo();
     if (focar) { window.scrollTo(0, 0); main.focus({ preventScroll: true }); }
     else window.scrollTo(0, y);
@@ -1285,6 +1759,14 @@ const FUNDOS = {
     }
     const bVid = ev.target.closest("[data-video]");
     if (bVid) return abrirVideo(VIDS[Number(bVid.dataset.video)]);
+    const bLeitorEd = ev.target.closest("[data-leitor-ed]");
+    if (bLeitorEd) return mostrarLeitor(Number(bLeitorEd.dataset.leitorEd), 0, 1);
+    const bPasso = ev.target.closest("[data-leitor-passo]");
+    if (bPasso && leitor.e) { const d = Number(bPasso.dataset.leitorPasso); return mostrarLeitor(leitor.e.n, leitor.k + d, d); }
+    const bMini = ev.target.closest("[data-leitor-mini]");
+    if (bMini && leitor.e) { const k = Number(bMini.dataset.leitorMini); return mostrarLeitor(leitor.e.n, k, k >= leitor.k ? 1 : -1); }
+    if (ev.target.closest("[data-leitor-ampliar]") && leitor.e) return abrirFoto(releaseEd(leitor.e), leitor.k, true);
+    if (ev.target.closest("[data-embaralhar]")) return espalharCartas($("[data-baralho]"), { aleatorio: true });
     const bFil = ev.target.closest("[data-filtro]");
     if (bFil) {
       const n = bFil.dataset.filtro ? Number(bFil.dataset.filtro) : null;
