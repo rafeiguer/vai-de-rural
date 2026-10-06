@@ -139,7 +139,6 @@ h1, h2, h3 { margin: 0; line-height: 1.02; }
   background: var(--c); color: var(--t); font-family: var(--display); font-size: clamp(1.25rem, 3.6vw, 2.1rem); line-height: 1;
   box-shadow: 0 3px 10px rgba(0, 0, 0, .3);
 }
-.carta__num--pe { top: auto; left: auto; bottom: 12px; right: 12px; font-size: clamp(.85rem, 2.2vw, 1.2rem); transform: rotate(180deg); }
 .carta__ano {
   position: absolute; left: 12px; bottom: 12px; padding: .1rem .55rem; border-radius: 999px;
   background: rgba(255, 255, 255, .92); color: var(--texto); font-weight: 800; font-size: .8rem;
@@ -171,7 +170,7 @@ h1, h2, h3 { margin: 0; line-height: 1.02; }
 .leitor__seta:hover { transform: scale(1.12) rotate(-8deg); }
 .leitor__seta:active { transform: translateY(3px); box-shadow: 0 1px 0 #b88400; }
 .leitor__legenda { font-weight: 800; color: #fff; text-shadow: 0 0 6px #0a0e2d, 0 0 14px #0a0e2d; }
-.leitor__miniaturas { display: flex; gap: .8rem; overflow-x: auto; padding: 1.1rem .6rem .7rem; margin-top: 1.2rem; scrollbar-width: thin; }
+.leitor__miniaturas { display: flex; gap: .8rem; overflow-x: auto; padding: 3.6rem 1.4rem 1.6rem; margin-top: 1.2rem; scrollbar-width: thin; }
 .leitor__mini {
   flex: none; position: relative; width: 84px; padding: 4px; border: 0; border-radius: 6px; background: #fff; opacity: .78;
   transform: rotate(-2.5deg); transition: transform .2s ease, opacity .2s ease, box-shadow .2s ease;
@@ -501,6 +500,15 @@ body.com-fundo .faixa li { text-shadow: 0 0 6px #0a0e2d, 0 0 14px rgba(10, 14, 4
   rotate: calc(var(--rural, 0) * var(--lado, 1) * 10deg);
   scale: calc(1 + var(--rural, 0) * .08);
 }
+/* As peças que se mexem não podem tapar o que está em volta:
+   - os filtros (botões das edições no Mural e em Vídeos) ficam sempre por cima das fotos que crescem;
+   - os cartões de "O que a Rural leva" ficam translúcidos enquanto se mexem, para o texto de cima aparecer. */
+.filtros { position: relative; z-index: 6; }
+.linguagem { opacity: calc(1 - var(--rural, 0) * .5); }
+/* Polaroides no modo noite: moldura creme em vez de branco puro (que ofusca sobre o fundo escuro) e as
+   fotos da abertura um pouco mais contidas nas luzes altas, porque algumas vieram estouradas. */
+body.com-fundo :is(.polaroide, .foto button, .carta) { background: #efe8da; }
+body.com-fundo .abertura .polaroide img { filter: brightness(.9) contrast(1.06) saturate(1.1); }
 body.com-fundo .fundo-rural { display: block; }
 .fundo-rural img, .estrada__rural img { transform-origin: 50% 90%; animation: rural-sacode .45s ease-in-out infinite alternate; }
 @keyframes rural-viaja {
@@ -544,6 +552,9 @@ body.com-fundo .fatos div { background: var(--vidro); border-color: var(--sol); 
 body.com-fundo .fatos dd { color: var(--sol); }
 body.com-fundo .cartao { background: var(--noite); border-color: #fff; color: #fff; }
 body.com-fundo .cartao__capa { border-bottom-color: #fff; }
+/* Cartões de vídeo translúcidos: o fundo colorido aparece atrás do texto (já escuro, então o branco segue legível). */
+body.com-fundo .cartao[data-video] { background: rgba(21, 29, 77, .4); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+body.com-fundo .cartao[data-video] .cartao__info { text-shadow: 0 0 6px #0a0e2d, 0 0 12px rgba(10, 14, 45, .7); }
 body.com-fundo .filtro { background: var(--vidro); border-color: #fff; color: #fff; }
 body.com-fundo .filtro[aria-pressed="true"] { background: var(--fc, var(--sol)); color: var(--t, var(--anil)); }
 body.com-fundo .botao--branco { background: #6e4bc0; color: #fff; box-shadow: 0 4px 0 #3f2a80; }
@@ -1081,8 +1092,7 @@ const PALETAS = {
   }
 
   /* Baralho da página Edições: uma carta por edição, espalhadas na mesa. A foto é a primeira da
-     edição (ou o cartaz); o número aparece grande no canto, e invertido no canto oposto, como numa
-     carta de verdade. As posições são aplicadas em ligarBaralho(). */
+     edição (ou o cartaz); o número aparece grande no canto de cima. As posições são aplicadas em ligarBaralho(). */
   function baralho() {
     return `<div class="baralho-mesa">
       <div class="baralho" data-baralho>
@@ -1092,7 +1102,6 @@ const PALETAS = {
               aria-label="${esc(`${rotuloEd(e)}${e.ano ? `, ${e.ano}` : ""}: ${e.titulo}`)}">
             <span class="carta__foto">${capa ? imgFoto(capa, 600, "") : ""}</span>
             <span class="carta__num" aria-hidden="true">${e.n}ª</span>
-            <span class="carta__num carta__num--pe" aria-hidden="true">${e.n}ª</span>
             ${e.ano ? `<span class="carta__ano" aria-hidden="true">${esc(e.ano)}</span>` : ""}
           </a>`;
         }).join("")}
