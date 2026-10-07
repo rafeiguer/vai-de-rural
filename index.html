@@ -748,6 +748,7 @@ body.com-fundo .carta__ano { background: rgba(11, 16, 51, .85); color: #fff; }
      Aparecem no bloco "Por onde a Rural passou" da página da edição.
    - comunidades: texto sobre cada lugar, com o nome escrito igual ao de `locais`. Aparece
      em toda edição que passou por ali, num painel "Conheça…" sempre aberto, abaixo das paradas.
+   - edicoes[].texto: para linkar um nome a outra página do site, escreva [Nome](#/tripulantes).
    - edicoes[].pendente: true mostra o aviso "página em montagem".
    - mural: fotos da página Mural, na ordem em que aparecem. Para incluir, rode
      python ferramentas/otimizar_fotos.py mural caminho/das/fotos/*.jpg
@@ -776,9 +777,9 @@ const CONTEUDO = {
     // Texto principal da página Sobre (a Home usa o resumo `sobre`, acima).
     textoSobre: [
       "A Mostra Cultural Itinerante Vai de Rural já realizou sete edições passando por mais de 25 povoados e comunidades pelo interior da Bahia. Todas as edições foram totalmente gratuitas, com foco em povoados e comunidades quilombolas e/ou tradicionais, principalmente na região do Sudoeste Baiano e na Bacia do Paramirim. Desde a sexta edição contamos com uma tradutora de Libras.",
-      "A Rural é uma realização da LA Bici Galeria Cultural, um coletivo composto por produtores culturais, técnicos e artistas. Acreditamos que as expressões artísticas e culturais são ferramentas de transformação social. Nosso coletivo está em fase de certificação pelo Ministério da Cultura para se transformar em um Ponto de Cultura.",
+      "A Rural é uma realização da La Bici Galeria Cultural, um coletivo composto por produtores culturais, técnicos e artistas. Acreditamos que as expressões artísticas e culturais são ferramentas de transformação social. Nosso coletivo está em fase de certificação pelo Ministério da Cultura para se transformar em um Ponto de Cultura.",
       "Carregamos na bagagem uma composição que permite o conhecimento local dialogar com diversas intervenções artísticas, harmonizando a cultura local com as vivências dos tripulantes da Rural. As atividades culturais que desenvolvemos em suas multilinguagens como exibição de filmes, espetáculos circenses, artes visuais, capoeira, manifestações populares são apresentadas pelas próprias comunidades contempladas no projeto, envolvendo os idosos, as crianças, as mulheres, pessoas negras etc.",
-      "A primeira edição da Rural visou inicialmente a exibição do documentário « É no pé do morro é lá no cafundó » (2011), de Denise Santos, como um feedback, em prática de alteridade, aos próprios personagens participantes do filme. Em sete edições da “Rural” já passaram artistas da França/Irã, Colômbia, Chile e várias partes do Brasil.",
+      "A primeira edição da Rural visou inicialmente a exibição do documentário “É no pé do morro é lá no cafundó” (2011), de Denise Santos, como um feedback, em prática de alteridade, aos próprios personagens participantes do filme. Em sete edições da “Rural” já passaram artistas da França/Irã, Colômbia, Chile e várias partes do Brasil.",
       // TODO: linkar "Um olhar sobre Boa Madeira: artesãs e sambadeiras" com fotos, vídeos e cards do projeto
       "Em todas as edições da Rural, que é o nosso carro-chefe, assim como na 1ª e 2ª edição do projeto Um olhar sobre Boa Madeira: artesãs e sambadeiras, tivemos a participação especial das comunidades contempladas com a apresentação da sua cultura popular. Nós buscamos nos projetos que realizamos integrar as comunidades como protagonistas e não somente como público. Além disso, temos na Mostra feira de artesanatos e gastronomia local, contribuindo para a economia circular de forma criativa.",
       "Nossos projetos têm se mostrado fruto de uma verdadeira integração comunitária, em que se prioriza um processo de construção coletiva, envolvendo as comunidades não somente como espectadores, mas, sobretudo, como protagonistas, através da atuação dos mesmos com suas expressões culturais. A Rural segue construindo novos caminhos, aumentando a bagagem de mais histórias, causos e encantos através do cinema, do circo, da cultura popular e de outras artes integradas em diálogo com povos e comunidades."
@@ -818,8 +819,8 @@ const CONTEUDO = {
       ficha: ["27 de fevereiro a 2 de março", "Encerramento em Macaúbas", "Entrada gratuita"],
       locais: [["Cafundó", "Paramirim (BA)"], ["Contagem", "Rio do Pires (BA)"], ["Macaúbas", "BA"]],
       texto: [
-        "A primeira viagem da Rural pelas comunidades da Bacia do Paramirim, território onde foi gravado o filme que deu nome à mostra.",
-        "O encerramento foi em Macaúbas, na Biblioteca Municipal (antiga Prefeitura), com exposição fotográfica, exibição do filme de Denise Santos às 20h30 e festa com o Baile Tropical do DJ Macô.",
+        "A primeira viagem da Rural pelas comunidades da Bacia do Paramirim, território onde foi gravado o filme que deu nome à mostra, “É no pé do morro é lá no cafundó”, de Denise Santos.",
+        "O encerramento foi em Macaúbas, na Biblioteca Municipal (antiga Prefeitura), com exposição fotográfica de [Purki](#/tripulantes), exibição do filme “É no pé do morro é lá no cafundó”, de Denise Santos, às 20h30 e festa com o Baile Tropical do DJ Macô.",
         "A primeira edição foi realizada por meio do edital Microprojetos Culturais, da Funarte e do Ministério da Cultura."
       ],
       cartaz: "ed1-cartaz",
@@ -848,9 +849,9 @@ const CONTEUDO = {
       locais: [["Comunidade Quilombola do Preá", "Botuporã (BA)"], ["Saco do Fogo", "Ibipitanga (BA)"], ["Boa Madeira", "Macaúbas (BA)"], ["Pajeú", "Macaúbas (BA)"], ["Macaúbas", "BA"]],
       texto: [
         "Depois de circular em duas edições por treze comunidades da Bacia do Paramirim, a Rural pediu passagem de novo: Preá, em Botuporã (14 de maio); Saco do Fogo, em Ibipitanga (15); Boa Madeira (16) e Pajeú (18), em Macaúbas; e a cidade de Macaúbas (19), com passeios ecológicos nos dias 17 e 20.",
-        "A programação trouxe vídeos sobre patrimônios culturais, materiais e imateriais, do Nordeste brasileiro, modalidades circenses, vídeo instalação, exposição fotográfica com as belezas naturais e culturais da região, manifestações populares e a distribuição de CD com músicas dos grupos de Terno de Reis da Bacia do Paramirim.",
+        "A programação trouxe vídeos sobre patrimônios culturais, materiais e imateriais, do Nordeste brasileiro, modalidades circenses, videoinstalação, exposição fotográfica com as belezas naturais e culturais da região, manifestações populares e a distribuição de CD com músicas dos grupos de Terno de Reis da Bacia do Paramirim.",
         "Passaram pela edição as artistas circenses Pusa Pinaud (Colômbia) e Ludmila Bas (Chile), o Palhaço Fuzuê, os cineastas Dario João de Souza (Saco do Fogo) e Pablo Sant'Ana (Barreiras), os grupos de samba de roda de Boa Madeira e do Preá e o Trio Mata Branca, de Macaúbas.",
-        "A terceira edição foi realizada pela Kinema Kortseco, em parceria com o produtor Helivelto Lima, pelo edital Territórios Culturais 2016, com apoio financeiro do Fundo de Cultura do Governo da Bahia e apoio cultural das prefeituras de Macaúbas, Ibipitanga e Botuporã."
+        "A terceira edição foi realizada pela La Bici Galeria Cultural, em parceria com o produtor Helivelto Lima, pelo edital Territórios Culturais 2016, com apoio financeiro do Fundo de Cultura do Governo da Bahia e apoio cultural das prefeituras de Macaúbas, Ibipitanga e Botuporã."
       ],
       cartaz: "ed3-cartaz",
       release: ["ed3-release-01", "ed3-release-02", "ed3-release-03", "ed3-release-04", "ed3-release-05", "ed3-release-06", "ed3-release-07", "ed3-release-08"],
@@ -866,7 +867,7 @@ const CONTEUDO = {
       ficha: ["21 a 23 de abril de 2022"],
       locais: [["Boa Madeira", "Macaúbas (BA)"], ["Brejo Grande", "Boquira (BA)"], ["Comunidade Quilombola Paramirim das Crioulas", "Érico Cardoso (BA)"]],
       texto: [
-        "Depois de circular em três edições por mais de 24 povoados e comunidades, a LA BICI Galeria Cultural, em parceria com o produtor Helivelto Lima, de Macaúbas, levou a quarta edição a três comunidades em três dias.",
+        "Depois de circular em três edições por mais de 24 povoados e comunidades, a La Bici Galeria Cultural, em parceria com o produtor Helivelto Lima, de Macaúbas, levou a quarta edição a três comunidades em três dias.",
         "Em Boa Madeira, Macaúbas (21 de abril), com o Samba de Roda das Mulheres de Boa Madeira; em Brejo Grande, Boquira (22), com o Reis das Mulheres e Cia; e no Quilombo Paramirim das Crioulas, Érico Cardoso (23), com o Reisado das Liras e Manjonas.",
         "A programação teve exibição de documentário, exposição de artesanato, exposição fotográfica e apresentações circenses com Dan, o mágico, e o Palhaço Eleno.",
         "A edição foi selecionada no edital Territórios Culturais 2019, com apoio financeiro do Fundo de Cultura do Governo da Bahia e apoio cultural das prefeituras de Macaúbas, Boquira e Érico Cardoso."
@@ -884,7 +885,7 @@ const CONTEUDO = {
         "Respeitável público, rufem os tambores, pois a Rural está chegando! Depois de quatro edições por mais de 30 povoados e comunidades da Bahia, a quinta edição viajou à Comunidade Quilombola do Preá, em Botuporã (12 de março), à comunidade rural de Palmeira, em Boquira (14), e a Boa Madeira, em Macaúbas (15), sempre às 16h, em frente à igrejinha.",
         "Teve exibição de “O Palhaço” (2011), de Selton Mello, e de “É no pé do morro é lá no cafundó” (2011), de Denise Santos; o espetáculo “Circo Peligro”, com o artista circense colombiano Payaso Peligro; “O Fim da Mulher Cordial”, número em tecido marinho com Desa Aquino; e apresentação musical com o francês Navid Emadzadeh.",
         "Cada comunidade também se apresentou: o samba de roda do Preá, a langa com músicos de Palmeira e o terno de reis e o samba de roda das mulheres de Boa Madeira. Completaram a programação a exposição fotográfica com as comunidades contempladas, o artesanato e a gastronomia local.",
-        "Uma realização da LA BICI Galeria Cultural e dos produtores culturais Helivelto Lima e Denise Santos, contemplada no edital PG08/2023 (Cineclubes, Mostras, Festivais e Eventos no Audiovisual), através da Lei Paulo Gustavo, com apoio institucional do Governo da Bahia e do Governo Federal."
+        "Uma realização da La Bici Galeria Cultural e dos produtores culturais Helivelto Lima e Denise Santos, contemplada no edital PG08/2023 (Cineclubes, Mostras, Festivais e Eventos no Audiovisual), através da Lei Paulo Gustavo, com apoio institucional do Governo da Bahia e do Governo Federal."
       ],
       cartaz: "ed5-cartaz",
       release: ["ed5-release-01", "ed5-release-02", "ed5-release-03", "ed5-release-04", "ed5-release-05", "ed5-release-06", "ed5-release-07", "ed5-release-08", "ed5-release-09"],
@@ -1015,7 +1016,7 @@ const CONTEUDO = {
     { nome: "Biatriz Bastos", foto: "", equipe: { 4: "Produção" } },
     { nome: "Dan Marques", foto: "", equipe: { 4: "Arte circense (Dan, o mágico)" }, convidado: { 4: "Mágico" } },
     { nome: "Fernanda Castro", foto: "", equipe: { 3: "Assessoria de comunicação" } },
-    { nome: "Purki", foto: "", equipe: { 3: "Fotógrafo e VJ" } },
+    { nome: "Purki", foto: "", equipe: { 1: "Exposição fotográfica", 3: "Fotógrafo e VJ" } },
     { nome: "Ronaldo Ros", foto: "", equipe: { 3: "Instrumentista e técnico de som" } },
     { nome: "Renata Lourenço", foto: "", equipe: { 3: "Técnica audiovisual" } },
     { nome: "Flávio Ávila", foto: "", equipe: { 3: "Pesquisa e conteúdo" } },
@@ -1070,6 +1071,8 @@ const PALETAS = {
   const ARTISTAS = CONTEUDO.artistas || [];
   const fotosArtista = a => a.fotos.map(id => ({ id, legenda: a.nome || "Artista da Rural" }));
   const COMUNIDADES = CONTEUDO.comunidades || {};
+  // Texto das edições: [nome](#/pagina) vira link interno do site (só endereços que começam com #/).
+  const comLinks = t => esc(t).replace(/\[([^\]]+)\]\((#\/[\w\/-]*)\)/g, '<a href="$2">$1</a>');
   const main = $("#conteudo");
   const ed = n => EDS.find(e => e.n === n);
 
@@ -1496,7 +1499,7 @@ const PALETAS = {
             <div class="comunidade__texto">${COMUNIDADES[lugar].map(p => `<p>${esc(p)}</p>`).join("")}</div>
           </section>`).join("")}
         </section>` : ""}
-        ${e.texto.length ? `<div class="ed-texto painel">${e.texto.map(p => `<p>${esc(p)}</p>`).join("")}</div>` : ""}
+        ${e.texto.length ? `<div class="ed-texto painel">${e.texto.map(p => `<p>${comLinks(p)}</p>`).join("")}</div>` : ""}
         ${e.pendente ? `<p class="pendente"><strong>Página em montagem.</strong> O texto desta edição será completado com a linha editorial da produção.</p>` : ""}
         ${e.cartaz ? `<section class="bloco" aria-labelledby="t-cartaz">
           <h2 id="t-cartaz">Cartaz</h2>
@@ -1624,6 +1627,8 @@ const PALETAS = {
         equipe: TRIP.filter(p => p.equipe && p.equipe[e.n]).map(p => [p, p.equipe[e.n]]),
         convidados: TRIP.filter(p => p.convidado && p.convidado[e.n] && !(p.equipe && p.equipe[e.n])).map(p => [p, p.convidado[e.n]])
       })).filter(g => g.equipe.length || g.convidados.length);
+      // [3, 4, 5] -> "3ª, 4ª e 5ª"
+      const listaEds = ns => ns.map(n => `${n}ª`).join(", ").replace(/, ([^,]*)$/, " e $1");
       const edicoesDe = p => [...new Set([...Object.keys(p.equipe || {}), ...Object.keys(p.convidado || {})].map(Number))].sort((x, y) => x - y);
       // Sem `foto` própria, usa a foto de destaque do artista com o mesmo nome em "Na estrada com a Rural".
       const fotoDe = p => p.foto || (ARTISTAS.find(a => a.nome && a.nome === p.nome) || { fotos: [] }).fotos[0];
@@ -1634,7 +1639,7 @@ const PALETAS = {
           <span class="cartao__info">
             <h3 class="cartao__titulo">${esc(p.nome)}</h3>
             <span class="cartao__etiqueta">${esc(funcao)}</span>
-            ${outras.length ? `<p class="tripulante__texto">Também na ${outras.map(n => `${n}ª`).join(", ").replace(/, ([^,]*)$/, " e $1")} edição</p>` : ""}
+            ${outras.length ? `<p class="tripulante__texto">Também ${outras.length > 1 ? "nas" : "na"} ${listaEds(outras)} ${outras.length > 1 ? "edições" : "edição"}</p>` : ""}
           </span>
         </article>`;
       };
@@ -1678,7 +1683,13 @@ const PALETAS = {
               ${convidados.length ? `<h4 class="trip-ed__grupo">Convidados da Rural</h4><div class="cartoes trip-ed__cartoes">${convidados.map(([p, f]) => cartaoTrip(p, f, e)).join("")}</div>` : ""}
             </section>`).join("")
           : `<div class="vazio">Os tripulantes da Rural ainda vão ser apresentados aqui.</div>`}
-          ${porEdicao.length && porEdicao.length < EDS.length ? `<p class="bloco__dica">A equipe da ${EDS.filter(e => !porEdicao.some(g => g.e === e)).map(rotuloEd).join(", ").replace(/, ([^,]*)$/, " e $1")} ainda vai ser adicionada.</p>` : ""}
+          ${(() => {
+            const faltam = EDS.filter(e => !porEdicao.some(g => g.e === e)).map(e => e.n);
+            if (!porEdicao.length || !faltam.length) return "";
+            return `<p class="bloco__dica">${faltam.length > 1
+              ? `As equipes das ${listaEds(faltam)} edições ainda vão ser adicionadas.`
+              : `A equipe da ${listaEds(faltam)} edição ainda vai ser adicionada.`}</p>`;
+          })()}
         </div>
       </section>
       ${chamada("Onde a Rural passou", `As ${EDS.length} edições, uma parada de cada vez.`, "#/edicoes", "Ver as edições")}`;
