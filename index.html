@@ -132,7 +132,23 @@ h1, h2, h3 { margin: 0; line-height: 1.02; }
 }
 .locais__pino::after { content: counter(parada); rotate: 45deg; color: var(--tinta); font-weight: 800; font-size: .95rem; }
 .locais strong { font-size: 1.05rem; line-height: 1.25; }
-.locais li > span:last-child { font-size: .9rem; color: #e3e6f7; }
+.locais li > span:not(.locais__pino) { font-size: .9rem; color: #e3e6f7; }
+.locais li > .locais__mais { font-size: .8rem; font-weight: 700; color: var(--cor); }
+
+/* Texto sobre a comunidade: sempre aberto, abaixo das paradas, com a borda na cor da edição. */
+/* Texto longo: fundo mais fechado e desfocado que o dos cartões, para o desenho do fundo não cruzar as letras. */
+.comunidade {
+  margin-top: .9rem; border-radius: var(--raio); background: rgba(11, 16, 51, .88);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  border: 2px solid var(--cor); color: #fff;
+}
+.comunidade__titulo {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: .2rem .7rem; margin: 0;
+  padding: 1rem 1.1rem .6rem; font-family: var(--display); font-weight: 400; font-size: clamp(1.25rem, 3.2vw, 1.6rem);
+}
+.comunidade__titulo span { font-family: var(--corpo); font-size: .9rem; color: #e3e6f7; }
+.comunidade__texto { padding: 0 1.1rem .4rem; max-width: 68ch; font-size: 1.05rem; line-height: 1.7; }
+.comunidade__texto p { margin: 0 0 1rem; }
 
 /* Carrossel da abertura (posições --cx, --cy, --cs, --cr vindas do JS a cada quadro). */
 .carrossel { position: relative; min-height: 360px; }
@@ -146,7 +162,8 @@ h1, h2, h3 { margin: 0; line-height: 1.02; }
 .carrossel__foto:hover { transform: translate(-50%, -50%) translate(var(--cx, 0), var(--cy, 0)) scale(calc(var(--cs, 1) * 1.04)) rotate(0deg); }
 .carrossel__ed {
   position: absolute; top: -12px; left: -12px; display: grid; place-items: center; width: 2.6em; height: 2.6em;
-  border-radius: 50%; border: 3px solid #fff; background: var(--c); color: var(--t); font-family: var(--display); font-size: 1.05rem;
+  /* Cor única (anil) com número branco em todas as edições, para não competir com as cores das fotos. */
+  border-radius: 50%; border: 3px solid #fff; background: var(--anil); color: #fff; font-family: var(--display); font-size: 1.05rem;
   box-shadow: 0 3px 10px rgba(0, 0, 0, .3);
 }
 .carrossel__foto img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 3px; filter: brightness(.92) contrast(1.06) saturate(1.1); }
@@ -170,7 +187,7 @@ h1, h2, h3 { margin: 0; line-height: 1.02; }
 .carta__num {
   position: absolute; top: 12px; left: 12px; display: grid; place-items: center;
   min-width: 2.3em; height: 2.3em; padding: 0 .25em; border-radius: 999px; border: 3px solid #fff;
-  background: var(--c); color: var(--t); font-family: var(--display); font-size: clamp(1.25rem, 3.6vw, 2.1rem); line-height: 1;
+  background: var(--anil); color: #fff; font-family: var(--display); font-size: clamp(1.25rem, 3.6vw, 2.1rem); line-height: 1;
   box-shadow: 0 3px 10px rgba(0, 0, 0, .3);
 }
 .carta__ano {
@@ -382,6 +399,13 @@ body.com-fundo .painel.texto-longo {
 .cartao__etiqueta::before { content: ""; width: .75rem; height: .75rem; border-radius: 50%; background: var(--vc, var(--anil)); flex: none; }
 
 /* Tripulantes: cartão com retrato 4:5; sem foto, as iniciais na cor do cartão. */
+/* Tripulantes agrupados por edição: título com o número na cor da edição, e a equipe e os convidados em grades. */
+.trip-ed + .trip-ed { margin-top: 3rem; }
+.trip-ed__titulo { font-family: var(--display); font-weight: 400; font-size: clamp(1.5rem, 3.6vw, 2.1rem); }
+.trip-ed__titulo a { color: #fff; text-decoration: none; text-shadow: var(--t-halo, none); }
+.trip-ed__num { display: inline-grid; place-items: center; min-width: 2.2em; height: 2.2em; margin-right: .3rem; border-radius: 50%; border: 3px solid #fff; background: var(--vc); color: var(--t); font-size: .8em; text-shadow: none; vertical-align: middle; }
+.trip-ed__grupo { margin: 1.4rem 0 0; font-size: 1.05rem; font-weight: 800; color: #fff; text-shadow: var(--t-halo, none); }
+.trip-ed__cartoes { margin-top: .8rem; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
 .tripulante { cursor: default; }
 .tripulante:hover { transform: none; box-shadow: 5px 5px 0 var(--vc, var(--anil)); }
 .tripulante .cartao__capa { aspect-ratio: 4 / 5; }
@@ -390,6 +414,26 @@ body.com-fundo .painel.texto-longo {
 /* "Tripulantes" é a palavra mais longa dos títulos: fonte um pouco menor e sem quebra entre as letras. */
 .abertura--pagina h1#t-trip { font-size: clamp(2.6rem, 8vw, 5.2rem); }
 #t-trip .rural { white-space: nowrap; }
+/* Artistas na estrada: foto em destaque + miniaturas à esquerda, texto ao lado (embaixo, no celular). */
+.artistas { display: grid; gap: 1.4rem; margin-top: 1.6rem; }
+.artista {
+  display: grid; gap: 1rem 1.6rem; padding: 1rem; border-radius: var(--raio);
+  background: rgba(255, 255, 255, .94); border: 3px solid var(--anil); box-shadow: 5px 5px 0 var(--anil); color: var(--texto);
+}
+@media (min-width: 760px) { .artista { grid-template-columns: minmax(0, 340px) 1fr; align-items: start; } }
+.artista button { display: block; width: 100%; padding: 0; border: 0; background: none; border-radius: 6px; overflow: hidden; }
+.artista img { display: block; width: 100%; object-fit: cover; }
+.artista__destaque img { aspect-ratio: 4 / 5; }
+.artista__mini { display: grid; grid-template-columns: repeat(auto-fill, minmax(56px, 1fr)); gap: .4rem; margin-top: .5rem; }
+.artista__mini img { aspect-ratio: 1; }
+.artista button:hover img, .artista button:focus-visible img { opacity: .85; }
+.artista__texto { align-self: stretch; display: grid; align-content: start; gap: .6rem; padding: .4rem .2rem; }
+.artista__texto h3 { margin: 0; font-family: var(--display); font-weight: 400; font-size: clamp(1.6rem, 4vw, 2.2rem); color: var(--anil); }
+.artista__texto p { margin: 0; font-size: 1.05rem; line-height: 1.65; max-width: 60ch; }
+/* Sem nome ainda: caixa tracejada indicando o espaço a preencher. */
+.artista__texto--vazio { border: 3px dashed #b9bfe0; border-radius: var(--raio); padding: 1.2rem; min-height: 12rem; color: #6b7095; }
+.artista__texto--vazio h3 { color: #6b7095; }
+.artista__texto--vazio h3.artista__nome { color: var(--anil); }
 .tripulante__texto { margin: .25rem 0 0; font-size: .95rem; line-height: 1.5; color: var(--texto-2); }
 
 .filtros { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1.5rem; }
@@ -549,6 +593,19 @@ body.com-fundo .faixa li { text-shadow: 0 0 6px #0a0e2d, 0 0 14px rgba(10, 14, 4
 body.com-fundo :is(.polaroide, .foto button, .carta) { background: #efe8da; }
 /* (as fotos da abertura da página inicial ficam no carrossel, com o mesmo ajuste de brilho em .carrossel__foto img) */
 body.com-fundo .fundo-rural { display: block; }
+/* O perna de pau de gorro de bobo (da 3ª edição): atravessa o fundo e volta (24 s por volta, defasado da Rural),
+   sempre de frente para onde anda (o desenho olha para a direita; na ida para a esquerda, vira). O passo com
+   joelhos é desenhado no canvas, em ligarPernaDePau() (no JS). */
+.fundo-perna { display: none; position: fixed; left: 0; bottom: 1vh; z-index: -1; height: clamp(240px, 56vh, 600px); aspect-ratio: 806 / 1000; pointer-events: none; animation: perna-anda 24s linear -9s infinite; }
+body.com-fundo .fundo-perna { display: block; }
+.fundo-perna canvas { display: block; width: 100%; height: 100%; }
+@keyframes perna-anda {
+  0%   { transform: translateX(100vw) scaleX(-1); }
+  48%  { transform: translateX(-100%) scaleX(-1); }
+  50%  { transform: translateX(-100%) scaleX(1); }
+  98%  { transform: translateX(100vw) scaleX(1); }
+  100% { transform: translateX(100vw) scaleX(-1); }
+}
 .fundo-rural img, .estrada__rural img { transform-origin: 50% 90%; animation: rural-sacode .45s ease-in-out infinite alternate; }
 @keyframes rural-viaja {
   0%   { transform: translateX(-100%) scaleX(1); }
@@ -612,6 +669,10 @@ body.com-fundo .carta__ano { background: rgba(11, 16, 51, .85); color: #fff; }
 <div class="fundo-cartaz" data-fundo-cartaz aria-hidden="true"></div>
 <!-- A Rural (desenho do release da 3ª edição) passeando no fundo, atrás do conteúdo -->
 <div class="fundo-rural" aria-hidden="true"><img src="assets/rural-3a.webp" alt="" width="581" height="411"></div>
+<!-- O perna de pau de gorro de bobo do cartaz e do release da 3ª edição (ilustração de Pablo Sant'Ana), dando
+     passos largos pelo fundo, no sentido contrário ao da Rural. Recortado em três partes (corpo, perna de trás e
+     perna da frente). Desenhado num canvas: cada perna é uma faixa contínua que se curva no joelho. -->
+<div class="fundo-perna" aria-hidden="true"><canvas width="806" height="1000"></canvas></div>
 
 <header class="topo">
   <div class="envelope topo__linha">
@@ -685,13 +746,16 @@ body.com-fundo .carta__ano { background: rgba(11, 16, 51, .85); color: #fff; }
      e cole a linha que ele imprimir. Sem release, o bloco não aparece.
    - edicoes[].locais: [lugar, município] de cada parada da edição, na ordem da viagem.
      Aparecem no bloco "Por onde a Rural passou" da página da edição.
+   - comunidades: texto sobre cada lugar, com o nome escrito igual ao de `locais`. Aparece
+     em toda edição que passou por ali, num painel "Conheça…" sempre aberto, abaixo das paradas.
    - edicoes[].pendente: true mostra o aviso "página em montagem".
    - mural: fotos da página Mural, na ordem em que aparecem. Para incluir, rode
      python ferramentas/otimizar_fotos.py mural caminho/das/fotos/*.jpg
      e cole os nomes aqui. `edicao` (1–7) e `legenda` são opcionais; com `edicao`,
      a foto ganha o filtro e a legenda daquela edição.
-   - tripulantes: integrantes do movimento, na ordem da página. Cada um é
-     { nome, funcao, texto, foto }; só `nome` é obrigatório. A foto sai de
+   - tripulantes: equipe e convidados. Cada pessoa é { nome, foto, equipe, convidado }, com
+     equipe/convidado no formato { edição: "função" }. A página agrupa por edição e a pessoa aparece
+     em cada edição de que participou. A foto sai de
      python ferramentas/otimizar_fotos.py tripulantes caminho/da/foto.jpg
      Sem foto, o cartão mostra as iniciais.
    - videos[].edicao: número da edição (1–7) ou null. Se null, o site tenta
@@ -759,7 +823,7 @@ const CONTEUDO = {
         "A primeira edição foi realizada por meio do edital Microprojetos Culturais, da Funarte e do Ministério da Cultura."
       ],
       cartaz: "ed1-cartaz",
-      pendente: true,
+      pendente: false,
       fotos: [
         { id: "ed1-01", legenda: "A Rural viaja pela Bacia do Paramirim" },
         { id: "ed1-02", legenda: "A Rural viaja pela Bacia do Paramirim" },
@@ -775,7 +839,7 @@ const CONTEUDO = {
         "A edição teve apoio do Governo do Estado da Bahia, através do Fundo de Cultura."
       ],
       cartaz: "ed2-cartaz",
-      pendente: true,
+      pendente: false,
       fotos: [{ id: "ed2-01", legenda: "A Rural viaja pela Bacia do Paramirim" }]
     },
     {
@@ -855,7 +919,7 @@ const CONTEUDO = {
       locais: [["Tamboril", "Macaúbas (BA)"], ["Comunidade Quilombola do Baixão", "Vitória da Conquista (BA)"]],
       texto: ["A sétima edição levou cinema, circo, fotografia e cultura popular para a Comunidade Quilombola do Baixão, em Vitória da Conquista, com a escola da comunidade como sala de exibição."],
       cartaz: "ed7-cartaz",
-      pendente: true,
+      pendente: false,
       // Fotos do Drive com o nome da 7ª (sem as cópias com outro nome) e só seis das _MG sem nome,
       // as que mostram o público junto do palhaço. Ordem: Terno de Reis, crianças, público,
       // música e Libras, circo.
@@ -900,8 +964,69 @@ const CONTEUDO = {
     { id: "mural-01", edicao: 7 }, { id: "mural-02", edicao: 7 }, { id: "mural-04", edicao: 7 }, { id: "mural-05", edicao: 7 }
   ],
 
-  // Ex.: { nome: "Nome Sobrenome", funcao: "Produção", texto: "Uma ou duas frases.", foto: "tripulantes-01" }
-  tripulantes: [],
+  // Textos sobre as comunidades, com o nome igual ao de edicoes[].locais. Cada um aparece em toda
+  // edição que passou pelo lugar (Boa Madeira: 3ª, 4ª e 5ª; Tamboril: 7ª).
+  comunidades: {
+    "Boa Madeira": [
+      "Uma longa rua de terra batida com casas adornadas com cercas de varas e flores amarelas, uma capela em homenagem ao Senhor Bom Jesus, uma escola e dois bares compõem a comunidade de Boa Madeira.",
+      "Os registros dos seus primeiros habitantes, povos pré-colombianos, estão gravados em paredões rochosos ao longo do riacho que corta o povoado. A história dos europeus e africanos a chegarem às terras altas da região se perdeu no tempo.",
+      "No final do mês de março, começa a soprar o vento frio anunciando o fim das chuvas. Boa Madeira está a 18 km da sede do município, na região serrana de Macaúbas, numa altitude aproximada de 1.000 m. A economia é baseada na agricultura familiar: pequenas criações de gado, mandioca, andu, milho, feijão e o artesanato de palha de licuri. Os mais jovens viajam para a colheita do alho, o corte de cana e a limpeza de pastos em outros estados brasileiros.",
+      "No mês de junho, festejam o São João com fogueiras e fogos de artifício. No mês de agosto, homenageiam o Padroeiro com novena, leilões e missa. Do dia 25 de dezembro a 6 de janeiro, todos cantam o Reis e sambam em homenagem ao Menino Jesus. O reisado é tocado e cantado por mulheres, uma tradição única em nossas comunidades. Muitas vezes, o grupo é convidado a apresentar-se em outras localidades.",
+      "O nosso lugar é o chão que pisamos, é o cheiro da terra, é o sabor da comida, é o bom dia, é a mão estendida, é o samba no terreiro, é a ladainha na capela. A nossa terra é um céu com milhões de estrelas e é nele que nos transportamos e situamos na própria órbita."
+    ],
+    "Tamboril": [
+      "O Tamboril é uma das mais antigas comunidades de Macaúbas. Erguida à margem direita do Riachão do Leite, reúne dezenas de casas e uma capela dedicada a São José. É uma comunidade de raízes profundas, marcada pela tradição e pela religiosidade.",
+      "Sua lagoa é tesouro compartilhado: sustenta a criação miúda, rega pequenos pomares e hortas, oferece peixe e também alegria ao povoado. Nas baixadas, a terra fértil floresce. Na paisagem, reina a caatinga com suas aroeiras, braúnas, jatobás, umbuzeiros e juremas. Hoje, o Tamboril também se torna morada desejada para os que buscam sossego em pequenos sítios.",
+      "A vida econômica se apoia na agricultura de subsistência e na pecuária. Muitos de seus filhos e filhas ajudaram — e ainda ajudam — a escrever a história e o desenvolvimento de Macaúbas. Entre as famílias tradicionais, lembram-se Bastos, Silva, Ferreira, Figueiredo, Rodrigues, entre tantas outras.",
+      "Na capelinha azul e branca pulsa o coração da comunidade. Ali se celebra, no mês de março, a grande festa em louvor a São José, padroeiro: novenas, leilões, cantos, orações, fé e encontro. A igrejinha, cercada por casas antigas, pés de umbu, mandacarus, pela lagoa e, ao longe, pela Serra Geral, compõe uma bela paisagem, onde a tranquilidade se mistura à tradição."
+    ]
+  },
+
+  // Artistas na estrada: cartões com foto e um espaço de texto ao lado, na página Tripulantes.
+  // Fotos da pasta "fotos site vai de rural" (WhatsApp, 07/10/2026), agrupadas por pessoa; a primeira
+  // de cada grupo é a do destaque. Preencha `nome` e `texto` quando tiver; vazios, aparece "em breve".
+  artistas: [
+    { nome: "", texto: "", fotos: ["trip-01", "trip-06", "trip-09"] },
+    { nome: "Navid Emadzadeh", texto: "", fotos: ["trip-02", "trip-03", "trip-04", "trip-05"] },
+    { nome: "", texto: "", fotos: ["trip-08", "trip-07", "trip-10", "trip-11", "trip-12", "trip-15"] },
+    { nome: "", texto: "", fotos: ["trip-13", "trip-14"] },
+    { nome: "", texto: "", fotos: ["trip-16", "trip-20", "trip-21", "trip-22", "trip-23", "trip-26", "trip-31"] },
+    // Tecido acrobático e acrobacia em dupla: a mesma pessoa.
+    { nome: "Denise Santos (Desa Aquino)", texto: "", fotos: ["trip-32", "trip-28", "trip-29", "trip-18", "trip-17", "trip-19", "trip-24", "trip-25", "trip-27", "trip-30"] }
+  ],
+
+  // Equipe e convidados de cada edição, tirados das fichas técnicas dos releases (3ª, 4ª, 5ª e 6ª; a 1ª, a 2ª e a
+  // 7ª ainda não têm ficha). equipe: { edição: "função" }; convidado: { edição: "descrição" }. Para pôr a foto:
+  // python ferramentas/otimizar_fotos.py tripulantes caminho/da/foto.jpg  e cole o nome em `foto`.
+  tripulantes: [
+    { nome: "Denise Santos (Desa Aquino)", foto: "", equipe: { 3: "Produtora executiva e artista circense", 4: "Produção executiva, comunicação e performance circense", 5: "Produtora executiva, artista circense, assessora de comunicação e diretora audiovisual", 6: "Produtora executiva, artista circense e assessora de comunicação" } },
+    { nome: "Helivelto Lima", foto: "", equipe: { 3: "Produtor e expositor", 4: "Fotografia, direção de produção e comunicação", 5: "Diretor de produção e fotógrafo", 6: "Fotógrafo" } },
+    { nome: "Pablo Sant'Ana", foto: "", equipe: { 3: "Designer gráfico", 4: "Arte gráfica" }, convidado: { 3: "Cineasta, de Barreiras (BA)" } },
+    { nome: "Navid Emadzadeh", foto: "", equipe: { 5: "Técnico audiovisual, assistente de produção e músico", 6: "Técnico audiovisual e produtor de campo" } },
+    { nome: "Celena Neri", foto: "", equipe: { 6: "Diretora de produção" } },
+    { nome: "Jaqueline França", foto: "", equipe: { 6: "Tradutora de Libras" } },
+    { nome: "Joaquim Flores", foto: "", equipe: { 6: "Designer gráfico" } },
+    { nome: "Binho Brill", foto: "", equipe: { 5: "Designer gráfico" } },
+    { nome: "Neto Cajado", foto: "", equipe: { 5: "Oficina de audiovisual" }, convidado: { 5: "Ator e documentarista, de Macaúbas (BA)" } },
+    { nome: "Luana Santana", foto: "", equipe: { 5: "Produtora de campo" } },
+    { nome: "Márcio Urubu", foto: "", equipe: { 5: "Produtor de campo" } },
+    { nome: "Ana Júlia dos Reis", foto: "", equipe: { 5: "Produtora local" } },
+    { nome: "Ana dos Reis", foto: "", equipe: { 5: "Produtora local e artista" } },
+    { nome: "Biatriz Bastos", foto: "", equipe: { 4: "Produção" } },
+    { nome: "Dan Marques", foto: "", equipe: { 4: "Arte circense (Dan, o mágico)" }, convidado: { 4: "Mágico" } },
+    { nome: "Fernanda Castro", foto: "", equipe: { 3: "Assessoria de comunicação" } },
+    { nome: "Purki", foto: "", equipe: { 3: "Fotógrafo e VJ" } },
+    { nome: "Ronaldo Ros", foto: "", equipe: { 3: "Instrumentista e técnico de som" } },
+    { nome: "Renata Lourenço", foto: "", equipe: { 3: "Técnica audiovisual" } },
+    { nome: "Flávio Ávila", foto: "", equipe: { 3: "Pesquisa e conteúdo" } },
+    { nome: "Payaso Peligro", foto: "", convidado: { 5: "Artista circense, da Colômbia" } },
+    { nome: "Palhaço Tiziu", foto: "", convidado: { 6: "Palhaço, de Salvador (BA)" } },
+    { nome: "Palhaço Eleno", foto: "", convidado: { 4: "Palhaço" } },
+    { nome: "Pusa Pinaud", foto: "", convidado: { 3: "Artista circense, da Colômbia" } },
+    { nome: "Ludmila Bas", foto: "", convidado: { 3: "Artista circense, do Chile" } },
+    { nome: "Palhaço Fuzuê", foto: "", convidado: { 3: "Palhaço" } },
+    { nome: "Dario João de Souza", foto: "", convidado: { 3: "Cineasta, de Saco do Fogo, Ibipitanga (BA)" } }
+  ],
 
   videos: [
     { id: "ndI-yk68hZA", edicao: null },
@@ -942,6 +1067,9 @@ const PALETAS = {
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
   const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const P = CONTEUDO.projeto, EDS = CONTEUDO.edicoes, VIDS = CONTEUDO.videos, MURAL = CONTEUDO.mural, TRIP = CONTEUDO.tripulantes;
+  const ARTISTAS = CONTEUDO.artistas || [];
+  const fotosArtista = a => a.fotos.map(id => ({ id, legenda: a.nome || "Artista da Rural" }));
+  const COMUNIDADES = CONTEUDO.comunidades || {};
   const main = $("#conteudo");
   const ed = n => EDS.find(e => e.n === n);
 
@@ -1140,7 +1268,8 @@ const PALETAS = {
   }
 
   /* Carrossel das aberturas (página inicial e Mural): as fotos giram numa roda; a da frente fica grande
-     e nítida, as de trás menores e apagadas. Cada foto leva à sua edição. itens: [{ id, e }]; sem itens,
+     e nítida, as de trás menores e apagadas. Cada foto leva à sua edição. itens: [{ id, e }] ou
+     [{ id, href, rotulo }] para levar a outro lugar (Tripulantes); sem itens,
      usa as fotos da colagem e a primeira de cada edição. As posições são calculadas em ligarCarrossel(). */
   function carrossel(lista) {
     const vistas = new Set();
@@ -1148,8 +1277,8 @@ const PALETAS = {
                              ...EDS.filter(e => e.fotos[0]).map(e => ({ id: e.fotos[0].id, e }))])
       .filter(it => !vistas.has(it.id) && vistas.add(it.id));
     return `<div class="carrossel" data-carrossel aria-label="Fotos das edições">
-      ${itens.map((it, k) => `<a class="carrossel__foto" href="${it.e ? `#/edicao/${it.e.n}` : "#/edicoes"}"
-          aria-label="${esc(it.e ? `Foto da ${rotuloEd(it.e)}` : "Foto da mostra")}">
+      ${itens.map((it, k) => `<a class="carrossel__foto" href="${it.href || (it.e ? `#/edicao/${it.e.n}` : "#/edicoes")}"
+          aria-label="${esc(it.rotulo || (it.e ? `Foto da ${rotuloEd(it.e)}` : "Foto da mostra"))}">
         ${imgFoto(it.id, 700, "", k === 0 ? 'fetchpriority="high" loading="eager"' : 'loading="eager"')}
         ${it.e ? `<span class="carrossel__ed" style="--c:${it.e.cor};--t:${it.e.tinta}">${it.e.n}ª</span>` : ""}
       </a>`).join("")}
@@ -1360,7 +1489,12 @@ const PALETAS = {
       <div class="envelope ed-corpo">
         ${e.locais && e.locais.length ? `<section class="locais-bloco" aria-labelledby="t-locais">
           <h2 id="t-locais">Por onde a Rural passou</h2>
-          <ol class="locais">${e.locais.map(([lugar, cidade]) => `<li><span class="locais__pino" aria-hidden="true"></span><strong>${esc(lugar)}</strong><span>${esc(cidade)}</span></li>`).join("")}</ol>
+          <ol class="locais">${e.locais.map(([lugar, cidade]) => `<li><span class="locais__pino" aria-hidden="true"></span><strong>${esc(lugar)}</strong><span>${esc(cidade)}</span>${COMUNIDADES[lugar] ? `<span class="locais__mais">Conheça a comunidade ↓</span>` : ""}</li>`).join("")}</ol>
+          ${e.locais.filter(([lugar]) => COMUNIDADES[lugar]).map(([lugar, cidade]) => `
+          <section class="comunidade" aria-label="Conheça ${esc(lugar)}">
+            <h3 class="comunidade__titulo">Conheça ${esc(lugar)} <span>${esc(cidade)}</span></h3>
+            <div class="comunidade__texto">${COMUNIDADES[lugar].map(p => `<p>${esc(p)}</p>`).join("")}</div>
+          </section>`).join("")}
         </section>` : ""}
         ${e.texto.length ? `<div class="ed-texto painel">${e.texto.map(p => `<p>${esc(p)}</p>`).join("")}</div>` : ""}
         ${e.pendente ? `<p class="pendente"><strong>Página em montagem.</strong> O texto desta edição será completado com a linha editorial da produção.</p>` : ""}
@@ -1470,15 +1604,40 @@ const PALETAS = {
     },
 
     tripulantes() {
-      // Cada cartão pega a cor de uma edição, em rodízio.
-      const cor = k => EDS[k % EDS.length];
       // Primeira letra do primeiro e do último nome, sem "de", "da", "dos" etc.
       const iniciais = nome => {
-        const p = nome.trim().split(/\s+/).filter(w => !/^(d[aeo]s?|e)$/i.test(w));
+        const p = nome.replace(/\(.*\)/, "").trim().split(/\s+/).filter(w => !/^(d[aeo]s?|e)$/i.test(w));   // ignora o apelido entre parênteses
         return (p[0][0] + (p.length > 1 ? p[p.length - 1][0] : "")).toUpperCase();
       };
       const pessoa = `<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4.2" fill="currentColor"/><path d="M3.5 21c.8-4.6 4.2-7 8.5-7s7.7 2.4 8.5 7z" fill="currentColor"/></svg>`;
       const amostra = [["var(--sol)", "var(--anil)"], ["var(--rosa)", "#fff"], ["var(--ceu)", "var(--noite)"]];
+      // Carrossel da abertura: as duas primeiras fotos de cada artista, alternando entre eles (até 10).
+      const artistasCarrossel = () => {
+        const itens = [];
+        for (let k = 0; k < 2; k++) ARTISTAS.forEach(a => a.fotos[k] && itens.length < 10 &&
+          itens.push({ id: a.fotos[k], href: "#/tripulantes", rotulo: a.nome ? `Foto de ${a.nome}` : "Foto de artista da Rural" }));
+        return itens;
+      };
+      // Agrupa por edição (da mais recente para a mais antiga); cada pessoa aparece em cada edição de que participou.
+      const porEdicao = [...EDS].reverse().map(e => ({
+        e,
+        equipe: TRIP.filter(p => p.equipe && p.equipe[e.n]).map(p => [p, p.equipe[e.n]]),
+        convidados: TRIP.filter(p => p.convidado && p.convidado[e.n] && !(p.equipe && p.equipe[e.n])).map(p => [p, p.convidado[e.n]])
+      })).filter(g => g.equipe.length || g.convidados.length);
+      const edicoesDe = p => [...new Set([...Object.keys(p.equipe || {}), ...Object.keys(p.convidado || {})].map(Number))].sort((x, y) => x - y);
+      // Sem `foto` própria, usa a foto de destaque do artista com o mesmo nome em "Na estrada com a Rural".
+      const fotoDe = p => p.foto || (ARTISTAS.find(a => a.nome && a.nome === p.nome) || { fotos: [] }).fotos[0];
+      const cartaoTrip = (p, funcao, e) => {
+        const outras = edicoesDe(p).filter(n => n !== e.n), foto = fotoDe(p);
+        return `<article class="cartao tripulante" style="--vc:${e.cor};--t:${e.tinta}">
+          <span class="cartao__capa">${foto ? imgFoto(foto, 800, `Retrato de ${p.nome}`) : `<span class="cartao__num" aria-hidden="true">${esc(iniciais(p.nome))}</span>`}</span>
+          <span class="cartao__info">
+            <h3 class="cartao__titulo">${esc(p.nome)}</h3>
+            <span class="cartao__etiqueta">${esc(funcao)}</span>
+            ${outras.length ? `<p class="tripulante__texto">Também na ${outras.map(n => `${n}ª`).join(", ").replace(/, ([^,]*)$/, " e $1")} edição</p>` : ""}
+          </span>
+        </article>`;
+      };
       return `
       <section class="abertura abertura--pagina">
         <div class="envelope abertura__grade">
@@ -1487,25 +1646,39 @@ const PALETAS = {
             ${tituloPagina("t-trip", "", "Tripulantes")}
             <p class="abertura__sub">Quem pega a estrada com a Rural: produção, técnica, artistas e parceiros do movimento.</p>
           </div>
-          <div class="colagem" aria-hidden="true">
-            ${amostra.map(([c, t], k) => `<div class="polaroide">${TRIP[k] && TRIP[k].foto ? imgFoto(TRIP[k].foto, 800, "") : `<div class="polaroide__arte" style="--c:${c};--t:${t}">${pessoa}</div>`}</div>`).join("")}
-          </div>
+          ${ARTISTAS.length ? carrossel(artistasCarrossel()) : `<div class="colagem" aria-hidden="true">
+            ${amostra.map(([c, t]) => `<div class="polaroide"><div class="polaroide__arte" style="--c:${c};--t:${t}">${pessoa}</div></div>`).join("")}
+          </div>`}
         </div>
       </section>
       ${faixa()}
+      ${ARTISTAS.length ? `<section class="secao" aria-labelledby="t-artistas">
+        <div class="envelope">
+          <h2 class="titulo" id="t-artistas">Na estrada com a Rural</h2>
+          <div class="artistas">${ARTISTAS.map((a, k) => `
+            <article class="artista">
+              <div class="artista__fotos">
+                <button class="artista__destaque" data-artista="${k}" data-artista-foto="0" aria-label="Ampliar a foto${a.nome ? ` de ${esc(a.nome)}` : ""}">${imgFoto(a.fotos[0], 800, a.nome || "Artista da Rural")}</button>
+                ${a.fotos.length > 1 ? `<div class="artista__mini">${a.fotos.slice(1).map((id, i) => `<button data-artista="${k}" data-artista-foto="${i + 1}" aria-label="Ampliar a foto ${i + 2}">${imgFoto(id, 800, "")}</button>`).join("")}</div>` : ""}
+              </div>
+              <div class="artista__texto${a.texto ? "" : " artista__texto--vazio"}">
+                <h3${a.nome ? ' class="artista__nome"' : ""}>${a.nome ? esc(a.nome) : "Nome em breve"}</h3>
+                <p>${a.texto ? esc(a.texto) : "Espaço para o texto sobre o artista."}</p>
+              </div>
+            </article>`).join("")}</div>
+        </div>
+      </section>` : ""}
       <section class="secao" aria-labelledby="t-lista-trip">
         <div class="envelope">
-          <h2 class="sr" id="t-lista-trip">Integrantes</h2>
-          ${TRIP.length ? `<div class="cartoes" style="margin-top:0">${TRIP.map((p, k) => `
-            <article class="cartao tripulante" style="--vc:${cor(k).cor};--t:${cor(k).tinta}">
-              <span class="cartao__capa">${p.foto ? imgFoto(p.foto, 800, `Retrato de ${p.nome}`) : `<span class="cartao__num" aria-hidden="true">${esc(iniciais(p.nome))}</span>`}</span>
-              <span class="cartao__info">
-                <h3 class="cartao__titulo">${esc(p.nome)}</h3>
-                ${p.funcao ? `<span class="cartao__etiqueta">${esc(p.funcao)}</span>` : ""}
-                ${p.texto ? `<p class="tripulante__texto">${esc(p.texto)}</p>` : ""}
-              </span>
-            </article>`).join("")}</div>`
+          <h2 class="sr" id="t-lista-trip">Tripulantes por edição</h2>
+          ${porEdicao.length ? porEdicao.map(({ e, equipe, convidados }) => `
+            <section class="trip-ed" aria-labelledby="t-trip-${e.n}" style="--vc:${e.cor};--t:${e.tinta}">
+              <h3 class="trip-ed__titulo" id="t-trip-${e.n}"><a href="#/edicao/${e.n}"><span class="trip-ed__num">${e.n}ª</span> ${esc(e.titulo)}${e.ano ? `, ${esc(e.ano)}` : ""}</a></h3>
+              ${equipe.length ? `<h4 class="trip-ed__grupo">Equipe</h4><div class="cartoes trip-ed__cartoes">${equipe.map(([p, f]) => cartaoTrip(p, f, e)).join("")}</div>` : ""}
+              ${convidados.length ? `<h4 class="trip-ed__grupo">Convidados da Rural</h4><div class="cartoes trip-ed__cartoes">${convidados.map(([p, f]) => cartaoTrip(p, f, e)).join("")}</div>` : ""}
+            </section>`).join("")
           : `<div class="vazio">Os tripulantes da Rural ainda vão ser apresentados aqui.</div>`}
+          ${porEdicao.length && porEdicao.length < EDS.length ? `<p class="bloco__dica">A equipe da ${EDS.filter(e => !porEdicao.some(g => g.e === e)).map(rotuloEd).join(", ").replace(/, ([^,]*)$/, " e $1")} ainda vai ser adicionada.</p>` : ""}
         </div>
       </section>
       ${chamada("Onde a Rural passou", `As ${EDS.length} edições, uma parada de cada vez.`, "#/edicoes", "Ver as edições")}`;
@@ -1786,6 +1959,73 @@ const PALETAS = {
     });
   }
 
+  /* ---------- Perna de pau andando ----------
+     O boneco é desenhado num canvas, no espaço de 806 x 1000 da figura. Cada perna é uma "tira" reta (a perna do
+     desenho desentortada ao longo do seu eixo, em assets/perna-3a-*-tira.webp) desenhada em fatias finas ao longo
+     de uma linha que sai do quadril e se curva no joelho: a dobra se espalha suavemente em volta do joelho, sem
+     emendas. O joelho fica onde seria o de uma pessoa do tamanho do boneco (coxa ~ 24,5% da altura dele).
+     Ciclo de 2,8 s por perna: apoio (esticada, vai da frente para trás) e balanço (volta dobrando o joelho);
+     as duas pernas em fases opostas. O corpo desce um pouco quando as pernas se cruzam, e o braço de trás
+     (assets/perna-3a-braco.webp) balança no ombro acompanhando o passo. */
+  function ligarPernaDePau() {
+    const tela = $(".fundo-perna canvas");
+    if (!tela) return;
+    const ctx = tela.getContext("2d");
+    const carregar = src => new Promise(r => { const i = new Image(); i.onload = () => r(i); i.src = src; });
+    const QUADRIL = [197.9, 326.3], PIVO_BRACO = [157.8, 214.3], OMBRO = [156, 203], COXA = 162, SUAVE = 48, BACIA = 34, FATIA = 2;
+    const FRENTE = 35.5, TRAS = 102.9, DOBRA = 55;            // ângulos (graus abaixo da horizontal) e dobra máxima
+    const PERNAS = { frente: { src: "assets/perna-3a-frente-tira.webp", pad: 29 }, tras: { src: "assets/perna-3a-tras-tira.webp", pad: 29 } };
+    const rad = g => g * Math.PI / 180, suave = x => x <= 0 ? 0 : x >= 1 ? 1 : x * x * (3 - 2 * x);
+    const vaiVem = x => (1 - Math.cos(Math.PI * x)) / 2;      // 0 → 1 com aceleração suave
+    Promise.all([carregar("assets/perna-3a-corpo.webp"), carregar(PERNAS.frente.src), carregar(PERNAS.tras.src), carregar("assets/perna-3a-braco.webp")]).then(([corpo, tf, tt, braco]) => {
+      PERNAS.frente.tex = tf; PERNAS.tras.tex = tt;
+      // Ângulo da coxa e dobra do joelho numa fase f (0..1) do ciclo de uma perna.
+      const pose = f => f < .5
+        ? { coxa: FRENTE + (TRAS - FRENTE) * vaiVem(f / .5), joelho: 0 }                          // apoio
+        : { coxa: TRAS - (TRAS - FRENTE) * vaiVem((f - .5) / .5), joelho: DOBRA * Math.sin(Math.PI * (f - .5) / .5) }; // balanço
+      /* Desenha uma perna em fatias. A bacia dobra como o joelho, mas num trecho curto, logo na cintura: no topo
+         (sob o colete) a perna fica no ângulo original do desenho (base) e em ~34 px chega ao ângulo da coxa no passo
+         (num trecho longo a coxa fazia um "S", parecendo um joelho dobrado para trás). Mais abaixo, a dobra do
+         joelho se soma do mesmo jeito. Como o topo nunca se mexe, a junta com o corpo não abre. */
+      function perna(p, quadrilY, base, { coxa, joelho }) {
+        const tex = p.tex, larg = tex.width;
+        let a = rad(base), x = QUADRIL[0] - Math.cos(a) * p.pad, y = quadrilY - Math.sin(a) * p.pad;
+        for (let r = 0; r < tex.height; r += FATIA) {
+          const t = r - p.pad;
+          a = rad(base + (coxa - base) * suave((t + 28) / BACIA) + joelho * suave((t - (COXA - SUAVE)) / (2 * SUAVE)));
+          const c = Math.cos(a), s = Math.sin(a);
+          ctx.setTransform(-s, c, c, s, x, y);                 // colunas da tira na normal, linhas ao longo da perna
+          // fatia mais alta que o passo: na parte de fora das curvas as fatias se abrem, e a sobra cobre as frestas
+          ctx.drawImage(tex, 0, r, larg, FATIA + 4, -larg / 2, 0, larg, FATIA + 4);
+          x += c * FATIA; y += s * FATIA;
+        }
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+      }
+      function desenhar(tempo) {
+        const f = (tempo / 2800) % 1;
+        const desce = 25 * (1 - Math.cos(4 * Math.PI * f)) / 2; // mais baixo quando as pernas se cruzam
+        ctx.clearRect(0, 0, tela.width, tela.height);
+        perna(PERNAS.tras, QUADRIL[1] + desce, TRAS, pose((f + .5) % 1));
+        perna(PERNAS.frente, QUADRIL[1] + desce, FRENTE, pose(f));
+        // Braço de trás: o topo do braço (arredondado, PIVO_BRACO na imagem) encaixa sob a manga, no ombro (OMBRO), e
+        // gira ali balançando com o passo, um pouco para trás (a mão não encosta no quadril) sem soltar do ombro.
+        const giro = rad(7 + 10 * Math.cos(2 * Math.PI * f));
+        ctx.translate(OMBRO[0], OMBRO[1] + desce); ctx.rotate(giro); ctx.translate(-PIVO_BRACO[0], -PIVO_BRACO[1]);
+        ctx.drawImage(braco, 0, 0, 806, 1000);
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.drawImage(corpo, 0, desce, 806, 1000);
+      }
+      if (matchMedia("(prefers-reduced-motion: reduce)").matches) return desenhar(0);
+      const quadro = agora => {
+        requestAnimationFrame(quadro);
+        if (document.hidden || !document.body.classList.contains("com-fundo")) return;
+        desenhar(agora);
+      };
+      requestAnimationFrame(quadro);
+    });
+  }
+  ligarPernaDePau();
+
   /* ---------- Peças que reagem à Rural ----------
      A cada quadro, mede a distância entre o centro da Rural do fundo e cada peça interativa visível.
      Perto (menos de metade da largura da Rural), a peça recebe --rural de 0 a 1 (com suavização, para ir e
@@ -1875,6 +2115,8 @@ const PALETAS = {
     if (ev.target.closest("[data-cartaz]") && edicaoAtual) return abrirFoto([cartazEd(edicaoAtual)], 0);
     const bRel = ev.target.closest("[data-release]");
     if (bRel && edicaoAtual) return abrirFoto(releaseEd(edicaoAtual), Number(bRel.dataset.release), true);
+    const bArt = ev.target.closest("[data-artista]");
+    if (bArt) return abrirFoto(fotosArtista(ARTISTAS[Number(bArt.dataset.artista)]), Number(bArt.dataset.artistaFoto));
     const bMural = ev.target.closest("[data-foto-mural]");
     if (bMural) return abrirFoto(muralVisivel().map(f => ({ id: f.id, legenda: legendaMural(f) })), Number(bMural.dataset.fotoMural));
     const bFilM = ev.target.closest("[data-filtro-mural]");
