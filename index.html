@@ -2223,7 +2223,8 @@ const PALETAS = {
     if (focar) { window.scrollTo(0, 0); main.focus({ preventScroll: true }); }
     else window.scrollTo(0, y);
   }
-  window.addEventListener("hashchange", () => render(true));
+  // Trocou de página (inclusive pelo "voltar" do navegador): fecha foto ou vídeo que estiver aberto.
+  window.addEventListener("hashchange", () => { $$("dialog[open]").forEach(d => d.close()); render(true); });
   window.addEventListener("resize", () => { const b = $("[data-estrada]"); b && b._reposicionar && b._reposicionar(); });
 
   /* ---------- Cliques ---------- */
