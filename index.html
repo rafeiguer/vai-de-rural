@@ -170,6 +170,12 @@ h1, h2, h3 { margin: 0; line-height: 1.02; }
 }
 .carrossel__foto img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 3px; filter: brightness(.92) contrast(1.06) saturate(1.1); }
 @media (max-width: 600px) { .carrossel__foto { width: 60%; } }
+/* Miniatura de vídeo no carrossel (página Vídeos): botão de play no meio da foto. */
+.carrossel__play {
+  position: absolute; left: 50%; top: calc(50% - 10px); translate: -50% -50%; display: grid; place-items: center;
+  width: 3.4rem; height: 3.4rem; border-radius: 50%; background: var(--sol); color: var(--anil); border: 3px solid var(--anil);
+}
+.carrossel__play svg { width: 1.6rem; height: 1.6rem; margin-left: 3px; }
 
 /* Baralho da página Edições: cartas espalhadas na mesa (posições em --x, --y, --r, --z, vindas do JS).
    A mesa tem proporção 5:4 e a carta 3:4 com 40% da largura, então cabem com folga de x 0–60% e y 0–33%. */
@@ -1089,8 +1095,8 @@ const CONTEUDO = {
     { id: "cikCfKB4-KI", edicao: null },
     { id: "YwnqLtXx7zY", edicao: null },
     { id: "Ezu9kqwoWaE", edicao: null },
-    { id: "L7MnEOyoSJc", edicao: null },
-    { id: "YCdnMuJ2X1Y", edicao: null }
+    { id: "L7MnEOyoSJc", edicao: null }
+    // Tirado em 08/10/2026: YCdnMuJ2X1Y ("CHAMADA RURAL 5A EDIÇÃO", com Libras) dá erro ao tocar no YouTube.
   ]
 };
 
@@ -1324,17 +1330,22 @@ const PALETAS = {
 
   /* Carrossel das aberturas (página inicial e Mural): as fotos giram numa roda; a da frente fica grande
      e nítida, as de trás menores e apagadas. Cada foto leva à sua edição. itens: [{ id, e }] ou
-     [{ id, href, rotulo }] para levar a outro lugar (Tripulantes); sem itens,
+     [{ id, href, rotulo }] para levar a outro lugar (Tripulantes) ou [{ video, e }] (índice em VIDS:
+     mostra a miniatura do YouTube e abre o vídeo); sem itens,
      usa as fotos da colagem e a primeira de cada edição. As posições são calculadas em ligarCarrossel(). */
   function carrossel(lista) {
     const vistas = new Set();
     const itens = (lista || [...P.colagem.map(id => ({ id, e: EDS.find(e => e.fotos.some(f => f.id === id)) })),
                              ...EDS.filter(e => e.fotos[0]).map(e => ({ id: e.fotos[0].id, e }))])
-      .filter(it => !vistas.has(it.id) && vistas.add(it.id));
-    return `<div class="carrossel" data-carrossel aria-label="Fotos das edições">
-      ${itens.map((it, k) => `<a class="carrossel__foto" href="${it.href || (it.e ? `#/edicao/${it.e.n}` : "#/edicoes")}"
+      .filter(it => it.video != null || (!vistas.has(it.id) && vistas.add(it.id)));
+    const play = `<span class="carrossel__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></span>`;
+    return `<div class="carrossel" data-carrossel aria-label="${itens.some(it => it.video != null) ? "Vídeos das edições" : "Fotos das edições"}">
+      ${itens.map((it, k) => `${it.video != null
+        ? `<a class="carrossel__foto" href="#/videos" data-video="${it.video}" aria-label="${esc(`Assistir: ${tituloVideo(VIDS[it.video])}`)}">
+        <img src="${thumbYT(VIDS[it.video].id)}" alt="" ${k === 0 ? 'fetchpriority="high"' : ""} decoding="async">${play}`
+        : `<a class="carrossel__foto" href="${it.href || (it.e ? `#/edicao/${it.e.n}` : "#/edicoes")}"
           aria-label="${esc(it.rotulo || (it.e ? `Foto da ${rotuloEd(it.e)}` : "Foto da mostra"))}">
-        ${imgFoto(it.id, 700, "", k === 0 ? 'fetchpriority="high" loading="eager"' : 'loading="eager"')}
+        ${imgFoto(it.id, 700, "", k === 0 ? 'fetchpriority="high" loading="eager"' : 'loading="eager"')}`}
         ${it.e ? `<span class="carrossel__ed" style="--c:${it.e.cor};--t:${it.e.tinta}">${it.e.n}ª</span>` : ""}
       </a>`).join("")}
     </div>`;
@@ -1607,20 +1618,18 @@ const PALETAS = {
               <figcaption>Página ${k + 1}</figcaption>
             </figure>`).join("")}</div>
         </section>` : ""}
-        <section class="bloco" aria-labelledby="t-fotos">
+        ${e.fotos.length ? `<section class="bloco" aria-labelledby="t-fotos">
           <h2 id="t-fotos">Fotos</h2>
-          ${e.fotos.length ? `<div class="galeria">${e.fotos.map((f, k) => `
+          <div class="galeria">${e.fotos.map((f, k) => `
             <figure class="foto ${k === 0 && e.fotos.length > 4 ? "foto--destaque" : ""}">
               <button data-foto="${k}" aria-label="Ampliar: ${esc(legendaFoto(e, f))}">${imgFoto(f.id, k === 0 ? 1100 : 600, legendaFoto(e, f))}</button>
               ${f.legenda ? `<figcaption>${esc(f.legenda)}</figcaption>` : ""}
-            </figure>`).join("")}</div>`
-          : `<div class="vazio">As fotos desta edição ainda vão ser adicionadas.</div>`}
-        </section>
-        <section class="bloco" aria-labelledby="t-vids">
+            </figure>`).join("")}</div>
+        </section>` : ""}
+        ${vids.length ? `<section class="bloco" aria-labelledby="t-vids">
           <h2 id="t-vids">Vídeos</h2>
-          ${vids.length ? `<div class="cartoes">${vids.map(cartaoVideo).join("")}</div>`
-          : `<div class="vazio"><span>Os vídeos desta edição ainda vão ser adicionados. <a href="#/videos">Ver todos os vídeos</a></span></div>`}
-        </section>
+          <div class="cartoes">${vids.map(cartaoVideo).join("")}</div>
+        </section>` : ""}
         <nav class="ed-nav" aria-label="Outras edições">
           ${ant ? `<a href="#/edicao/${ant.n}" style="--c:${ant.cor};--t:${ant.tinta}"><small>‹ Edição anterior</small><strong>${ant.n}ª</strong></a>` : "<span></span>"}
           ${prox ? `<a href="#/edicao/${prox.n}" style="--c:${prox.cor};--t:${prox.tinta}"><small>Próxima edição ›</small><strong>${prox.n}ª</strong></a>` : ""}
@@ -1630,8 +1639,15 @@ const PALETAS = {
 
     videos() {
       const comEd = [...new Set(VIDS.map(v => v.edicao).filter(Boolean))].sort((a, b) => a - b);
-      const play = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>`;
-      const amostra = [["var(--urucum)", "#fff"], ["var(--rosa)", "#fff"], ["var(--ceu)", "var(--noite)"]];
+      // Carrossel da abertura: até 8 miniaturas, alternando as edições (como no Mural).
+      const amostra = () => {
+        const porEd = {};
+        VIDS.forEach((v, k) => (porEd[v.edicao || 0] ??= []).push(k));
+        const filas = Object.keys(porEd).sort((a, b) => b - a).map(n => porEd[n]), itens = [];
+        for (let k = 0; itens.length < 8 && filas.some(q => q[k] != null); k++)
+          filas.forEach(q => q[k] != null && itens.length < 8 && itens.push({ video: q[k], e: ed(VIDS[q[k]].edicao) }));
+        return itens;
+      };
       return `
       <section class="abertura abertura--pagina">
         <div class="envelope abertura__grade">
@@ -1640,8 +1656,7 @@ const PALETAS = {
             ${tituloPagina("t-todos", "", "Vídeos")}
             <p class="abertura__sub">Toque em qualquer um para assistir aqui mesmo.</p>
           </div>
-          <div class="colagem" aria-hidden="true">
-            ${amostra.map(([c, t]) => `<div class="polaroide"><div class="polaroide__arte" style="--c:${c};--t:${t}">${play}</div></div>`).join("")}          </div>
+          ${VIDS.length ? carrossel(amostra()) : ""}
         </div>
       </section>
       ${faixa()}
