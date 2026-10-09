@@ -170,6 +170,27 @@ h1, h2, h3 { margin: 0; line-height: 1.02; }
 }
 .carrossel__foto img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 3px; filter: brightness(.92) contrast(1.06) saturate(1.1); }
 @media (max-width: 600px) { .carrossel__foto { width: 60%; } }
+/* Arrastar: na horizontal o dedo gira a roda; na vertical a página continua rolando. */
+.carrossel { touch-action: pan-y; cursor: grab; -webkit-user-select: none; user-select: none; }
+.carrossel--arrastando, .carrossel--arrastando .carrossel__foto { cursor: grabbing; }
+.carrossel__foto img { -webkit-user-drag: none; }
+/* Mãozinha que mostra o gesto de arrastar (some depois do primeiro arrasto). */
+.carrossel__mao {
+  position: absolute; left: 50%; bottom: 4%; z-index: 200; width: 64px; height: 64px; margin-left: -32px;
+  display: grid; place-items: center; border-radius: 50%; background: rgba(255, 255, 255, .92); color: var(--anil);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, .35); pointer-events: none;
+  animation: mao-arrasta 2.4s ease-in-out infinite; transition: opacity .45s;
+}
+.carrossel__mao svg { width: 38px; height: 38px; }
+.carrossel__mao::before, .carrossel__mao::after {
+  content: ""; position: absolute; top: 50%; width: 0; height: 0; margin-top: -7px;
+  border: 7px solid transparent; opacity: .9;
+}
+.carrossel__mao::before { right: 100%; margin-right: 6px; border-right: 9px solid #fff; }
+.carrossel__mao::after { left: 100%; margin-left: 6px; border-left: 9px solid #fff; }
+.carrossel__mao--some { opacity: 0; }
+@keyframes mao-arrasta { 0%, 100% { translate: -46px 0; rotate: -10deg; } 50% { translate: 46px 0; rotate: 10deg; } }
+@media (prefers-reduced-motion: reduce) { .carrossel__mao { animation: none; } }
 /* Miniatura de vídeo no carrossel (página Vídeos): botão de play no meio da foto. */
 .carrossel__play {
   position: absolute; left: 50%; top: calc(50% - 10px); translate: -50% -50%; display: grid; place-items: center;
@@ -1026,14 +1047,14 @@ const CONTEUDO = {
   artistas: [
     { nome: "", texto: "", fotos: ["trip-01", "trip-06", "trip-09"] },
     { nome: "Navid Emadzadeh", texto: "", fotos: ["trip-02", "trip-03", "trip-04", "trip-05"] },
-    { nome: "", texto: "", fotos: ["trip-08", "trip-07", "trip-10", "trip-11", "trip-12", "trip-15"] },
-    { nome: "", texto: "", fotos: ["trip-13", "trip-14"] },
     { nome: "", texto: "", fotos: ["trip-16", "trip-20", "trip-21", "trip-22", "trip-23", "trip-26", "trip-31"] },
     // Tecido acrobático e acrobacia em dupla: a mesma pessoa.
     { nome: "Denise Santos (Desa Aquino)", texto: "", fotos: ["trip-32", "trip-28", "trip-29", "trip-18", "trip-17", "trip-19", "trip-24", "trip-25", "trip-27", "trip-30"] },
     // Convidados da 4ª (WhatsApp, 08/10/2026). `legenda` sai embaixo da foto; `instagram`, sem o @, vira link.
+    // Eram também dois cartões sem nome (tochas de fogo e cartola); a Denise pediu para juntar, com o
+    // retrato como capa e sem as fotos quase iguais (saíram trip-08, trip-10 e trip-14).
     {
-      nome: "Palhaço Eleno", legenda: "Tripulante Palhaço Eleno", fotos: ["trip-33"],
+      nome: "Palhaço Eleno", legenda: "Tripulante Palhaço Eleno", fotos: ["trip-33", "trip-07", "trip-12", "trip-11", "trip-15"],
       texto: [
         "O multiartista foi o nosso convidado na 4ª edição da Mostra Cultural Itinerante Vai de Rural, que aconteceu de 21 a 23 de abril de 2022, em comunidades rurais da Bacia do Paramirim, na Bahia.",
         "De natureza autodidata, tem uma formação diversificada em diferentes linguagens, que se integram e enriquecem seus trabalhos. É diretor de números circenses, espetáculos, curtas-metragens e videoclipes.",
@@ -1042,7 +1063,7 @@ const CONTEUDO = {
       ]
     },
     {
-      nome: "Dan Marques", legenda: "Tripulante Dan Marques (Brasília-DF)", instagram: "dan_marques_magic", fotos: ["trip-34"],
+      nome: "Dan Marques", legenda: "Tripulante Dan Marques (Brasília-DF)", instagram: "dan_marques_magic", fotos: ["trip-34", "trip-13"],
       texto: [
         "Dan Marques é um mágico excêntrico que tem seus poderes fora de controle: as coisas desaparecem, se transformam e aparecem de modo surpreendente e divertido até mesmo para o próprio artista. Depois de inúmeras e hilárias tentativas, o mágico simplesmente desiste, e de repente a magia acontece.",
         "Dan é especializado em comedy street magic, linguagem em que é o brasileiro com mais prêmios internacionais até hoje. São 9 prêmios, como o primeiro lugar no Campeonato Mundial de Mágica de Rua em Sankt Wendel, na Alemanha; o primeiro lugar na maior competição de espetáculo de rua da Alemanha, a “Bamberg Zaubert”; o primeiro lugar na feira de teatro de Sarmede, na Itália; o segundo lugar na Gala do Festival Internacional Ozomatli 2014, no México; e o segundo lugar como “melhor espetáculo” no Campeonato Mundial de Street Magic de St. Wendel, na Alemanha (2013).",
@@ -1332,11 +1353,12 @@ const PALETAS = {
      e nítida, as de trás menores e apagadas. Cada foto leva à sua edição. itens: [{ id, e }] ou
      [{ id, href, rotulo }] para levar a outro lugar (Tripulantes) ou [{ video, e }] (índice em VIDS:
      mostra a miniatura do YouTube e abre o vídeo); sem itens,
-     usa as fotos da colagem e a primeira de cada edição. As posições são calculadas em ligarCarrossel(). */
+     usa as fotos da colagem e a primeira de cada edição (ou o cartaz, se ela não tem foto). As posições são calculadas em ligarCarrossel(). */
   function carrossel(lista) {
     const vistas = new Set();
     const itens = (lista || [...P.colagem.map(id => ({ id, e: EDS.find(e => e.fotos.some(f => f.id === id)) })),
-                             ...EDS.filter(e => e.fotos[0]).map(e => ({ id: e.fotos[0].id, e }))])
+                             // edição sem fotos (a 5ª, por enquanto) entra com o cartaz, para nenhuma faltar
+                             ...EDS.filter(e => e.fotos[0] || e.cartaz).map(e => ({ id: e.fotos[0] ? e.fotos[0].id : e.cartaz, e }))])
       .filter(it => it.video != null || (!vistas.has(it.id) && vistas.add(it.id)));
     const play = `<span class="carrossel__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></span>`;
     return `<div class="carrossel" data-carrossel aria-label="${itens.some(it => it.video != null) ? "Vídeos das edições" : "Fotos das edições"}">
@@ -1350,16 +1372,65 @@ const PALETAS = {
       </a>`).join("")}
     </div>`;
   }
+  /* Arrastar o carrossel (dedo ou mouse) gira a roda; soltando com força, ela continua no embalo e
+     desacelera até o giro normal. A mãozinha mostra o gesto e some na primeira vez que alguém arrasta. */
+  let carrosselArrastado = false;
+  try { carrosselArrastado = localStorage.getItem("vdr-arrastou") === "1"; } catch {}
+  const MAO = `<div class="carrossel__mao" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M9 11.24V7.5C9 6.12 10.12 5 11.5 5S14 6.12 14 7.5v3.74c1.21-.81 2-2.18 2-3.74C16 5.01 13.99 3 11.5 3S7 5.01 7 7.5c0 1.56.79 2.93 2 3.74zm9.84 4.63l-4.54-2.26c-.17-.07-.35-.11-.54-.11H13v-6c0-.83-.67-1.5-1.5-1.5S10 6.67 10 7.5v10.74l-3.43-.72c-.08-.01-.15-.03-.24-.03-.31 0-.59.13-.79.33l-.79.8 4.94 4.94c.27.27.65.44 1.06.44h6.79c.75 0 1.33-.55 1.44-1.28l.75-5.27c.01-.07.02-.14.02-.2 0-.62-.38-1.16-.91-1.38z"/></svg></div>`;
+
   function ligarCarrossel() {
     const roda = $("[data-carrossel]");
     if (!roda) return;
     const fotos = $$(".carrossel__foto", roda), n = fotos.length;
     const parado = matchMedia("(prefers-reduced-motion: reduce)").matches;
-    let giro = 0, ultimo = null, pausa = false;
+    let giro = 0, ultimo = null, pausa = false, embalo = 0, arrasto = null, arrastou = false;
     roda.addEventListener("mouseenter", () => { pausa = true; });
     roda.addEventListener("mouseleave", () => { pausa = false; });
     roda.addEventListener("focusin", () => { pausa = true; });
     roda.addEventListener("focusout", () => { pausa = false; });
+
+    // Sem isto, o navegador arrasta a imagem ou o link em vez de girar a roda.
+    $$("a, img", roda).forEach(el => { el.draggable = false; });
+    if (!carrosselArrastado) roda.insertAdjacentHTML("beforeend", MAO);
+    const esconderMao = () => {
+      const mao = $(".carrossel__mao", roda);
+      if (mao) { mao.classList.add("carrossel__mao--some"); setTimeout(() => mao.remove(), 500); }
+      if (!carrosselArrastado) { carrosselArrastado = true; try { localStorage.setItem("vdr-arrastou", "1"); } catch {} }
+    };
+    roda.addEventListener("pointerdown", ev => {
+      if (ev.button > 0) return;
+      arrastou = false;
+      arrasto = { id: ev.pointerId, x0: ev.clientX, x: ev.clientX, t: performance.now(), vel: 0, moveu: false };
+      embalo = 0;
+    });
+    roda.addEventListener("pointermove", ev => {
+      if (!arrasto || ev.pointerId !== arrasto.id) return;
+      if (!arrasto.moveu) {
+        if (Math.abs(ev.clientX - arrasto.x0) < 8) return;     // ainda pode ser um toque para abrir
+        arrasto.moveu = arrastou = true;
+        try { roda.setPointerCapture(ev.pointerId); } catch {}
+        roda.classList.add("carrossel--arrastando");
+        esconderMao();
+      }
+      // A foto da frente acompanha o dedo: x = sen(ângulo) × 34% da largura, então dÂngulo ≈ dx / (0,34 × largura).
+      const agora = performance.now(), dt = Math.max(agora - arrasto.t, 1) / 1000;
+      const dAng = (ev.clientX - arrasto.x) / (roda.clientWidth * .34);
+      giro += dAng;
+      arrasto.vel = arrasto.vel * .6 + (dAng / dt) * .4;
+      arrasto.x = ev.clientX; arrasto.t = agora;
+      if (parado) posicionar();
+    });
+    const soltar = ev => {
+      if (!arrasto || ev.pointerId !== arrasto.id) return;
+      // Soltou parado (sem mexer nos últimos 120 ms): sem embalo.
+      if (arrasto.moveu && !parado && performance.now() - arrasto.t < 120) embalo = Math.max(-9, Math.min(9, arrasto.vel));
+      arrasto = null;
+      roda.classList.remove("carrossel--arrastando");
+    };
+    roda.addEventListener("pointerup", soltar);
+    roda.addEventListener("pointercancel", soltar);
+    // Arrastar não pode abrir a foto ou o vídeo que estava embaixo do dedo.
+    roda.addEventListener("click", ev => { if (arrastou) { ev.preventDefault(); ev.stopPropagation(); arrastou = false; } }, true);
     const posicionar = () => {
       const largura = roda.clientWidth;
       fotos.forEach((f, i) => {
@@ -1377,7 +1448,12 @@ const PALETAS = {
     };
     const quadro = agora => {
       if (!roda.isConnected) return;
-      if (ultimo != null && !pausa) giro -= (agora - ultimo) / 1000 * (Math.PI * 2 / (n * 3.2));   // ~3,2 s por foto
+      const dt = ultimo == null ? 0 : Math.min((agora - ultimo) / 1000, .1);
+      if (!arrasto) {
+        if (!pausa) giro -= dt * (Math.PI * 2 / (n * 3.2));   // ~3,2 s por foto
+        giro += embalo * dt;
+        embalo *= Math.exp(-dt * 1.8);                        // o embalo some em ~2 s
+      }
       ultimo = agora;
       posicionar();
       requestAnimationFrame(quadro);
