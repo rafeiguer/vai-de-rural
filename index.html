@@ -55,6 +55,8 @@ body {
   font: 400 1.0625rem/1.6 var(--corpo); font-optical-sizing: auto;
 }
 img { max-width: 100%; display: block; }
+/* As fotos na largura toda, no celular, saem um pouco da tela quando pulam com a Rural; sem isto a página balança de lado. */
+main { overflow-x: clip; }
 a { color: inherit; }
 button { font: inherit; color: inherit; cursor: pointer; }
 :focus-visible { outline: 3px solid var(--rosa); outline-offset: 3px; border-radius: 6px; }
@@ -421,6 +423,8 @@ body.com-fundo .painel.texto-longo {
 .artista {
   display: grid; gap: 1rem 1.6rem; padding: 1rem; border-radius: var(--raio);
   background: rgba(255, 255, 255, .94); border: 3px solid var(--anil); box-shadow: 5px 5px 0 var(--anil); color: var(--texto);
+  /* O cartão é claro mesmo com o fundo escuro do site: volta as cores de texto para as escuras. */
+  --texto: #1b1f3a; --texto-2: #4a4f6e;
 }
 @media (min-width: 760px) { .artista { grid-template-columns: minmax(0, 340px) 1fr; align-items: start; } }
 .artista button { display: block; width: 100%; padding: 0; border: 0; background: none; border-radius: 6px; overflow: hidden; }
@@ -428,6 +432,8 @@ body.com-fundo .painel.texto-longo {
 .artista__destaque img { aspect-ratio: 4 / 5; }
 .artista__mini { display: grid; grid-template-columns: repeat(auto-fill, minmax(56px, 1fr)); gap: .4rem; margin-top: .5rem; }
 .artista__mini img { aspect-ratio: 1; }
+.artista__legenda { margin: .6rem 0 0; font-size: .95rem; font-weight: 700; line-height: 1.4; }
+.artista__legenda a { font-weight: 600; white-space: nowrap; color: var(--anil); }
 .artista button:hover img, .artista button:focus-visible img { opacity: .85; }
 .artista__texto { align-self: stretch; display: grid; align-content: start; gap: .6rem; padding: .4rem .2rem; }
 .artista__texto h3 { margin: 0; font-family: var(--display); font-weight: 400; font-size: clamp(1.6rem, 4vw, 2.2rem); color: var(--anil); }
@@ -463,7 +469,9 @@ body.com-fundo .painel.texto-longo {
 .bloco h2::after { content: ""; display: block; width: 4rem; height: 7px; border-radius: 4px; background: var(--cor); margin-top: .45rem; }
 
 /* Galeria em polaroides */
-.galeria { display: grid; gap: 1.4rem 1rem; grid-template-columns: repeat(2, 1fr); margin-top: 1.6rem; }
+/* No celular, uma foto por linha, na largura toda: em duas colunas elas ficavam pequenas demais. */
+.galeria { display: grid; gap: 1.6rem 1rem; grid-template-columns: 1fr; margin-top: 1.6rem; }
+@media (min-width: 560px) { .galeria { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 700px) { .galeria { grid-template-columns: repeat(3, 1fr); } }
 @media (min-width: 1040px) { .galeria { grid-template-columns: repeat(4, 1fr); } }
 .foto { margin: 0; }
@@ -477,7 +485,7 @@ body.com-fundo .painel.texto-longo {
 .foto button:hover { transform: rotate(0) scale(1.04); }
 .foto img { width: 100%; aspect-ratio: 1; object-fit: cover; background: #efeaf8; border-radius: 3px; }
 .foto figcaption { font-size: .85rem; color: var(--texto-2); padding: .45rem .2rem 0; line-height: 1.35; }
-.foto--destaque { grid-column: span 2; }
+@media (min-width: 560px) { .foto--destaque { grid-column: span 2; } }
 /* Cartaz da edição: polaroide única, na proporção original (cartazes são retrato ou paisagem). */
 .cartaz-ed { max-width: min(100%, 420px); margin-top: 1.6rem; }
 .cartaz-ed img { aspect-ratio: auto; object-fit: contain; }
@@ -763,6 +771,7 @@ body.com-fundo .carta__ano { background: rgba(11, 16, 51, .85); color: #fff; }
      Sem foto, o cartão mostra as iniciais.
    - videos[].edicao: número da edição (1–7) ou null. Se null, o site tenta
      descobrir por "Nª edição" no título do YouTube.
+   - videos[].titulo: opcional. Se houver, substitui o título que vem do YouTube.
    - Números da seção "Sobre": só use dados confirmados pela produção.
    ========================================================================= */
 const CONTEUDO = {
@@ -843,7 +852,13 @@ const CONTEUDO = {
       ],
       cartaz: "ed2-cartaz",
       pendente: false,
-      fotos: [{ id: "ed2-01", legenda: "A Rural viaja pela Bacia do Paramirim" }]
+      // ed2-03 a 05: prints do Instagram enviados em 08/10/2026 (contador do canto recortado).
+      fotos: [
+        { id: "ed2-01", legenda: "A Rural viaja pela Bacia do Paramirim" },
+        { id: "ed2-03", legenda: "Músicos com pífano e zabumba" },
+        { id: "ed2-04", legenda: "Exposição fotográfica na cerca" },
+        { id: "ed2-05" }
+      ]
     },
     {
       n: 3, cor: "#ffc21a", ano: "2017", titulo: "Preá, Saco do Fogo, Boa Madeira e Pajeú",
@@ -861,7 +876,12 @@ const CONTEUDO = {
       fotos: [
         { id: "ed3-01", legenda: "Palhaço Fuzuê e Pusa Pinaud" },
         { id: "ed3-02", legenda: "O realizador Dario comenta a produção de “Vaqueiro do Nordeste”" },
-        { id: "ed3-03", legenda: "O Palhaço Fuzuê interage com o público" }
+        { id: "ed3-03", legenda: "O Palhaço Fuzuê interage com o público" },
+        // ed3-04 a 06: vieram junto das fotos da 2ª, mas o banner (14 de maio, Preá...) e o lugar
+        // (mesma igrejinha e lona da ed3-01) são da 3ª.
+        { id: "ed3-04", legenda: "O banner da 3ª edição" },
+        { id: "ed3-05" },
+        { id: "ed3-06" }
       ]
     },
     {
@@ -877,7 +897,12 @@ const CONTEUDO = {
       cartaz: "ed4-cartaz",
       release: ["ed4-release-01", "ed4-release-02", "ed4-release-03", "ed4-release-04", "ed4-release-05", "ed4-release-06"],
       pendente: false,
-      fotos: [{ id: "ed4-01", legenda: "Apresentação do mágico Dan em Boa Madeira, Macaúbas" }]
+      // trip-33 e trip-34: as mesmas fotos dos cartões de Eleno e Dan na página Tripulantes.
+      fotos: [
+        { id: "ed4-01", legenda: "Apresentação do mágico Dan em Boa Madeira, Macaúbas" },
+        { id: "trip-33", legenda: "Tripulante Palhaço Eleno" },
+        { id: "trip-34", legenda: "Tripulante Dan Marques (Brasília-DF), @dan_marques_magic" }
+      ]
     },
     {
       n: 5, cor: "#ff5c9a", ano: "2025", titulo: "Preá, Palmeira e Boa Madeira",
@@ -955,9 +980,13 @@ const CONTEUDO = {
   mural: [
     { id: "ed1-01", edicao: 1 }, { id: "ed1-03", edicao: 1, legenda: "Exibição do documentário na casa do personagem Seu Zé" },
     { id: "ed2-01", edicao: 2 },
+    { id: "ed2-05", edicao: 2 },
     { id: "ed3-01", edicao: 3, legenda: "Palhaço Fuzuê e Pusa Pinaud" },
+    { id: "ed3-06", edicao: 3 },
     { id: "ed3-03", edicao: 3, legenda: "O Palhaço Fuzuê interage com o público" },
     { id: "ed4-01", edicao: 4, legenda: "Apresentação do mágico Dan em Boa Madeira, Macaúbas" },
+    { id: "trip-33", edicao: 4, legenda: "Tripulante Palhaço Eleno" },
+    { id: "trip-34", edicao: 4, legenda: "Tripulante Dan Marques (Brasília-DF), @dan_marques_magic" },
     { id: "ed6-01", edicao: 6, legenda: "Terno de Reis da Comunidade Quilombola do Baixão" },
     { id: "ed6-03", edicao: 6, legenda: "Samba no Baixão" },
     { id: "ed7-55", edicao: 7, legenda: "Crianças da Comunidade Quilombola do Baixão" },
@@ -995,7 +1024,25 @@ const CONTEUDO = {
     { nome: "", texto: "", fotos: ["trip-13", "trip-14"] },
     { nome: "", texto: "", fotos: ["trip-16", "trip-20", "trip-21", "trip-22", "trip-23", "trip-26", "trip-31"] },
     // Tecido acrobático e acrobacia em dupla: a mesma pessoa.
-    { nome: "Denise Santos (Desa Aquino)", texto: "", fotos: ["trip-32", "trip-28", "trip-29", "trip-18", "trip-17", "trip-19", "trip-24", "trip-25", "trip-27", "trip-30"] }
+    { nome: "Denise Santos (Desa Aquino)", texto: "", fotos: ["trip-32", "trip-28", "trip-29", "trip-18", "trip-17", "trip-19", "trip-24", "trip-25", "trip-27", "trip-30"] },
+    // Convidados da 4ª (WhatsApp, 08/10/2026). `legenda` sai embaixo da foto; `instagram`, sem o @, vira link.
+    {
+      nome: "Palhaço Eleno", legenda: "Tripulante Palhaço Eleno", fotos: ["trip-33"],
+      texto: [
+        "O multiartista foi o nosso convidado na 4ª edição da Mostra Cultural Itinerante Vai de Rural, que aconteceu de 21 a 23 de abril de 2022, em comunidades rurais da Bacia do Paramirim, na Bahia.",
+        "De natureza autodidata, tem uma formação diversificada em diferentes linguagens, que se integram e enriquecem seus trabalhos. É diretor de números circenses, espetáculos, curtas-metragens e videoclipes.",
+        "Em 2013, criou a Cia. Itinerante Imaginário e apresentou os espetáculos “Que Rufem os Tambores”, “Estupendo Maravilhoso”, “Des-Passos” e “Doce Estranha Maravilha”, participando de festivais internacionais de palhaço de rua e circo.",
+        "Já levou seus espetáculos e oficinas sobre arte de rua, palhaço, teatro físico, malabarismo, mímica, direção e criação ao Chile, à Argentina, ao Uruguai, ao Brasil e aos Estados Unidos."
+      ]
+    },
+    {
+      nome: "Dan Marques", legenda: "Tripulante Dan Marques (Brasília-DF)", instagram: "dan_marques_magic", fotos: ["trip-34"],
+      texto: [
+        "Dan Marques é um mágico excêntrico que tem seus poderes fora de controle: as coisas desaparecem, se transformam e aparecem de modo surpreendente e divertido até mesmo para o próprio artista. Depois de inúmeras e hilárias tentativas, o mágico simplesmente desiste, e de repente a magia acontece.",
+        "Dan é especializado em comedy street magic, linguagem em que é o brasileiro com mais prêmios internacionais até hoje. São 9 prêmios, como o primeiro lugar no Campeonato Mundial de Mágica de Rua em Sankt Wendel, na Alemanha; o primeiro lugar na maior competição de espetáculo de rua da Alemanha, a “Bamberg Zaubert”; o primeiro lugar na feira de teatro de Sarmede, na Itália; o segundo lugar na Gala do Festival Internacional Ozomatli 2014, no México; e o segundo lugar como “melhor espetáculo” no Campeonato Mundial de Street Magic de St. Wendel, na Alemanha (2013).",
+        "O one-man show “Funnykito Show”, criado em 2008, é o trabalho mais importante do artista: uma mistura de ilusionismo, mímica e comédia, em um estilo inovador."
+      ]
+    }
   ],
 
   // Equipe e convidados de cada edição, tirados das fichas técnicas dos releases (3ª, 4ª, 5ª e 6ª; a 1ª, a 2ª e a
@@ -1032,8 +1079,10 @@ const CONTEUDO = {
   ],
 
   videos: [
-    { id: "ndI-yk68hZA", edicao: null },
-    { id: "Bc9Vgns9u7A", edicao: null },
+    // Tecido marinho no Preá: só a 5ª teve o número em tecido marinho e passou pelo Preá (12/03/2025).
+    { id: "ndI-yk68hZA", edicao: 5, titulo: "Apresentação de tecido marinho na Comunidade Quilombola do Preá" },
+    { id: "-k5pVTTLNdQ", edicao: 3, titulo: "Entrevista com o Palhaço Fuzuê / Circo no Cinema" },
+    { id: "Bc9Vgns9u7A", edicao: 6, titulo: "Apresentação do grupo de samba de roda da Comunidade Quilombola do Baixão" },
     { id: "tUGRXwzrBwc", edicao: null },
     { id: "qz3x734Y_m8", edicao: null },
     { id: "KZurJ5MyJDo", edicao: null },
@@ -1134,6 +1183,7 @@ const PALETAS = {
     };
     let mudou = false;
     await Promise.all(VIDS.map(async v => {
+      if (v.titulo) return;   // título escrito no CONTEUDO vale mais que o do YouTube
       const watch = encodeURIComponent(`https://www.youtube.com/watch?v=${v.id}`);
       const titulo = await pega(`https://www.youtube.com/oembed?url=${watch}&format=json`)
                   ?? await pega(`https://noembed.com/embed?url=${watch}`);
@@ -1394,8 +1444,9 @@ const PALETAS = {
   /* Colunas do Mural montadas aqui, e não com `columns` do CSS: no Safari do iPhone, a foto do topo da
      segunda coluna ficava invisível (só a legenda) até um toque. As fotos vão para a coluna mais curta,
      pela proporção de cada uma (conhecida depois de carregar; antes disso, conta como quadrada). */
-  const MURAL_COLS = [matchMedia("(min-width: 1040px)"), matchMedia("(min-width: 700px)")];
-  const colunasMural = () => MURAL_COLS[0].matches ? 4 : MURAL_COLS[1].matches ? 3 : 2;
+  // Celular: uma coluna só, para as fotos ocuparem a largura toda.
+  const MURAL_COLS = [matchMedia("(min-width: 1040px)"), matchMedia("(min-width: 700px)"), matchMedia("(min-width: 560px)")];
+  const colunasMural = () => MURAL_COLS[0].matches ? 4 : MURAL_COLS[1].matches ? 3 : MURAL_COLS[2].matches ? 2 : 1;
   const proporcaoMural = {};
   let muralMontado = "";   // distribuição atual (índices por coluna), para só remontar quando mudar
   function distribuirMural() {
@@ -1705,10 +1756,11 @@ const PALETAS = {
               <div class="artista__fotos">
                 <button class="artista__destaque" data-artista="${k}" data-artista-foto="0" aria-label="Ampliar a foto${a.nome ? ` de ${esc(a.nome)}` : ""}">${imgFoto(a.fotos[0], 800, a.nome || "Artista da Rural")}</button>
                 ${a.fotos.length > 1 ? `<div class="artista__mini">${a.fotos.slice(1).map((id, i) => `<button data-artista="${k}" data-artista-foto="${i + 1}" aria-label="Ampliar a foto ${i + 2}">${imgFoto(id, 800, "")}</button>`).join("")}</div>` : ""}
+                ${a.legenda ? `<p class="artista__legenda">${esc(a.legenda)}${a.instagram ? ` <a href="https://www.instagram.com/${encodeURIComponent(a.instagram)}/" target="_blank" rel="noopener">@${esc(a.instagram)}</a>` : ""}</p>` : ""}
               </div>
-              <div class="artista__texto${a.texto ? "" : " artista__texto--vazio"}">
+              <div class="artista__texto${a.texto && a.texto.length ? "" : " artista__texto--vazio"}">
                 <h3${a.nome ? ' class="artista__nome"' : ""}>${a.nome ? esc(a.nome) : "Nome em breve"}</h3>
-                <p>${a.texto ? esc(a.texto) : "Espaço para o texto sobre o artista."}</p>
+                ${a.texto && a.texto.length ? [].concat(a.texto).map(p => `<p>${esc(p)}</p>`).join("") : "<p>Espaço para o texto sobre o artista.</p>"}
               </div>
             </article>`).join("")}</div>
         </div>
