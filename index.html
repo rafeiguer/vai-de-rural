@@ -250,7 +250,15 @@ h1, h2, h3 { margin: 0; line-height: 1.02; }
 .leitor__seta:hover { transform: scale(1.12) rotate(-8deg); }
 .leitor__seta:active { transform: translateY(3px); box-shadow: 0 1px 0 #b88400; }
 .leitor__legenda { font-weight: 800; color: #fff; text-shadow: 0 0 6px #0a0e2d, 0 0 14px #0a0e2d; }
-.leitor__miniaturas { display: flex; gap: .8rem; overflow-x: auto; padding: 3.6rem 1.4rem 1.6rem; margin-top: 1.2rem; scrollbar-width: thin; }
+/* Miniaturas: em vez da barra de rolagem, setas iguais às da página (o dedo ainda desliza a fila). */
+.leitor__trilha { display: flex; align-items: center; gap: .6rem; margin-top: 1.2rem; }
+.leitor__trilha .leitor__seta { flex: none; }
+.leitor__trilha .leitor__seta:disabled { opacity: .3; pointer-events: none; }
+.leitor__miniaturas {
+  flex: 1; min-width: 0; display: flex; gap: .8rem; overflow-x: auto; padding: 3.6rem 1.4rem 1.6rem;
+  scrollbar-width: none; scroll-behavior: smooth;
+}
+.leitor__miniaturas::-webkit-scrollbar { display: none; }
 .leitor__mini {
   flex: none; position: relative; width: 84px; padding: 4px; border: 0; border-radius: 6px; background: #fff; opacity: .78;
   transform: rotate(-2.5deg); transition: transform .2s ease, opacity .2s ease, box-shadow .2s ease;
@@ -436,6 +444,47 @@ body.com-fundo .painel.texto-longo {
 .trip-ed__titulo a { color: #fff; text-decoration: none; text-shadow: var(--t-halo, none); }
 .trip-ed__num { display: inline-grid; place-items: center; min-width: 2.2em; height: 2.2em; margin-right: .3rem; border-radius: 50%; border: 3px solid #fff; background: var(--vc); color: var(--t); font-size: .8em; text-shadow: none; vertical-align: middle; }
 .trip-ed__grupo { margin: 1.4rem 0 0; font-size: 1.05rem; font-weight: 800; color: #fff; text-shadow: var(--t-halo, none); }
+
+/* Créditos (página própria) como no fim de um filme: nomes subindo devagar e sumindo nas bordas, sem
+   parar. Rolagem infinita: o rolo tem duas cópias iguais, cada uma seguida de meia tela vazia, e sobe
+   exatamente uma cópia (-50%) antes de recomeçar, então a emenda não aparece. O fundo é
+   escuro mas translúcido, para a Rural e o perna de pau do fundo passarem atrás; com "reduzir
+   movimento", vira uma lista parada. */
+.creditos {
+  --h: min(78vh, 680px);
+  position: relative; height: var(--h); overflow: hidden; border-radius: var(--raio);
+  background: rgba(7, 9, 28, .55); border: 3px solid rgba(255, 255, 255, .15);
+  -webkit-mask-image: linear-gradient(transparent, #000 14%, #000 86%, transparent);
+  mask-image: linear-gradient(transparent, #000 14%, #000 86%, transparent);
+}
+.creditos__rolo {
+  position: relative; z-index: 1; text-align: center; color: #fff;
+  text-shadow: 0 0 6px #07091c, 0 0 14px rgba(7, 9, 28, .8);
+  animation: creditos-sobem var(--dur, 40s) linear infinite;
+}
+.creditos__volta { padding: calc(var(--h) / 4) 1.2rem calc(var(--h) / 4); }   /* 1/4 + 1/4 = meia tela entre as voltas */
+@keyframes creditos-sobem { from { transform: translateY(0); } to { transform: translateY(-50%); } }
+/* Bexigas: nascem abaixo da tela e sobem até sair por cima, balançando de leve (atrás dos nomes). */
+.bexigas { position: absolute; inset: 0; pointer-events: none; }
+.bexiga {
+  position: absolute; bottom: 0; width: var(--tam); margin-left: calc(var(--tam) / -2); opacity: .85;
+  transform: translateY(100%); animation: bexiga-sobe var(--dur) linear forwards;
+}
+.bexiga svg { display: block; width: 100%; height: auto; animation: bexiga-balanca var(--vai) ease-in-out infinite alternate; }
+@keyframes bexiga-sobe { to { transform: translateY(calc(-1 * var(--h) - 100%)); } }   /* sai inteira por cima */
+@keyframes bexiga-balanca { from { transform: translateX(calc(-1 * var(--balanco))) rotate(-6deg); } to { transform: translateX(var(--balanco)) rotate(6deg); } }
+.creditos__titulo { margin: 0; font-family: var(--display); font-weight: 400; font-size: clamp(2rem, 6vw, 3.2rem); color: var(--sol); }
+.creditos__sub { margin: .3rem 0 3rem; font-size: 1rem; color: #c9cdee; }
+.credito { display: grid; gap: .15rem; margin: 0 auto 2.2rem; max-width: 34rem; }
+.credito__funcao { font-size: .82rem; letter-spacing: .14em; text-transform: uppercase; color: #aab2e6; }
+.credito__nome { font-size: clamp(1.35rem, 3.6vw, 1.8rem); font-weight: 700; line-height: 1.2; }
+.creditos__fim { margin: 4rem 0 0; font-family: var(--display); font-size: clamp(1.6rem, 5vw, 2.4rem); color: var(--sol); }
+@media (prefers-reduced-motion: reduce) {
+  .creditos { height: auto; -webkit-mask-image: none; mask-image: none; }
+  .creditos__rolo { animation: none; }
+  .creditos__volta { padding: 2.5rem 1.2rem; }
+  .creditos__volta[aria-hidden] { display: none; }
+}
 .trip-ed__cartoes { margin-top: .8rem; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
 .tripulante { cursor: default; }
 .tripulante:hover { transform: none; box-shadow: 5px 5px 0 var(--vc, var(--anil)); }
@@ -722,6 +771,7 @@ body.com-fundo .carta__ano { background: rgba(11, 16, 51, .85); color: #fff; }
       <a href="#/mural" data-rota="mural">Mural</a>
       <a href="#/tripulantes" data-rota="tripulantes">Tripulantes</a>
       <a href="#/sobre" data-rota="sobre">Sobre</a>
+      <a href="#/creditos" data-rota="creditos">Créditos</a>
     </nav>
   </div>
   <svg class="bandeirinhas" data-bandeirinhas viewBox="0 0 1200 22" preserveAspectRatio="none" aria-hidden="true"></svg>
@@ -795,7 +845,8 @@ body.com-fundo .carta__ano { background: rgba(11, 16, 51, .85); color: #fff; }
      equipe/convidado no formato { edição: "função" }. A página agrupa por edição e a pessoa aparece
      em cada edição de que participou. A foto sai de
      python ferramentas/otimizar_fotos.py tripulantes caminho/da/foto.jpg
-     Sem foto, o cartão mostra as iniciais.
+     Sem foto, o cartão mostra as iniciais. Com `creditos: true`, a pessoa não ganha cartão e aparece
+     só nos créditos que sobem no fim da página (como nos filmes).
    - videos[].edicao: número da edição (1–7) ou null. Se null, o site tenta
      descobrir por "Nª edição" no título do YouTube.
    - videos[].titulo: opcional. Se houver, substitui o título que vem do YouTube.
@@ -972,8 +1023,16 @@ const CONTEUDO = {
       n: 7, cor: "#f0781a", ano: "2025 e 2026", titulo: "Comunidade do Baixão e Tamboril",
       ficha: ["24 de março de 2026, 16h", "Escola Municipal Orlando Spínola", "Vitória da Conquista (BA)", "Gratuito, com Libras"],
       locais: [["Tamboril", "Macaúbas (BA)"], ["Comunidade Quilombola do Baixão", "Vitória da Conquista (BA)"]],
-      texto: ["A sétima edição levou cinema, circo, fotografia e cultura popular para a Comunidade Quilombola do Baixão, em Vitória da Conquista, com a escola da comunidade como sala de exibição."],
+      // Texto a partir do release da 7ª ("VAI DE RURAL 2026 RELEASE 2.pdf", área de trabalho, 09/10/2026).
+      texto: [
+        "A sétima edição teve duas paradas: a primeira na comunidade rural de Tamboril, em Macaúbas, em 2025, e a continuação na Comunidade Quilombola do Baixão, em Vitória da Conquista, em 24 de março de 2026, na Escola Municipal Orlando Spínola.",
+        "No Baixão, a programação teve exposição fotográfica, gastronomia e artesanato local, a exibição do documentário “É no pé do morro, é lá no Cafundó” (2011), de Denise Santos, o espetáculo “Circo Peligro”, com o palhaço colombiano Milo Peligro, e a apresentação do grupo “Santo Reis Estrela Guia”, da própria comunidade. Tudo com tradução em Libras.",
+        "A exposição, assinada por [Helivelto Lima](#/tripulantes), mostrou registros da 6ª edição, feitos nas comunidades quilombolas do Baixão e de Cachoeira das Araras em 2024.",
+        "O grupo “Santo Reis Estrela Guia” é conduzido pela mestra Tói (Dona Vitória), que fundou o terno como pagamento por uma graça alcançada. Com cerca de 25 integrantes, muitas delas crianças, guarda mais de 80 versos tradicionais e se apresenta com roupas de tecido verde brilhante, detalhes em vermelho e chapéu de palha enfeitado.",
+        "A edição foi contemplada no Edital de Subsídio Heleusa Câmara, com recursos da Política Nacional Aldir Blanc de Fomento à Cultura (PNAB, Lei nº 14.399/2022), e contou com apoio institucional da Prefeitura Municipal de Vitória da Conquista e do Governo Federal."
+      ],
       cartaz: "ed7-cartaz",
+      release: ["ed7-release-01", "ed7-release-02", "ed7-release-03", "ed7-release-04", "ed7-release-05", "ed7-release-06", "ed7-release-07", "ed7-release-08"],
       pendente: false,
       // Fotos do Drive com o nome da 7ª (sem as cópias com outro nome) e só seis das _MG sem nome,
       // as que mostram o público junto do palhaço. Ordem: Terno de Reis, crianças, público,
@@ -1045,9 +1104,18 @@ const CONTEUDO = {
   // Fotos da pasta "fotos site vai de rural" (WhatsApp, 07/10/2026), agrupadas por pessoa; a primeira
   // de cada grupo é a do destaque. Preencha `nome` e `texto` quando tiver; vazios, aparece "em breve".
   artistas: [
-    { nome: "", texto: "", fotos: ["trip-01", "trip-06", "trip-09"] },
+    // Nomes do Tiziu e do Milo Peligro: identificados pelo Rafa em 10/10/2026.
+    { nome: "Palhaço Tiziu", legenda: "Tripulante Palhaço Tiziu", texto: "", fotos: ["trip-01", "trip-06", "trip-09"] },
     { nome: "Navid Emadzadeh", texto: "", fotos: ["trip-02", "trip-03", "trip-04", "trip-05"] },
-    { nome: "", texto: "", fotos: ["trip-16", "trip-20", "trip-21", "trip-22", "trip-23", "trip-26", "trip-31"] },
+    {
+      nome: "Milo Peligro", legenda: "Tripulante Milo Peligro (Colômbia)", fotos: ["trip-16", "trip-20", "trip-21", "trip-22", "trip-23", "trip-26", "trip-31"],
+      // Do release da 7ª edição ("Convidados da Rural").
+      texto: [
+        "Nasceu em Medellín, na Colômbia, em 1989. Desde a infância já se interessava pelo teatro, pelas artes cênicas em geral e pela vida de estrada e o nomadismo do circo. Em 2008, aos 18 anos, começou a viajar pela América do Sul como malabarista e aprendiz de palhaço, passando por 8 países e participando de workshops, convenções e encontros de circo, palhaço e malabares.",
+        "Hoje mora em Salvador, na Bahia, onde continua exercendo a sua arte na rua, no teatro, no circo, em eventos e em qualquer espaço não convencional.",
+        "“Circo Peligro” é um espetáculo que combina malabares, mágica e equilibrismo, incorporando um dos elementos mais clássicos do circo: o número de risco. Equilibrado em um monociclo de 1,80 m, manipulando tochas e cuspindo grandes chamaradas, o artista desafia os próprios limites no picadeiro com um único objetivo: roubar o fôlego do público e garantir uma experiência inesquecível, recheada de risadas e muita emoção."
+      ]
+    },
     // Tecido acrobático e acrobacia em dupla: a mesma pessoa.
     { nome: "Denise Santos (Desa Aquino)", texto: "", fotos: ["trip-32", "trip-28", "trip-29", "trip-18", "trip-17", "trip-19", "trip-24", "trip-25", "trip-27", "trip-30"] },
     // Convidados da 4ª (WhatsApp, 08/10/2026). `legenda` sai embaixo da foto; `instagram`, sem o @, vira link.
@@ -1072,31 +1140,35 @@ const CONTEUDO = {
     }
   ],
 
-  // Equipe e convidados de cada edição, tirados das fichas técnicas dos releases (3ª, 4ª, 5ª e 6ª; a 1ª, a 2ª e a
-  // 7ª ainda não têm ficha). equipe: { edição: "função" }; convidado: { edição: "descrição" }. Para pôr a foto:
+  // Equipe e convidados de cada edição, tirados das fichas técnicas dos releases (3ª a 7ª; a 1ª e a 2ª
+  // ainda não têm ficha). equipe: { edição: "função" }; convidado: { edição: "descrição" }. Para pôr a foto:
   // python ferramentas/otimizar_fotos.py tripulantes caminho/da/foto.jpg  e cole o nome em `foto`.
   tripulantes: [
-    { nome: "Denise Santos (Desa Aquino)", foto: "", equipe: { 3: "Produtora executiva e artista circense", 4: "Produção executiva, comunicação e performance circense", 5: "Produtora executiva, artista circense, assessora de comunicação e diretora audiovisual", 6: "Produtora executiva, artista circense e assessora de comunicação" } },
-    { nome: "Helivelto Lima", foto: "", equipe: { 3: "Produtor e expositor", 4: "Fotografia, direção de produção e comunicação", 5: "Diretor de produção e fotógrafo", 6: "Fotógrafo" } },
-    { nome: "Pablo Sant'Ana", foto: "", equipe: { 3: "Designer gráfico", 4: "Arte gráfica" }, convidado: { 3: "Cineasta, de Barreiras (BA)" } },
+    { nome: "Denise Santos (Desa Aquino)", foto: "", equipe: { 3: "Produtora executiva e artista circense", 4: "Produção executiva, comunicação e performance circense", 5: "Produtora executiva, artista circense, assessora de comunicação e diretora audiovisual", 6: "Produtora executiva, artista circense e assessora de comunicação", 7: "Produtora executiva, assessora de comunicação e diretora convidada" } },
+    { nome: "Helivelto Lima", foto: "", equipe: { 3: "Produtor e expositor", 4: "Fotografia, direção de produção e comunicação", 5: "Diretor de produção e fotógrafo", 6: "Fotógrafo", 7: "Diretor de produção e expositor fotográfico" } },
+    { nome: "Pablo Sant'Ana", creditos: true, foto: "", equipe: { 3: "Designer gráfico", 4: "Arte gráfica" }, convidado: { 3: "Cineasta, de Barreiras (BA)" } },
     { nome: "Navid Emadzadeh", foto: "", equipe: { 5: "Técnico audiovisual, assistente de produção e músico", 6: "Técnico audiovisual e produtor de campo" } },
-    { nome: "Celena Neri", foto: "", equipe: { 6: "Diretora de produção" } },
-    { nome: "Jaqueline França", foto: "", equipe: { 6: "Tradutora de Libras" } },
-    { nome: "Joaquim Flores", foto: "", equipe: { 6: "Designer gráfico" } },
-    { nome: "Binho Brill", foto: "", equipe: { 5: "Designer gráfico" } },
-    { nome: "Neto Cajado", foto: "", equipe: { 5: "Oficina de audiovisual" }, convidado: { 5: "Ator e documentarista, de Macaúbas (BA)" } },
-    { nome: "Luana Santana", foto: "", equipe: { 5: "Produtora de campo" } },
-    { nome: "Márcio Urubu", foto: "", equipe: { 5: "Produtor de campo" } },
-    { nome: "Ana Júlia dos Reis", foto: "", equipe: { 5: "Produtora local" } },
+    { nome: "Celena Neri", creditos: true, foto: "", equipe: { 6: "Diretora de produção" } },
+    { nome: "Jaqueline França", creditos: true, foto: "", equipe: { 6: "Tradutora de Libras", 7: "Tradutora de Libras" } },
+    { nome: "Joaquim Flores", creditos: true, foto: "", equipe: { 6: "Designer gráfico" } },
+    { nome: "Binho Brill", creditos: true, foto: "", equipe: { 5: "Designer gráfico", 7: "Designer gráfico" } },
+    { nome: "Cleberson Jardim", creditos: true, foto: "", equipe: { 7: "Assistente de produção" } },
+    { nome: "Georgen Soares", creditos: true, foto: "", equipe: { 7: "Técnico audiovisual" } },
+    { nome: "Erica Daniela", creditos: true, foto: "", equipe: { 7: "Fotógrafa" } },
+    { nome: "Neto Cajado", creditos: true, foto: "", equipe: { 5: "Oficina de audiovisual" }, convidado: { 5: "Ator e documentarista, de Macaúbas (BA)" } },
+    { nome: "Luana Santana", creditos: true, foto: "", equipe: { 5: "Produtora de campo" } },
+    { nome: "Márcio Urubu", creditos: true, foto: "", equipe: { 5: "Produtor de campo" } },
+    { nome: "Ana Júlia dos Reis", creditos: true, foto: "", equipe: { 5: "Produtora local" } },
     { nome: "Ana dos Reis", foto: "", equipe: { 5: "Produtora local e artista" } },
-    { nome: "Biatriz Bastos", foto: "", equipe: { 4: "Produção" } },
+    { nome: "Biatriz Bastos", creditos: true, foto: "", equipe: { 4: "Produção" } },
     { nome: "Dan Marques", foto: "", equipe: { 4: "Arte circense (Dan, o mágico)" }, convidado: { 4: "Mágico" } },
-    { nome: "Fernanda Castro", foto: "", equipe: { 3: "Assessoria de comunicação" } },
-    { nome: "Purki", foto: "", equipe: { 1: "Exposição fotográfica", 3: "Fotógrafo e VJ" } },
-    { nome: "Ronaldo Ros", foto: "", equipe: { 3: "Instrumentista e técnico de som" } },
-    { nome: "Renata Lourenço", foto: "", equipe: { 3: "Técnica audiovisual" } },
-    { nome: "Flávio Ávila", foto: "", equipe: { 3: "Pesquisa e conteúdo" } },
-    { nome: "Payaso Peligro", foto: "", convidado: { 5: "Artista circense, da Colômbia" } },
+    { nome: "Fernanda Castro", creditos: true, foto: "", equipe: { 3: "Assessoria de comunicação" } },
+    { nome: "Purki", creditos: true, foto: "", equipe: { 1: "Exposição fotográfica", 3: "Fotógrafo e VJ" } },
+    { nome: "Ronaldo Ros", creditos: true, foto: "", equipe: { 3: "Instrumentista e técnico de som" } },
+    { nome: "Renata Lourenço", creditos: true, foto: "", equipe: { 3: "Técnica audiovisual" } },
+    { nome: "Flávio Ávila", creditos: true, foto: "", equipe: { 3: "Pesquisa e conteúdo" } },
+    { nome: "Milo Peligro", foto: "", convidado: { 5: "Artista circense (Payaso Peligro), da Colômbia", 7: "Artista circense, da Colômbia" } },
+    { nome: "Grupo Santo Reis Estrela Guia", foto: "", convidado: { 7: "Terno de reis da Comunidade Quilombola do Baixão, conduzido pela mestra Tói (Dona Vitória)" } },
     { nome: "Palhaço Tiziu", foto: "", convidado: { 6: "Palhaço, de Salvador (BA)" } },
     { nome: "Palhaço Eleno", foto: "", convidado: { 4: "Palhaço" } },
     { nome: "Pusa Pinaud", foto: "", convidado: { 3: "Artista circense, da Colômbia" } },
@@ -1172,6 +1244,8 @@ const PALETAS = {
   const legendaFoto = (e, f) => f.legenda || `${e.titulo}, ${e.n}ª edição`;
   const legendaMural = f => f.edicao && ed(f.edicao) ? legendaFoto(ed(f.edicao), f) : (f.legenda || "Foto da mostra Vai de Rural");
   const rotuloEd = e => `${e.n}ª edição`;
+  // [3, 4, 5] -> "3ª, 4ª e 5ª"
+  const listaEds = ns => ns.map(n => `${n}ª`).join(", ").replace(/, ([^,]*)$/, " e $1");
   const ICONE_FALA = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`;
   const botaoOuvir = (rotulo, extra = "") => `<button class="ouvir ${extra}" data-ouvir aria-pressed="false">${ICONE_FALA}<span>${esc(rotulo)}</span></button>`;
   const cartazEd = e => ({ id: e.cartaz, legenda: `Cartaz da ${rotuloEd(e)}` });
@@ -1372,6 +1446,32 @@ const PALETAS = {
       </a>`).join("")}
     </div>`;
   }
+  /* Bexigas da página Créditos: uma nova a cada 0,6–1,8 s, em lugar, cor, tamanho e velocidade sorteados.
+     Cada uma se apaga ao sair por cima; o laço para sozinho quando a página troca. */
+  const CORES_BEXIGA = ["#e8452c", "#ffc21a", "#29a8e0", "#1f9d62", "#ff5c9a", "#6e4bc0", "#f0781a"];
+  const BEXIGA = `<svg viewBox="0 0 40 96"><path d="M20 50 q-5 12 1 23 t-2 21" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1.2"/>
+    <ellipse cx="20" cy="23" rx="17" ry="21" fill="currentColor"/><path d="M16.5 43.5h7l-3.5 5z" fill="currentColor"/>
+    <ellipse cx="13" cy="14" rx="4" ry="7.5" fill="rgba(255,255,255,.38)" transform="rotate(-22 13 14)"/></svg>`;
+  function ligarBexigas() {
+    const ceu = $("[data-bexigas]");
+    if (!ceu || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const sorte = (a, z) => a + Math.random() * (z - a);
+    const soltar = () => {
+      if (!ceu.isConnected) return;
+      if (!document.hidden) {
+        const b = document.createElement("span");
+        b.className = "bexiga";
+        b.style.cssText = `color:${CORES_BEXIGA[Math.floor(Math.random() * CORES_BEXIGA.length)]};left:${sorte(4, 96).toFixed(1)}%;` +
+          `--tam:${sorte(30, 64).toFixed(0)}px;--dur:${sorte(9, 16).toFixed(1)}s;--balanco:${sorte(8, 26).toFixed(0)}px;--vai:${sorte(2.2, 3.6).toFixed(1)}s`;
+        b.innerHTML = BEXIGA;
+        b.addEventListener("animationend", ev => { if (ev.animationName === "bexiga-sobe") b.remove(); });
+        ceu.appendChild(b);
+      }
+      setTimeout(soltar, sorte(600, 1800));
+    };
+    soltar();
+  }
+
   /* Arrastar o carrossel (dedo ou mouse) gira a roda; soltando com força, ela continua no embalo e
      desacelera até o giro normal. A mãozinha mostra o gesto e some na primeira vez que alguém arrasta. */
   let carrosselArrastado = false;
@@ -1804,13 +1904,13 @@ const PALETAS = {
         return itens;
       };
       // Agrupa por edição (da mais recente para a mais antiga); cada pessoa aparece em cada edição de que participou.
+      // Quem tem `creditos: true` não ganha cartão: aparece só na página Créditos.
+      const comCartao = TRIP.filter(p => !p.creditos);
       const porEdicao = [...EDS].reverse().map(e => ({
         e,
-        equipe: TRIP.filter(p => p.equipe && p.equipe[e.n]).map(p => [p, p.equipe[e.n]]),
-        convidados: TRIP.filter(p => p.convidado && p.convidado[e.n] && !(p.equipe && p.equipe[e.n])).map(p => [p, p.convidado[e.n]])
+        equipe: comCartao.filter(p => p.equipe && p.equipe[e.n]).map(p => [p, p.equipe[e.n]]),
+        convidados: comCartao.filter(p => p.convidado && p.convidado[e.n] && !(p.equipe && p.equipe[e.n])).map(p => [p, p.convidado[e.n]])
       })).filter(g => g.equipe.length || g.convidados.length);
-      // [3, 4, 5] -> "3ª, 4ª e 5ª"
-      const listaEds = ns => ns.map(n => `${n}ª`).join(", ").replace(/, ([^,]*)$/, " e $1");
       const edicoesDe = p => [...new Set([...Object.keys(p.equipe || {}), ...Object.keys(p.convidado || {})].map(Number))].sort((x, y) => x - y);
       // Sem `foto` própria, usa a foto de destaque do artista com o mesmo nome em "Na estrada com a Rural".
       const fotoDe = p => p.foto || (ARTISTAS.find(a => a.nome && a.nome === p.nome) || { fotos: [] }).fotos[0];
@@ -1865,17 +1965,52 @@ const PALETAS = {
               ${equipe.length ? `<h4 class="trip-ed__grupo">Equipe</h4><div class="cartoes trip-ed__cartoes">${equipe.map(([p, f]) => cartaoTrip(p, f, e)).join("")}</div>` : ""}
               ${convidados.length ? `<h4 class="trip-ed__grupo">Convidados da Rural</h4><div class="cartoes trip-ed__cartoes">${convidados.map(([p, f]) => cartaoTrip(p, f, e)).join("")}</div>` : ""}
             </section>`).join("")
-          : `<div class="vazio">Os tripulantes da Rural ainda vão ser apresentados aqui.</div>`}
-          ${(() => {
-            const faltam = EDS.filter(e => !porEdicao.some(g => g.e === e)).map(e => e.n);
-            if (!porEdicao.length || !faltam.length) return "";
-            return `<p class="bloco__dica">${faltam.length > 1
-              ? `As equipes das ${listaEds(faltam)} edições ainda vão ser adicionadas.`
-              : `A equipe da ${listaEds(faltam)} edição ainda vai ser adicionada.`}</p>`;
-          })()}
+          : ""}
         </div>
       </section>
-      ${chamada("Onde a Rural passou", `As ${EDS.length} edições, uma parada de cada vez.`, "#/edicoes", "Ver as edições")}`;
+      ${TRIP.some(p => p.creditos) ? chamada("E tem mais gente nessa estrada", "Produção, técnica e arte de cada edição, nos créditos da Rural.", "#/creditos", "Ver os créditos")
+        : chamada("Onde a Rural passou", `As ${EDS.length} edições, uma parada de cada vez.`, "#/edicoes", "Ver as edições")}`;
+    },
+
+    // Créditos como no fim de um filme: quem tem `creditos: true` em tripulantes, subindo na tela,
+    // com bexigas coloridas (ligarBexigas). O fundo é translúcido para a Rural e o perna de pau aparecerem.
+    creditos() {
+      const nomes = TRIP.filter(p => p.creditos);
+      // Cada pessoa uma vez, com a função de cada edição (funções iguais juntam as edições).
+      const linhas = p => {
+        const porFuncao = new Map();
+        [...Object.entries(p.equipe || {}), ...Object.entries(p.convidado || {})]
+          .sort(([a], [b]) => a - b)
+          .forEach(([n, f]) => porFuncao.set(f, [...(porFuncao.get(f) || []), Number(n)]));
+        return [...porFuncao].map(([f, ns]) => `${f}, ${listaEds([...new Set(ns)])} ${ns.length > 1 ? "edições" : "edição"}`);
+      };
+      return `
+      <section class="abertura abertura--pagina abertura--curta">
+        <div class="envelope">
+          <p class="abertura__pre">${esc(P.subtitulo)}</p>
+          ${tituloPagina("t-creditos", "", "Créditos")}
+          <p class="abertura__sub">Quem também pegou a estrada com a Rural.</p>
+        </div>
+      </section>
+      <section class="secao" aria-label="Créditos">
+        <div class="envelope">
+          <div class="creditos" style="--dur:${Math.max(30, nomes.length * 3.2).toFixed(0)}s">
+            <div class="bexigas" data-bexigas aria-hidden="true"></div>
+            <div class="creditos__rolo">${[false, true].map(copia => `
+              <div class="creditos__volta"${copia ? ' aria-hidden="true"' : ""}>
+                <p class="creditos__titulo">Vai de Rural</p>
+                <p class="creditos__sub">Mostra Cultural Itinerante</p>
+                ${nomes.map(p => `<div class="credito">
+                  ${linhas(p).map(l => `<span class="credito__funcao">${esc(l)}</span>`).join("")}
+                  <span class="credito__nome">${esc(p.nome)}</span>
+                </div>`).join("")}
+                <p class="creditos__fim">Obrigado!</p>
+              </div>`).join("")}
+            </div>
+          </div>
+        </div>
+      </section>
+      ${chamada("A tripulação da Rural", "Os artistas e a equipe de cada edição.", "#/tripulantes", "Ver os tripulantes")}`;
     },
 
     // Mesmos fundos da home, em outra ordem: amarelo, rosa, azul-anil e branco.
@@ -1926,7 +2061,11 @@ const PALETAS = {
             </figure>
             <button class="leitor__seta" data-leitor-passo="1" aria-label="Próxima página">›</button>
           </div>
-          <div class="leitor__miniaturas" data-leitor-minis role="group" aria-label="Páginas"></div>
+          <div class="leitor__trilha">
+            <button class="leitor__seta" data-minis-passo="-1" aria-label="Ver miniaturas anteriores">‹</button>
+            <div class="leitor__miniaturas" data-leitor-minis role="group" aria-label="Páginas"></div>
+            <button class="leitor__seta" data-minis-passo="1" aria-label="Ver mais miniaturas">›</button>
+          </div>
           <p class="leitor__dica">Use as setas, deslize para o lado ou toque numa miniatura. Toque na página para ler em tela cheia.</p>
         </div>
       </section>
@@ -1955,7 +2094,8 @@ const PALETAS = {
     mural:   ["5", "7", "2", "4"],
     tripulantes: ["2", "6", "4", "7"],
     releases: ["6", "5", "4", "3"],
-    sobre:   ["4", "5", "2", "6"]
+    sobre:   ["4", "5", "2", "6"],
+    creditos: ["6", "3", "7", "5"]
   };
   /* Página de uma edição: abre com a paleta dela e segue com outras três. A 1ª, fora de CARTAZES,
      usa a sequência da página Edições. */
@@ -2058,6 +2198,19 @@ const PALETAS = {
     const k = manter ? leitor.k : 0;
     leitor.e = null; leitor.hash = location.hash;
     if (inicial) mostrarLeitor(inicial.n, k);
+    // Setas das miniaturas: apagadas na ponta da fila; somem se todas as miniaturas já cabem.
+    const minis = $("[data-leitor-minis]"), [antM, proxM] = $$("[data-minis-passo]");
+    const setasMinis = () => {
+      const fim = minis.scrollWidth - minis.clientWidth;
+      antM.hidden = proxM.hidden = fim < 4;
+      antM.disabled = minis.scrollLeft < 4;
+      proxM.disabled = minis.scrollLeft > fim - 4;
+    };
+    minis.addEventListener("scroll", setasMinis, { passive: true });
+    new ResizeObserver(setasMinis).observe(minis);
+    new MutationObserver(setasMinis).observe(minis, { childList: true });
+    minis.addEventListener("load", setasMinis, true);   // a largura da fila muda quando as miniaturas carregam
+    setasMinis();
     // Deslizar o dedo na página vira a folha.
     const caixa = $("[data-leitor]");
     let xi = null;
@@ -2266,7 +2419,7 @@ const PALETAS = {
     if (!partes.length) return { nome: "inicio" };
     if (partes[0] === "edicao") return { nome: "edicao", n: Number(partes[1]) };
     if (partes[0] === "releases") return { nome: "releases", n: Number(partes[1]) || null };
-    return { nome: ["edicoes", "videos", "mural", "tripulantes", "sobre"].includes(partes[0]) ? partes[0] : "naoEncontrada" };
+    return { nome: ["edicoes", "videos", "mural", "tripulantes", "sobre", "creditos"].includes(partes[0]) ? partes[0] : "naoEncontrada" };
   }
 
   /* focar: rola ao topo e leva o foco ao conteúdo (troca de página).
@@ -2293,6 +2446,7 @@ const PALETAS = {
     ligarEstrada();
     ligarBaralho();
     ligarCarrossel();
+    ligarBexigas();
     if (focar) pararFala();
     ligarFala();
     atualizarFundo();
@@ -2326,6 +2480,8 @@ const PALETAS = {
     if (bLeitorEd) return mostrarLeitor(Number(bLeitorEd.dataset.leitorEd), 0, 1);
     const bPasso = ev.target.closest("[data-leitor-passo]");
     if (bPasso && leitor.e) { const d = Number(bPasso.dataset.leitorPasso); return mostrarLeitor(leitor.e.n, leitor.k + d, d); }
+    const bMinis = ev.target.closest("[data-minis-passo]");
+    if (bMinis) { const m = $("[data-leitor-minis]"); return m.scrollBy({ left: Number(bMinis.dataset.minisPasso) * m.clientWidth * .8 }); }
     const bMini = ev.target.closest("[data-leitor-mini]");
     if (bMini && leitor.e) { const k = Number(bMini.dataset.leitorMini); return mostrarLeitor(leitor.e.n, k, k >= leitor.k ? 1 : -1); }
     if (ev.target.closest("[data-leitor-ampliar]") && leitor.e) return abrirFoto(releaseEd(leitor.e), leitor.k, true);
