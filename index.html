@@ -835,7 +835,8 @@ body.com-fundo .carta__ano { background: rgba(11, 16, 51, .85); color: #fff; }
      Aparecem no bloco "Por onde a Rural passou" da página da edição.
    - comunidades: texto sobre cada lugar, com o nome escrito igual ao de `locais`. Aparece
      em toda edição que passou por ali, num painel "Conheça…" sempre aberto, abaixo das paradas.
-   - edicoes[].texto: para linkar um nome a outra página do site, escreva [Nome](#/tripulantes).
+   - edicoes[].texto e artistas[].texto: para linkar um nome a outra página do site, escreva
+     [Nome](#/tripulantes); para um site de fora, [Nome](https://endereco.com) (abre numa aba nova).
    - edicoes[].pendente: true mostra o aviso "página em montagem".
    - mural: fotos da página Mural, na ordem em que aparecem. Para incluir, rode
      python ferramentas/otimizar_fotos.py mural caminho/das/fotos/*.jpg
@@ -1117,7 +1118,18 @@ const CONTEUDO = {
       ]
     },
     // Tecido acrobático e acrobacia em dupla: a mesma pessoa.
-    { nome: "Denise Santos (Desa Aquino)", texto: "", fotos: ["trip-32", "trip-28", "trip-29", "trip-18", "trip-17", "trip-19", "trip-24", "trip-25", "trip-27", "trip-30"] },
+    // Texto "Sobre mim" enviado em 10/10/2026; o Instagram é o dos contatos do release da 7ª.
+    {
+      nome: "Denise Santos (Desa Aquino)", legenda: "Tripulante Denise Santos (Desa Aquino)", instagram: "desaaquino_",
+      texto: [
+        "Desde que me encantei pelo circo e pelo audiovisual, me expresso através dessas artes.",
+        "Mestra em Letras: Cultura, Educação e Linguagens pela Universidade Estadual do Sudoeste da Bahia, especialista em Cinema: Expressão e Análise pela Universidade Católica do Salvador e graduada em Comunicação Social.",
+        "Acredito que as expressões artísticas e culturais são ferramentas de transformação social.",
+        "Conheça outros projetos culturais e realizações de minha autoria, em processos colaborativos com outros artistas, no meu site: [www.desaaquino.com](https://www.desaaquino.com)."
+      ],
+      // trip-35 (trapézio, do site desaaquino.com) entrou como capa em 10/10/2026 no lugar da trip-32, que não estava boa.
+      fotos: ["trip-35", "trip-28", "trip-29", "trip-18", "trip-17", "trip-19", "trip-24", "trip-25", "trip-27", "trip-30"]
+    },
     // Convidados da 4ª (WhatsApp, 08/10/2026). `legenda` sai embaixo da foto; `instagram`, sem o @, vira link.
     // Eram também dois cartões sem nome (tochas de fogo e cartola); a Denise pediu para juntar, com o
     // retrato como capa e sem as fotos quase iguais (saíram trip-08, trip-10 e trip-14).
@@ -1222,7 +1234,10 @@ const PALETAS = {
   const fotosArtista = a => a.fotos.map(id => ({ id, legenda: a.nome || "Artista da Rural" }));
   const COMUNIDADES = CONTEUDO.comunidades || {};
   // Texto das edições: [nome](#/pagina) vira link interno do site (só endereços que começam com #/).
-  const comLinks = t => esc(t).replace(/\[([^\]]+)\]\((#\/[\w\/-]*)\)/g, '<a href="$2">$1</a>');
+  // [Nome](#/pagina) vira link para outra página do site; [Nome](https://...) abre o endereço numa aba nova.
+  const comLinks = t => esc(t)
+    .replace(/\[([^\]]+)\]\((#\/[\w\/-]*)\)/g, '<a href="$2">$1</a>')
+    .replace(/\[([^\]]+)\]\((https:\/\/[^\s)"<>]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
   const main = $("#conteudo");
   const ed = n => EDS.find(e => e.n === n);
 
@@ -1951,7 +1966,7 @@ const PALETAS = {
               </div>
               <div class="artista__texto${a.texto && a.texto.length ? "" : " artista__texto--vazio"}">
                 <h3${a.nome ? ' class="artista__nome"' : ""}>${a.nome ? esc(a.nome) : "Nome em breve"}</h3>
-                ${a.texto && a.texto.length ? [].concat(a.texto).map(p => `<p>${esc(p)}</p>`).join("") : "<p>Espaço para o texto sobre o artista.</p>"}
+                ${a.texto && a.texto.length ? [].concat(a.texto).map(p => `<p>${comLinks(p)}</p>`).join("") : "<p>Espaço para o texto sobre o artista.</p>"}
               </div>
             </article>`).join("")}</div>
         </div>
