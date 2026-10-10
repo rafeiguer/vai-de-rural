@@ -1964,9 +1964,9 @@ const PALETAS = {
                 ${a.fotos.length > 1 ? `<div class="artista__mini">${a.fotos.slice(1).map((id, i) => `<button data-artista="${k}" data-artista-foto="${i + 1}" aria-label="Ampliar a foto ${i + 2}">${imgFoto(id, 800, "")}</button>`).join("")}</div>` : ""}
                 ${a.legenda ? `<p class="artista__legenda">${esc(a.legenda)}${a.instagram ? ` <a href="https://www.instagram.com/${encodeURIComponent(a.instagram)}/" target="_blank" rel="noopener">@${esc(a.instagram)}</a>` : ""}</p>` : ""}
               </div>
-              <div class="artista__texto${a.texto && a.texto.length ? "" : " artista__texto--vazio"}">
+              <div class="artista__texto${a.nome ? "" : " artista__texto--vazio"}">
                 <h3${a.nome ? ' class="artista__nome"' : ""}>${a.nome ? esc(a.nome) : "Nome em breve"}</h3>
-                ${a.texto && a.texto.length ? [].concat(a.texto).map(p => `<p>${comLinks(p)}</p>`).join("") : "<p>Espaço para o texto sobre o artista.</p>"}
+                ${a.texto && a.texto.length ? [].concat(a.texto).map(p => `<p>${comLinks(p)}</p>`).join("") : a.nome ? "" : "<p>Espaço para o texto sobre o artista.</p>"}
               </div>
             </article>`).join("")}</div>
         </div>
