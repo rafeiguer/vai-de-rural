@@ -742,6 +742,18 @@ body.com-fundo .filtro[aria-pressed="true"] { background: var(--fc, var(--sol));
 body.com-fundo .botao--branco { background: #6e4bc0; color: #fff; box-shadow: 0 4px 0 #3f2a80; }
 body.com-fundo .carta__ano { background: rgba(11, 16, 51, .85); color: #fff; }
 
+/* Tela Configurações: atalho "Editar" (só no aparelho de quem tem a chave) e aviso da prévia. */
+.botao-editar, .faixa-previa {
+  position: fixed; left: 16px; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 40;
+  background: var(--anil); color: #fff; border: 2px solid #fff; border-radius: 999px;
+  font-weight: 800; box-shadow: 0 10px 24px rgba(0, 0, 0, .35);
+}
+.botao-editar { padding: .6rem 1.1rem; text-decoration: none; }
+.faixa-previa { right: 90px; border-radius: 18px; padding: .7rem 1rem; background: var(--sol); color: var(--anil); border-color: var(--anil); max-width: 520px; }
+.faixa-previa a { color: var(--anil); margin-left: .4rem; }
+.rodape__config { margin-top: 2rem; font-size: .85rem; }
+.rodape .rodape__config a { color: #aab1e0; font-weight: 500; }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
   .faixa__trilha { width: auto; flex-wrap: wrap; }
@@ -790,6 +802,7 @@ body.com-fundo .carta__ano { background: rgba(11, 16, 51, .85); color: #fff; }
     <div>
       <h2 class="titulo">Contato</h2>
       <p data-contato></p>
+      <p class="rodape__config"><a href="configuracoes.html">Configurações</a></p>
     </div>
   </div>
 </footer>
@@ -820,390 +833,36 @@ body.com-fundo .carta__ano { background: rgba(11, 16, 51, .85); color: #fff; }
 <script>
 /* =========================================================================
    CONTEÚDO DO SITE
-   Tudo o que muda (textos, fotos, vídeos) fica aqui. Para atualizar o site,
-   edite só este objeto.
+   Textos, fotos e vídeos ficam em conteudo.json. A Denise edita pela tela
+   Configurações (configuracoes.html), que publica direto no GitHub; também dá
+   para editar o arquivo à mão. Campos que começam com "_" são notas internas
+   (procedência, pendências) e o site ignora.
 
    - edicoes[].fotos: nomes das fotos em assets/fotos, sem o "-800.webp"
-     (ex.: "ed7-01"). Para incluir fotos novas, rode
+     (ex.: "ed7-01"). Fotos novas: pela tela Configurações ou com
      python ferramentas/otimizar_fotos.py ed7 caminho/das/fotos/*.jpg
-     e cole aqui os nomes que ele imprimir. projeto.colagem segue a mesma regra.
      `legenda` é opcional. A primeira foto vira destaque (se houver 5 ou mais).
-   - edicoes[].release: páginas do release, na ordem do PDF. Gere com
-     python ferramentas/release_pdf.py ed3 caminho/do/release.pdf
-     e cole a linha que ele imprimir. Sem release, o bloco não aparece.
+     projeto.colagem segue a mesma regra.
+   - edicoes[].release: páginas do release, na ordem do PDF (a tela Configurações
+     aceita o PDF; à mão: python ferramentas/release_pdf.py ed3 release.pdf).
    - edicoes[].locais: [lugar, município] de cada parada da edição, na ordem da viagem.
-     Aparecem no bloco "Por onde a Rural passou" da página da edição.
    - comunidades: texto sobre cada lugar, com o nome escrito igual ao de `locais`. Aparece
      em toda edição que passou por ali, num painel "Conheça…" sempre aberto, abaixo das paradas.
    - edicoes[].texto e artistas[].texto: para linkar um nome a outra página do site, escreva
      [Nome](#/tripulantes); para um site de fora, [Nome](https://endereco.com) (abre numa aba nova).
    - edicoes[].pendente: true mostra o aviso "página em montagem".
-   - mural: fotos da página Mural, na ordem em que aparecem. Para incluir, rode
-     python ferramentas/otimizar_fotos.py mural caminho/das/fotos/*.jpg
-     e cole os nomes aqui. `edicao` (1–7) e `legenda` são opcionais; com `edicao`,
-     a foto ganha o filtro e a legenda daquela edição.
+   - mural: fotos da página Mural, na ordem em que aparecem. `edicao` (1–7) e `legenda` são
+     opcionais; com `edicao`, a foto ganha o filtro e a legenda daquela edição.
+   - artistas: cartões com fotos e texto na página Tripulantes. `legenda` sai embaixo da foto;
+     `instagram`, sem o @, vira link.
    - tripulantes: equipe e convidados. Cada pessoa é { nome, foto, equipe, convidado }, com
-     equipe/convidado no formato { edição: "função" }. A página agrupa por edição e a pessoa aparece
-     em cada edição de que participou. A foto sai de
-     python ferramentas/otimizar_fotos.py tripulantes caminho/da/foto.jpg
-     Sem foto, o cartão mostra as iniciais. Com `creditos: true`, a pessoa não ganha cartão e aparece
-     só nos créditos que sobem no fim da página (como nos filmes).
+     equipe/convidado no formato { edição: "função" }. Com `creditos: true`, a pessoa não ganha
+     cartão e aparece só nos créditos que sobem na página Créditos (como nos filmes).
    - videos[].edicao: número da edição (1–7) ou null. Se null, o site tenta
      descobrir por "Nª edição" no título do YouTube.
    - videos[].titulo: opcional. Se houver, substitui o título que vem do YouTube.
    - Números da seção "Sobre": só use dados confirmados pela produção.
    ========================================================================= */
-const CONTEUDO = {
-  projeto: {
-    nome: "Vai de Rural",
-    subtitulo: "Mostra Cultural Itinerante",
-    chamada: "Cinema, circo, fotografia e cultura popular nas comunidades rurais e quilombolas da Bahia.",
-    lema: "É no pé do morro, é lá no cafundó",
-    colagem: ["ed7-15", "ed1-01", "ed7-55"],
-    sobre: [
-      "A mostra nasceu para exibir o documentário “É no pé do morro é lá no cafundó” (2011), de Denise Santos, para as próprias pessoas que aparecem no filme, gravado na Bacia do Paramirim. O título do filme virou o nome da mostra.",
-      "Desde então, a Rural pega a estrada com um projetor, um telão improvisado e o seu circo mambembe. Pátios de escola e quintais viram sala de cinema, com circo, fotografia e a cultura de cada comunidade no mesmo palco."
-    ],
-    // Texto principal da página Sobre (a Home usa o resumo `sobre`, acima).
-    textoSobre: [
-      "A Mostra Cultural Itinerante Vai de Rural já realizou sete edições passando por mais de 25 povoados e comunidades pelo interior da Bahia. Todas as edições foram totalmente gratuitas, com foco em povoados e comunidades quilombolas e/ou tradicionais, principalmente na região do Sudoeste Baiano e na Bacia do Paramirim. Desde a sexta edição contamos com uma tradutora de Libras.",
-      "A Rural é uma realização da La Bici Galeria Cultural, um coletivo composto por produtores culturais, técnicos e artistas. Acreditamos que as expressões artísticas e culturais são ferramentas de transformação social. Nosso coletivo está em fase de certificação pelo Ministério da Cultura para se transformar em um Ponto de Cultura.",
-      "Carregamos na bagagem uma composição que permite o conhecimento local dialogar com diversas intervenções artísticas, harmonizando a cultura local com as vivências dos tripulantes da Rural. As atividades culturais que desenvolvemos em suas multilinguagens como exibição de filmes, espetáculos circenses, artes visuais, capoeira, manifestações populares são apresentadas pelas próprias comunidades contempladas no projeto, envolvendo os idosos, as crianças, as mulheres, pessoas negras etc.",
-      "A primeira edição da Rural visou inicialmente a exibição do documentário “É no pé do morro é lá no cafundó” (2011), de Denise Santos, como um feedback, em prática de alteridade, aos próprios personagens participantes do filme. Em sete edições da “Rural” já passaram artistas da França/Irã, Colômbia, Chile e várias partes do Brasil.",
-      // TODO: linkar "Um olhar sobre Boa Madeira: artesãs e sambadeiras" com fotos, vídeos e cards do projeto
-      "Em todas as edições da Rural, que é o nosso carro-chefe, assim como na 1ª e 2ª edição do projeto Um olhar sobre Boa Madeira: artesãs e sambadeiras, tivemos a participação especial das comunidades contempladas com a apresentação da sua cultura popular. Nós buscamos nos projetos que realizamos integrar as comunidades como protagonistas e não somente como público. Além disso, temos na Mostra feira de artesanatos e gastronomia local, contribuindo para a economia circular de forma criativa.",
-      "Nossos projetos têm se mostrado fruto de uma verdadeira integração comunitária, em que se prioriza um processo de construção coletiva, envolvendo as comunidades não somente como espectadores, mas, sobretudo, como protagonistas, através da atuação dos mesmos com suas expressões culturais. A Rural segue construindo novos caminhos, aumentando a bagagem de mais histórias, causos e encantos através do cinema, do circo, da cultura popular e de outras artes integradas em diálogo com povos e comunidades."
-    ],
-    // Resumo da página inicial: frases curtas e simples, pensadas também para ouvir (botão "Ouvir").
-    resumo: [
-      "A Vai de Rural é uma mostra de cinema que viaja pelo interior da Bahia dentro de um carro: a Rural.",
-      "Ela leva filmes, circo, fotografia e cultura popular para comunidades rurais e quilombolas. Tudo é de graça. Desde a sexta edição, tem tradutora de Libras.",
-      "Já foram sete edições, de 2013 a 2026, em mais de 25 povoados e comunidades, na Bacia do Paramirim e no Sudoeste da Bahia.",
-      "A primeira viagem levou o filme “É no pé do morro é lá no cafundó”, de Denise Santos, para as próprias pessoas que aparecem nele.",
-      "Em cada parada, a comunidade também se apresenta, com samba de roda, terno de reis, reisado, langa e outras manifestações. Tem ainda feira de artesanato e comida da região.",
-      "Quem faz a Rural é a La Bici Galeria Cultural, um coletivo de produtores culturais, técnicos e artistas, com apoio financeiro do Governo Federal e do Governo da Bahia, por meio de editais culturais e das leis Paulo Gustavo e Aldir Blanc."
-    ],
-    fatos: [
-      ["7", "edições realizadas"],
-      ["4", "linguagens: cinema, circo, fotografia e cultura popular"],
-      ["0", "reais de ingresso para o público"]
-    ],
-    linguagens: [
-      { nome: "Cinema", cor: "#e8452c", texto: "Curtas e documentários feitos por e sobre comunidades rurais." },
-      { nome: "Circo", cor: "#ffc21a", texto: "Malabares, equilíbrio, acrobacia e palhaçaria no terreiro." },
-      { nome: "Fotografia", cor: "#29a8e0", texto: "Exposição com os rostos e lugares das edições anteriores." },
-      { nome: "Cultura popular", cor: "#1f9d62", texto: "Apresentações e rodas de conversa com quem é da comunidade." }
-    ],
-    faixa: ["Cinema", "Circo", "Fotografia", "Cultura popular", "Cafundó", "Preá", "Saco do Fogo", "Boa Madeira", "Brejo Grande", "Paramirim das Crioulas", "Baixão", "Tamboril"],
-    contato: "contato@vaiderural.com.br",
-    parceiros: [
-      // O terceiro item (opcional) é o logo, em versão clara para o fundo anil do rodapé.
-      ["Realização", "La Bici Galeria Cultural", "assets/logo-la-bici-branco.png"],
-      ["Apoio financeiro", "A Rural, em suas edições, contou com apoio financeiro do Governo Federal e do Governo da Bahia através de editais culturais como o Edital Territórios Culturais e o Edital Audiovisual Geraldo Sarno, e também através da Lei Paulo Gustavo e da Lei Aldir Blanc."]
-    ]
-  },
-
-  edicoes: [
-    {
-      n: 1, cor: "#1571ad", ano: "2013", titulo: "Cafundó, Contagem e Macaúbas",
-      ficha: ["27 de fevereiro a 2 de março", "Encerramento em Macaúbas", "Entrada gratuita"],
-      locais: [["Cafundó", "Paramirim (BA)"], ["Contagem", "Rio do Pires (BA)"], ["Macaúbas", "BA"]],
-      texto: [
-        "A primeira viagem da Rural pelas comunidades da Bacia do Paramirim, território onde foi gravado o filme que deu nome à mostra, “É no pé do morro é lá no cafundó”, de Denise Santos.",
-        "O encerramento foi em Macaúbas, na Biblioteca Municipal (antiga Prefeitura), com exposição fotográfica de [Purki](#/tripulantes), exibição do filme “É no pé do morro é lá no cafundó”, de Denise Santos, às 20h30 e festa com o Baile Tropical do DJ Macô.",
-        "A primeira edição foi realizada por meio do edital Microprojetos Culturais, da Funarte e do Ministério da Cultura."
-      ],
-      cartaz: "ed1-cartaz",
-      pendente: false,
-      fotos: [
-        { id: "ed1-01", legenda: "A Rural viaja pela Bacia do Paramirim" },
-        { id: "ed1-02", legenda: "A Rural viaja pela Bacia do Paramirim" },
-        { id: "ed1-03", legenda: "Exibição do documentário na casa do personagem Seu Zé" }
-      ]
-    },
-    {
-      n: 2, cor: "#17865a", ano: "2015", titulo: "Macaúbas, Érico Cardoso e Paramirim",
-      ficha: ["21 a 27 de abril de 2015"],
-      locais: [["Lagoa Clara", "Macaúbas (BA)"], ["Lagoa do Maurício", "Macaúbas (BA)"], ["Morro do Fogo", "Érico Cardoso (BA)"], ["Pé do Morro", "Paramirim (BA)"], ["Canabravinha", "Paramirim (BA)"], ["Paramirim", "BA"]],
-      texto: [
-        "A segunda edição voltou às estradas da Bacia do Paramirim em abril de 2015: Lagoa Clara e Lagoa do Maurício, em Macaúbas; Morro do Fogo, em Érico Cardoso; Pé do Morro e Canabravinha, em Paramirim; e a cidade de Paramirim, no encerramento.",
-        "A edição teve apoio do Governo do Estado da Bahia, através do Fundo de Cultura."
-      ],
-      cartaz: "ed2-cartaz",
-      pendente: false,
-      // ed2-03 a 05: prints do Instagram enviados em 08/10/2026 (contador do canto recortado).
-      fotos: [
-        { id: "ed2-01", legenda: "A Rural viaja pela Bacia do Paramirim" },
-        { id: "ed2-03", legenda: "Músicos com pífano e zabumba" },
-        { id: "ed2-04", legenda: "Exposição fotográfica na cerca" },
-        { id: "ed2-05" }
-      ]
-    },
-    {
-      n: 3, cor: "#ffc21a", ano: "2017", titulo: "Preá, Saco do Fogo, Boa Madeira e Pajeú",
-      ficha: ["14 a 20 de maio de 2017"],
-      locais: [["Comunidade Quilombola do Preá", "Botuporã (BA)"], ["Saco do Fogo", "Ibipitanga (BA)"], ["Boa Madeira", "Macaúbas (BA)"], ["Pajeú", "Macaúbas (BA)"], ["Macaúbas", "BA"]],
-      texto: [
-        "Depois de circular em duas edições por treze comunidades da Bacia do Paramirim, a Rural pediu passagem de novo: Preá, em Botuporã (14 de maio); Saco do Fogo, em Ibipitanga (15); Boa Madeira (16) e Pajeú (18), em Macaúbas; e a cidade de Macaúbas (19), com passeios ecológicos nos dias 17 e 20.",
-        "A programação trouxe vídeos sobre patrimônios culturais, materiais e imateriais, do Nordeste brasileiro, modalidades circenses, videoinstalação, exposição fotográfica com as belezas naturais e culturais da região, manifestações populares e a distribuição de CD com músicas dos grupos de Terno de Reis da Bacia do Paramirim.",
-        "Passaram pela edição as artistas circenses Pusa Pinaud (Colômbia) e Ludmila Bas (Chile), o Palhaço Fuzuê, os cineastas Dario João de Souza (Saco do Fogo) e Pablo Sant'Ana (Barreiras), os grupos de samba de roda de Boa Madeira e do Preá e o Trio Mata Branca, de Macaúbas.",
-        "A terceira edição foi realizada pela La Bici Galeria Cultural, em parceria com o produtor Helivelto Lima, pelo edital Territórios Culturais 2016, com apoio financeiro do Fundo de Cultura do Governo da Bahia e apoio cultural das prefeituras de Macaúbas, Ibipitanga e Botuporã."
-      ],
-      cartaz: "ed3-cartaz",
-      release: ["ed3-release-01", "ed3-release-02", "ed3-release-03", "ed3-release-04", "ed3-release-05", "ed3-release-06", "ed3-release-07", "ed3-release-08"],
-      pendente: false,
-      fotos: [
-        { id: "ed3-01", legenda: "Palhaço Fuzuê e Pusa Pinaud" },
-        { id: "ed3-02", legenda: "O realizador Dario comenta a produção de “Vaqueiro do Nordeste”" },
-        { id: "ed3-03", legenda: "O Palhaço Fuzuê interage com o público" },
-        // ed3-04 a 06: vieram junto das fotos da 2ª, mas o banner (14 de maio, Preá...) e o lugar
-        // (mesma igrejinha e lona da ed3-01) são da 3ª.
-        { id: "ed3-04", legenda: "O banner da 3ª edição" },
-        { id: "ed3-05" },
-        { id: "ed3-06" }
-      ]
-    },
-    {
-      n: 4, cor: "#cc3219", ano: "2022", titulo: "Macaúbas, Boquira e Érico Cardoso",
-      ficha: ["21 a 23 de abril de 2022"],
-      locais: [["Boa Madeira", "Macaúbas (BA)"], ["Brejo Grande", "Boquira (BA)"], ["Comunidade Quilombola Paramirim das Crioulas", "Érico Cardoso (BA)"]],
-      texto: [
-        "Depois de circular em três edições por mais de 24 povoados e comunidades, a La Bici Galeria Cultural, em parceria com o produtor Helivelto Lima, de Macaúbas, levou a quarta edição a três comunidades em três dias.",
-        "Em Boa Madeira, Macaúbas (21 de abril), com o Samba de Roda das Mulheres de Boa Madeira; em Brejo Grande, Boquira (22), com o Reis das Mulheres e Cia; e no Quilombo Paramirim das Crioulas, Érico Cardoso (23), com o Reisado das Liras e Manjonas.",
-        "A programação teve exibição de documentário, exposição de artesanato, exposição fotográfica e apresentações circenses com Dan, o mágico, e o Palhaço Eleno.",
-        "A edição foi selecionada no edital Territórios Culturais 2019, com apoio financeiro do Fundo de Cultura do Governo da Bahia e apoio cultural das prefeituras de Macaúbas, Boquira e Érico Cardoso."
-      ],
-      cartaz: "ed4-cartaz",
-      release: ["ed4-release-01", "ed4-release-02", "ed4-release-03", "ed4-release-04", "ed4-release-05", "ed4-release-06"],
-      pendente: false,
-      // trip-33 e trip-34: as mesmas fotos dos cartões de Eleno e Dan na página Tripulantes.
-      fotos: [
-        { id: "ed4-01", legenda: "Apresentação do mágico Dan em Boa Madeira, Macaúbas" },
-        { id: "trip-33", legenda: "Tripulante Palhaço Eleno" },
-        { id: "trip-34", legenda: "Tripulante Dan Marques (Brasília-DF), @dan_marques_magic" }
-      ]
-    },
-    {
-      n: 5, cor: "#ff5c9a", ano: "2025", titulo: "Preá, Palmeira e Boa Madeira",
-      ficha: ["12, 14 e 15 de março de 2025"],
-      locais: [["Comunidade Quilombola do Preá", "Botuporã (BA)"], ["Palmeira", "Boquira (BA)"], ["Boa Madeira", "Macaúbas (BA)"]],
-      texto: [
-        "Respeitável público, rufem os tambores, pois a Rural está chegando! Depois de quatro edições por mais de 30 povoados e comunidades da Bahia, a quinta edição viajou à Comunidade Quilombola do Preá, em Botuporã (12 de março), à comunidade rural de Palmeira, em Boquira (14), e a Boa Madeira, em Macaúbas (15), sempre às 16h, em frente à igrejinha.",
-        "Teve exibição de “O Palhaço” (2011), de Selton Mello, e de “É no pé do morro é lá no cafundó” (2011), de Denise Santos; o espetáculo “Circo Peligro”, com o artista circense colombiano Payaso Peligro; “O Fim da Mulher Cordial”, número em tecido marinho com Desa Aquino; e apresentação musical com o francês Navid Emadzadeh.",
-        "Cada comunidade também se apresentou: o samba de roda do Preá, a langa com músicos de Palmeira e o terno de reis e o samba de roda das mulheres de Boa Madeira. Completaram a programação a exposição fotográfica com as comunidades contempladas, o artesanato e a gastronomia local.",
-        "Uma realização da La Bici Galeria Cultural e dos produtores culturais Helivelto Lima e Denise Santos, contemplada no edital PG08/2023 (Cineclubes, Mostras, Festivais e Eventos no Audiovisual), através da Lei Paulo Gustavo, com apoio institucional do Governo da Bahia e do Governo Federal."
-      ],
-      cartaz: "ed5-cartaz",
-      release: ["ed5-release-01", "ed5-release-02", "ed5-release-03", "ed5-release-04", "ed5-release-05", "ed5-release-06", "ed5-release-07", "ed5-release-08", "ed5-release-09"],
-      pendente: false,
-      fotos: []
-    },
-    // A 6ª (novembro de 2024) aconteceu antes da 5ª (março de 2025): a numeração segue os editais, não o calendário.
-    {
-      n: 6, cor: "#6e4bc0", ano: "2024", titulo: "Cachoeira das Araras e Baixão",
-      ficha: ["20 e 21 de novembro de 2024", "Com Libras"],
-      locais: [["Comunidade Quilombola do Baixão", "Vitória da Conquista (BA)"], ["Comunidade Quilombola Cachoeira das Araras", "Vitória da Conquista (BA)"]],
-      texto: [
-        "Depois de cinco edições por mais de 28 povoados e comunidades da Bahia, a Rural chegou às comunidades quilombolas de Vitória da Conquista: Cachoeira das Araras, em 20 de novembro, às 14h, na Escola Municipal Venceslau Ribeiro, e Baixão, em 21 de novembro, às 17h, na Escola Municipal Orlando Spínola.",
-        "Foram exibidos os documentários “É no pé do morro é lá no cafundó” (2011), de Denise Santos, e “Memórias de um Quilombo Vivo” (2019), do diretor baiano Rogério Sagui. No circo, “O Circo de um Homem Só”, com o Palhaço Tiziu, de Salvador, e “O Fim da Mulher Cordial”, em tecido marinho, com Denise Santos, além de exposição fotográfica e manifestações populares. Foi a primeira edição com tradutora de Libras.",
-        "A Rural integrou a 3ª edição da Mostra Circo no Cinema, contrapartida do projeto de formação de Denise Santos no Cirque Octave Singulier, na França, contemplado no edital de Mobilidade Cultural 2023/2024 do Governo da Bahia.",
-        "Esta edição foi contemplada no Edital Geraldo Sarno, através da Lei Paulo Gustavo, com apoio institucional do Governo Federal e do Ministério da Cultura."
-      ],
-      cartaz: "ed6-cartaz",
-      release: ["ed6-release-01", "ed6-release-02", "ed6-release-03", "ed6-release-04", "ed6-release-05", "ed6-release-06"],
-      pendente: false,
-      // "Samba Baixao" no Drive: fotos de 21/11/2024 (20h16 a 20h44), mesma câmera do Terno de Reis.
-      fotos: [
-        { id: "ed6-01", legenda: "Terno de Reis da Comunidade Quilombola do Baixão" },
-        { id: "ed6-02", legenda: "Samba no Baixão" },
-        { id: "ed6-03", legenda: "Samba no Baixão" },
-        { id: "ed6-04", legenda: "Samba no Baixão" }
-      ]
-    },
-    {
-      n: 7, cor: "#f0781a", ano: "2025 e 2026", titulo: "Comunidade do Baixão e Tamboril",
-      ficha: ["24 de março de 2026, 16h", "Escola Municipal Orlando Spínola", "Vitória da Conquista (BA)", "Gratuito, com Libras"],
-      locais: [["Tamboril", "Macaúbas (BA)"], ["Comunidade Quilombola do Baixão", "Vitória da Conquista (BA)"]],
-      // Texto a partir do release da 7ª ("VAI DE RURAL 2026 RELEASE 2.pdf", área de trabalho, 09/10/2026).
-      texto: [
-        "A sétima edição teve duas paradas: a primeira na comunidade rural de Tamboril, em Macaúbas, em 2025, e a continuação na Comunidade Quilombola do Baixão, em Vitória da Conquista, em 24 de março de 2026, na Escola Municipal Orlando Spínola.",
-        "No Baixão, a programação teve exposição fotográfica, gastronomia e artesanato local, a exibição do documentário “É no pé do morro, é lá no Cafundó” (2011), de Denise Santos, o espetáculo “Circo Peligro”, com o palhaço colombiano Milo Peligro, e a apresentação do grupo “Santo Reis Estrela Guia”, da própria comunidade. Tudo com tradução em Libras.",
-        "A exposição, assinada por [Helivelto Lima](#/tripulantes), mostrou registros da 6ª edição, feitos nas comunidades quilombolas do Baixão e de Cachoeira das Araras em 2024.",
-        "O grupo “Santo Reis Estrela Guia” é conduzido pela mestra Tói (Dona Vitória), que fundou o terno como pagamento por uma graça alcançada. Com cerca de 25 integrantes, muitas delas crianças, guarda mais de 80 versos tradicionais e se apresenta com roupas de tecido verde brilhante, detalhes em vermelho e chapéu de palha enfeitado.",
-        "A edição foi contemplada no Edital de Subsídio Heleusa Câmara, com recursos da Política Nacional Aldir Blanc de Fomento à Cultura (PNAB, Lei nº 14.399/2022), e contou com apoio institucional da Prefeitura Municipal de Vitória da Conquista e do Governo Federal."
-      ],
-      cartaz: "ed7-cartaz",
-      release: ["ed7-release-01", "ed7-release-02", "ed7-release-03", "ed7-release-04", "ed7-release-05", "ed7-release-06", "ed7-release-07", "ed7-release-08"],
-      pendente: false,
-      // Fotos do Drive com o nome da 7ª (sem as cópias com outro nome) e só seis das _MG sem nome,
-      // as que mostram o público junto do palhaço. Ordem: Terno de Reis, crianças, público,
-      // música e Libras, circo.
-      fotos: [
-        { id: "ed7-15", legenda: "Apresentação do Terno de Reis Estrela Guia, da Comunidade Quilombola do Baixão" },
-        { id: "ed7-55", legenda: "Crianças da Comunidade Quilombola do Baixão" },
-        { id: "ed7-60" },
-        { id: "ed7-61" },
-        { id: "ed7-57" },
-        { id: "ed7-52" },
-        { id: "ed7-18", legenda: "O público da Rural" },
-        { id: "ed7-56", legenda: "O público da Rural" },
-        { id: "ed7-58" },
-        { id: "ed7-59" },
-        { id: "ed7-62", legenda: "Na Comunidade Quilombola do Baixão, em Vitória da Conquista" },
-        { id: "ed7-19" },
-        { id: "ed7-16", legenda: "Apresentação musical de Cauê" },
-        { id: "ed7-17", legenda: "Apresentação musical com tradução em Libras" },
-        { id: "ed7-21", legenda: "Tradução em Libras durante a Rural" },
-        { id: "ed7-53", legenda: "Palhaço Peligro se apresenta na Comunidade Quilombola do Baixão" },
-        { id: "ed7-54", legenda: "Palhaço Peligro" },
-        ...["ed7-29", "ed7-36", "ed7-38", "ed7-42", "ed7-47", "ed7-50"].map(id => ({ id }))
-      ]
-    }
-  ],
-
-  // Mural: fotos de todas as edições que têm foto, em ordem de data (a 6ª, de 2024, vem antes da 7ª).
-  // A 5ª ainda não tem fotos. As mural-0N são _MG sem nome do Drive; entram como 7ª porque saíram
-  // da mesma exportação (25/03/2026) e do mesmo lugar das fotos com o nome da 7ª.
-  mural: [
-    { id: "ed1-01", edicao: 1 }, { id: "ed1-03", edicao: 1, legenda: "Exibição do documentário na casa do personagem Seu Zé" },
-    { id: "ed2-01", edicao: 2 },
-    { id: "ed2-05", edicao: 2 },
-    { id: "ed3-01", edicao: 3, legenda: "Palhaço Fuzuê e Pusa Pinaud" },
-    { id: "ed3-06", edicao: 3 },
-    { id: "ed3-03", edicao: 3, legenda: "O Palhaço Fuzuê interage com o público" },
-    { id: "ed4-01", edicao: 4, legenda: "Apresentação do mágico Dan em Boa Madeira, Macaúbas" },
-    { id: "trip-33", edicao: 4, legenda: "Tripulante Palhaço Eleno" },
-    { id: "trip-34", edicao: 4, legenda: "Tripulante Dan Marques (Brasília-DF), @dan_marques_magic" },
-    { id: "ed6-01", edicao: 6, legenda: "Terno de Reis da Comunidade Quilombola do Baixão" },
-    { id: "ed6-03", edicao: 6, legenda: "Samba no Baixão" },
-    { id: "ed7-55", edicao: 7, legenda: "Crianças da Comunidade Quilombola do Baixão" },
-    { id: "ed7-15", edicao: 7, legenda: "Apresentação do Terno de Reis Estrela Guia, da Comunidade Quilombola do Baixão" },
-    { id: "ed7-17", edicao: 7, legenda: "Apresentação musical com tradução em Libras" },
-    { id: "ed7-56", edicao: 7, legenda: "O público da Rural" },
-    { id: "mural-01", edicao: 7 }, { id: "mural-02", edicao: 7 }, { id: "mural-04", edicao: 7 }, { id: "mural-05", edicao: 7 }
-  ],
-
-  // Textos sobre as comunidades, com o nome igual ao de edicoes[].locais. Cada um aparece em toda
-  // edição que passou pelo lugar (Boa Madeira: 3ª, 4ª e 5ª; Tamboril: 7ª).
-  comunidades: {
-    "Boa Madeira": [
-      "Uma longa rua de terra batida com casas adornadas com cercas de varas e flores amarelas, uma capela em homenagem ao Senhor Bom Jesus, uma escola e dois bares compõem a comunidade de Boa Madeira.",
-      "Os registros dos seus primeiros habitantes, povos pré-colombianos, estão gravados em paredões rochosos ao longo do riacho que corta o povoado. A história dos europeus e africanos a chegarem às terras altas da região se perdeu no tempo.",
-      "No final do mês de março, começa a soprar o vento frio anunciando o fim das chuvas. Boa Madeira está a 18 km da sede do município, na região serrana de Macaúbas, numa altitude aproximada de 1.000 m. A economia é baseada na agricultura familiar: pequenas criações de gado, mandioca, andu, milho, feijão e o artesanato de palha de licuri. Os mais jovens viajam para a colheita do alho, o corte de cana e a limpeza de pastos em outros estados brasileiros.",
-      "No mês de junho, festejam o São João com fogueiras e fogos de artifício. No mês de agosto, homenageiam o Padroeiro com novena, leilões e missa. Do dia 25 de dezembro a 6 de janeiro, todos cantam o Reis e sambam em homenagem ao Menino Jesus. O reisado é tocado e cantado por mulheres, uma tradição única em nossas comunidades. Muitas vezes, o grupo é convidado a apresentar-se em outras localidades.",
-      "O nosso lugar é o chão que pisamos, é o cheiro da terra, é o sabor da comida, é o bom dia, é a mão estendida, é o samba no terreiro, é a ladainha na capela. A nossa terra é um céu com milhões de estrelas e é nele que nos transportamos e situamos na própria órbita."
-    ],
-    "Tamboril": [
-      "O Tamboril é uma das mais antigas comunidades de Macaúbas. Erguida à margem direita do Riachão do Leite, reúne dezenas de casas e uma capela dedicada a São José. É uma comunidade de raízes profundas, marcada pela tradição e pela religiosidade.",
-      "Sua lagoa é tesouro compartilhado: sustenta a criação miúda, rega pequenos pomares e hortas, oferece peixe e também alegria ao povoado. Nas baixadas, a terra fértil floresce. Na paisagem, reina a caatinga com suas aroeiras, braúnas, jatobás, umbuzeiros e juremas. Hoje, o Tamboril também se torna morada desejada para os que buscam sossego em pequenos sítios.",
-      "A vida econômica se apoia na agricultura de subsistência e na pecuária. Muitos de seus filhos e filhas ajudaram — e ainda ajudam — a escrever a história e o desenvolvimento de Macaúbas. Entre as famílias tradicionais, lembram-se Bastos, Silva, Ferreira, Figueiredo, Rodrigues, entre tantas outras.",
-      "Na capelinha azul e branca pulsa o coração da comunidade. Ali se celebra, no mês de março, a grande festa em louvor a São José, padroeiro: novenas, leilões, cantos, orações, fé e encontro. A igrejinha, cercada por casas antigas, pés de umbu, mandacarus, pela lagoa e, ao longe, pela Serra Geral, compõe uma bela paisagem, onde a tranquilidade se mistura à tradição."
-    ]
-  },
-
-  // Artistas na estrada: cartões com foto e um espaço de texto ao lado, na página Tripulantes.
-  // Fotos da pasta "fotos site vai de rural" (WhatsApp, 07/10/2026), agrupadas por pessoa; a primeira
-  // de cada grupo é a do destaque. Preencha `nome` e `texto` quando tiver; vazios, aparece "em breve".
-  artistas: [
-    // Nomes do Tiziu e do Milo Peligro: identificados pelo Rafa em 10/10/2026.
-    { nome: "Palhaço Tiziu", legenda: "Tripulante Palhaço Tiziu", texto: "", fotos: ["trip-01", "trip-06", "trip-09"] },
-    { nome: "Navid Emadzadeh", texto: "", fotos: ["trip-02", "trip-03", "trip-04", "trip-05"] },
-    {
-      nome: "Milo Peligro", legenda: "Tripulante Milo Peligro (Colômbia)", fotos: ["trip-16", "trip-20", "trip-21", "trip-22", "trip-23", "trip-26", "trip-31"],
-      // Do release da 7ª edição ("Convidados da Rural").
-      texto: [
-        "Nasceu em Medellín, na Colômbia, em 1989. Desde a infância já se interessava pelo teatro, pelas artes cênicas em geral e pela vida de estrada e o nomadismo do circo. Em 2008, aos 18 anos, começou a viajar pela América do Sul como malabarista e aprendiz de palhaço, passando por 8 países e participando de workshops, convenções e encontros de circo, palhaço e malabares.",
-        "Hoje mora em Salvador, na Bahia, onde continua exercendo a sua arte na rua, no teatro, no circo, em eventos e em qualquer espaço não convencional.",
-        "“Circo Peligro” é um espetáculo que combina malabares, mágica e equilibrismo, incorporando um dos elementos mais clássicos do circo: o número de risco. Equilibrado em um monociclo de 1,80 m, manipulando tochas e cuspindo grandes chamaradas, o artista desafia os próprios limites no picadeiro com um único objetivo: roubar o fôlego do público e garantir uma experiência inesquecível, recheada de risadas e muita emoção."
-      ]
-    },
-    // Tecido acrobático e acrobacia em dupla: a mesma pessoa.
-    // Texto "Sobre mim" enviado em 10/10/2026; o Instagram é o dos contatos do release da 7ª.
-    {
-      nome: "Denise Santos (Desa Aquino)", legenda: "Tripulante Denise Santos (Desa Aquino)", instagram: "desaaquino_",
-      texto: [
-        "Desde que me encantei pelo circo e pelo audiovisual, me expresso através dessas artes.",
-        "Mestra em Letras: Cultura, Educação e Linguagens pela Universidade Estadual do Sudoeste da Bahia, especialista em Cinema: Expressão e Análise pela Universidade Católica do Salvador e graduada em Comunicação Social.",
-        "Acredito que as expressões artísticas e culturais são ferramentas de transformação social.",
-        "Conheça outros projetos culturais e realizações de minha autoria, em processos colaborativos com outros artistas, no meu site: [www.desaaquino.com](https://www.desaaquino.com)."
-      ],
-      // trip-35 (trapézio, do site desaaquino.com) entrou como capa em 10/10/2026 no lugar da trip-32, que não estava boa.
-      fotos: ["trip-35", "trip-28", "trip-29", "trip-18", "trip-17", "trip-19", "trip-24", "trip-25", "trip-27", "trip-30"]
-    },
-    // Convidados da 4ª (WhatsApp, 08/10/2026). `legenda` sai embaixo da foto; `instagram`, sem o @, vira link.
-    // Eram também dois cartões sem nome (tochas de fogo e cartola); a Denise pediu para juntar, com o
-    // retrato como capa e sem as fotos quase iguais (saíram trip-08, trip-10 e trip-14).
-    {
-      nome: "Palhaço Eleno", legenda: "Tripulante Palhaço Eleno", fotos: ["trip-33", "trip-07", "trip-12", "trip-11", "trip-15"],
-      texto: [
-        "O multiartista foi o nosso convidado na 4ª edição da Mostra Cultural Itinerante Vai de Rural, que aconteceu de 21 a 23 de abril de 2022, em comunidades rurais da Bacia do Paramirim, na Bahia.",
-        "De natureza autodidata, tem uma formação diversificada em diferentes linguagens, que se integram e enriquecem seus trabalhos. É diretor de números circenses, espetáculos, curtas-metragens e videoclipes.",
-        "Em 2013, criou a Cia. Itinerante Imaginário e apresentou os espetáculos “Que Rufem os Tambores”, “Estupendo Maravilhoso”, “Des-Passos” e “Doce Estranha Maravilha”, participando de festivais internacionais de palhaço de rua e circo.",
-        "Já levou seus espetáculos e oficinas sobre arte de rua, palhaço, teatro físico, malabarismo, mímica, direção e criação ao Chile, à Argentina, ao Uruguai, ao Brasil e aos Estados Unidos."
-      ]
-    },
-    {
-      nome: "Dan Marques", legenda: "Tripulante Dan Marques (Brasília-DF)", instagram: "dan_marques_magic", fotos: ["trip-34", "trip-13"],
-      texto: [
-        "Dan Marques é um mágico excêntrico que tem seus poderes fora de controle: as coisas desaparecem, se transformam e aparecem de modo surpreendente e divertido até mesmo para o próprio artista. Depois de inúmeras e hilárias tentativas, o mágico simplesmente desiste, e de repente a magia acontece.",
-        "Dan é especializado em comedy street magic, linguagem em que é o brasileiro com mais prêmios internacionais até hoje. São 9 prêmios, como o primeiro lugar no Campeonato Mundial de Mágica de Rua em Sankt Wendel, na Alemanha; o primeiro lugar na maior competição de espetáculo de rua da Alemanha, a “Bamberg Zaubert”; o primeiro lugar na feira de teatro de Sarmede, na Itália; o segundo lugar na Gala do Festival Internacional Ozomatli 2014, no México; e o segundo lugar como “melhor espetáculo” no Campeonato Mundial de Street Magic de St. Wendel, na Alemanha (2013).",
-        "O one-man show “Funnykito Show”, criado em 2008, é o trabalho mais importante do artista: uma mistura de ilusionismo, mímica e comédia, em um estilo inovador."
-      ]
-    }
-  ],
-
-  // Equipe e convidados de cada edição, tirados das fichas técnicas dos releases (3ª a 7ª; a 1ª e a 2ª
-  // ainda não têm ficha). equipe: { edição: "função" }; convidado: { edição: "descrição" }. Para pôr a foto:
-  // python ferramentas/otimizar_fotos.py tripulantes caminho/da/foto.jpg  e cole o nome em `foto`.
-  tripulantes: [
-    { nome: "Denise Santos (Desa Aquino)", foto: "", equipe: { 3: "Produtora executiva e artista circense", 4: "Produção executiva, comunicação e performance circense", 5: "Produtora executiva, artista circense, assessora de comunicação e diretora audiovisual", 6: "Produtora executiva, artista circense e assessora de comunicação", 7: "Produtora executiva, assessora de comunicação e diretora convidada" } },
-    { nome: "Helivelto Lima", foto: "", equipe: { 3: "Produtor e expositor", 4: "Fotografia, direção de produção e comunicação", 5: "Diretor de produção e fotógrafo", 6: "Fotógrafo", 7: "Diretor de produção e expositor fotográfico" } },
-    { nome: "Pablo Sant'Ana", creditos: true, foto: "", equipe: { 3: "Designer gráfico", 4: "Arte gráfica" }, convidado: { 3: "Cineasta, de Barreiras (BA)" } },
-    { nome: "Navid Emadzadeh", foto: "", equipe: { 5: "Técnico audiovisual, assistente de produção e músico", 6: "Técnico audiovisual e produtor de campo" } },
-    { nome: "Celena Neri", creditos: true, foto: "", equipe: { 6: "Diretora de produção" } },
-    { nome: "Jaqueline França", creditos: true, foto: "", equipe: { 6: "Tradutora de Libras", 7: "Tradutora de Libras" } },
-    { nome: "Joaquim Flores", creditos: true, foto: "", equipe: { 6: "Designer gráfico" } },
-    { nome: "Binho Brill", creditos: true, foto: "", equipe: { 5: "Designer gráfico", 7: "Designer gráfico" } },
-    { nome: "Cleberson Jardim", creditos: true, foto: "", equipe: { 7: "Assistente de produção" } },
-    { nome: "Georgen Soares", creditos: true, foto: "", equipe: { 7: "Técnico audiovisual" } },
-    { nome: "Erica Daniela", creditos: true, foto: "", equipe: { 7: "Fotógrafa" } },
-    { nome: "Neto Cajado", creditos: true, foto: "", equipe: { 5: "Oficina de audiovisual" }, convidado: { 5: "Ator e documentarista, de Macaúbas (BA)" } },
-    { nome: "Luana Santana", creditos: true, foto: "", equipe: { 5: "Produtora de campo" } },
-    { nome: "Márcio Urubu", creditos: true, foto: "", equipe: { 5: "Produtor de campo" } },
-    { nome: "Ana Júlia dos Reis", creditos: true, foto: "", equipe: { 5: "Produtora local" } },
-    { nome: "Ana dos Reis", foto: "", equipe: { 5: "Produtora local e artista" } },
-    { nome: "Biatriz Bastos", creditos: true, foto: "", equipe: { 4: "Produção" } },
-    { nome: "Dan Marques", foto: "", equipe: { 4: "Arte circense (Dan, o mágico)" }, convidado: { 4: "Mágico" } },
-    { nome: "Fernanda Castro", creditos: true, foto: "", equipe: { 3: "Assessoria de comunicação" } },
-    { nome: "Purki", creditos: true, foto: "", equipe: { 1: "Exposição fotográfica", 3: "Fotógrafo e VJ" } },
-    { nome: "Ronaldo Ros", creditos: true, foto: "", equipe: { 3: "Instrumentista e técnico de som" } },
-    { nome: "Renata Lourenço", creditos: true, foto: "", equipe: { 3: "Técnica audiovisual" } },
-    { nome: "Flávio Ávila", creditos: true, foto: "", equipe: { 3: "Pesquisa e conteúdo" } },
-    { nome: "Milo Peligro", foto: "", convidado: { 5: "Artista circense (Payaso Peligro), da Colômbia", 7: "Artista circense, da Colômbia" } },
-    { nome: "Grupo Santo Reis Estrela Guia", foto: "", convidado: { 7: "Terno de reis da Comunidade Quilombola do Baixão, conduzido pela mestra Tói (Dona Vitória)" } },
-    { nome: "Palhaço Tiziu", foto: "", convidado: { 6: "Palhaço, de Salvador (BA)" } },
-    { nome: "Palhaço Eleno", foto: "", convidado: { 4: "Palhaço" } },
-    { nome: "Pusa Pinaud", foto: "", convidado: { 3: "Artista circense, da Colômbia" } },
-    { nome: "Ludmila Bas", foto: "", convidado: { 3: "Artista circense, do Chile" } },
-    { nome: "Palhaço Fuzuê", foto: "", convidado: { 3: "Palhaço" } },
-    { nome: "Dario João de Souza", foto: "", convidado: { 3: "Cineasta, de Saco do Fogo, Ibipitanga (BA)" } }
-  ],
-
-  videos: [
-    // Tecido marinho no Preá: só a 5ª teve o número em tecido marinho e passou pelo Preá (12/03/2025).
-    { id: "ndI-yk68hZA", edicao: 5, titulo: "Apresentação de tecido marinho na Comunidade Quilombola do Preá" },
-    { id: "-k5pVTTLNdQ", edicao: 3, titulo: "Entrevista com o Palhaço Fuzuê / Circo no Cinema" },
-    { id: "Bc9Vgns9u7A", edicao: 6, titulo: "Apresentação do grupo de samba de roda da Comunidade Quilombola do Baixão" },
-    { id: "tUGRXwzrBwc", edicao: null },
-    { id: "qz3x734Y_m8", edicao: null },
-    { id: "KZurJ5MyJDo", edicao: null },
-    { id: "cikCfKB4-KI", edicao: null },
-    { id: "YwnqLtXx7zY", edicao: null },
-    { id: "Ezu9kqwoWaE", edicao: null },
-    { id: "L7MnEOyoSJc", edicao: null }
-    // Tirado em 08/10/2026: YCdnMuJ2X1Y ("CHAMADA RURAL 5A EDIÇÃO", com Libras) dá erro ao tocar no YouTube.
-  ]
-};
 
 /* =========================================================================
    APLICAÇÃO
@@ -1224,8 +883,11 @@ const PALETAS = {
   "7": ["#ead8ae", "#b46d39", "#592d13", "#d99552"]    // creme, marrons e o laranja do pôr do sol
 };
 
-(() => {
+/* O app recebe o conteúdo já carregado (conteudo.json, ou o rascunho da tela Configurações na prévia).
+   fotosPrevia: { id: { 800: url, 1600: url } } das fotos novas que ainda não foram publicadas. */
+function iniciar(CONTEUDO, fotosPrevia) {
   "use strict";
+  fotosPrevia = fotosPrevia || {};
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
   const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -1253,7 +915,8 @@ const PALETAS = {
   /* Fotos hospedadas no próprio site (assets/fotos), em WebP com dois tamanhos:
      800 px para grade e colagem, 1600 px para destaque e ampliação.
      Gerados por ferramentas/otimizar_fotos.py. */
-  const foto = (nome, w) => `assets/fotos/${encodeURIComponent(nome)}-${w <= 800 ? 800 : 1600}.webp`;
+  const foto = (nome, w) => (fotosPrevia[nome] || {})[w <= 800 ? 800 : 1600]
+    || `assets/fotos/${encodeURIComponent(nome)}-${w <= 800 ? 800 : 1600}.webp`;
   const imgFoto = (nome, w, alt, extra = "") =>
     `<img src="${foto(nome, w)}" alt="${esc(alt)}" loading="lazy" decoding="async" ${extra}>`;
   const legendaFoto = (e, f) => f.legenda || `${e.titulo}, ${e.n}ª edição`;
@@ -2590,6 +2253,32 @@ const PALETAS = {
 
   render();
   carregarTitulos();
+}
+
+/* Carrega o conteúdo e liga o site. Com ?previa, mostra o rascunho que está sendo editado na tela
+   Configurações (guardado neste navegador), com uma faixa avisando que ainda não foi publicado.
+   no-cache: o navegador confere com o servidor, para uma publicação nova aparecer logo. */
+(async () => {
+  if (new URLSearchParams(location.search).has("previa")) {
+    try {
+      const { lerRascunho } = await import("./configuracoes/rascunho.js");
+      const r = await lerRascunho();
+      if (r) {
+        const fotos = Object.fromEntries(Object.entries(r.fotos).map(([id, f]) =>
+          [id, { 800: URL.createObjectURL(f[800]), 1600: URL.createObjectURL(f[1600]) }]));
+        document.body.insertAdjacentHTML("afterbegin", `<div class="faixa-previa" role="status">Prévia: estas mudanças ainda não foram publicadas.
+          <a href="configuracoes.html">Voltar a editar</a></div>`);
+        return iniciar(r.conteudo, fotos);
+      }
+    } catch (e) { console.warn("Prévia indisponível", e); }
+  }
+  // Atalho para a tela Configurações, só no aparelho de quem já entrou nela (tem a chave guardada).
+  try {
+    if (localStorage.getItem("vdr-chave")) document.body.insertAdjacentHTML("beforeend",
+      `<a class="botao-editar" href="configuracoes.html" aria-label="Editar o site">✎ Editar</a>`);
+  } catch {}
+  const r = await fetch("conteudo.json", { cache: "no-cache" });
+  iniciar(await r.json());
 })();
 </script>
 </body>
