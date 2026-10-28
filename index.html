@@ -424,6 +424,9 @@ body.com-fundo .painel.texto-longo {
 .cartao__capa img { width: 100%; height: 100%; object-fit: cover; }
 /* Cartaz como capa: o recorte 16:9 puxa para cima do centro, onde costumam ficar o título e a arte. */
 .cartao__capa img.cartao__cartaz { object-position: center 30%; }
+.cartao--reel .cartao__capa img { object-position: center 8%; }
+/* Vídeo que só toca no Instagram (música licenciada): avisa que o toque leva para lá. */
+.cartao__fora { display: inline-block; justify-self: start; width: fit-content; margin-top: .45rem; padding: .15rem .6rem; border-radius: 999px; font-size: .8rem; font-weight: 700; background: rgba(255, 255, 255, .16); }   /* reel em pé num cartão deitado: mostra a parte de cima */
 .cartao__num { position: absolute; inset: 0; display: grid; place-items: center; font-family: var(--display); font-size: 5rem; color: var(--t, #fff); }
 .cartao__play {
   position: absolute; inset: 0; margin: auto; width: 64px; height: 64px; border-radius: 50%;
@@ -631,6 +634,49 @@ dialog::backdrop { background: rgba(21, 29, 77, .94); }
 .vd__quadro iframe { width: 100%; height: 100%; border: 0; display: block; }
 .vd__rodape { width: min(100%, 1100px); margin-top: .75rem; display: flex; flex-wrap: wrap; gap: .5rem 1.25rem; justify-content: space-between; }
 .vd__rodape a { color: var(--sol); font-weight: 700; }
+/* Reel do Instagram (vale para todos): só o vídeo. O quadro do Instagram tem ~54 px de cabeçalho
+   (perfil, "Ver perfil"), depois o vídeo em ~4:5 e embaixo o "View more on Instagram", com borda branca.
+   A janela mostra só o miolo do vídeo, com folga: o iframe sobe 56 px, passa 3 px de cada lado e a
+   janela é mais baixa que 4:5 (1,18 × largura), porque logado no Instagram o vídeo sai ~20 px mais curto. */
+/* --w (largura) e --p (altura ÷ largura) ficam no dialog, para a janela e a legenda usarem os mesmos.
+   Calculados pela tela: a caixa de fora se ajusta ao conteúdo, então 100% não serve. */
+#vd.vd--vertical { --p: 1.18; --w: min(calc(100vw - 2rem), 400px, calc((100dvh - 8rem) / var(--p))); }
+/* Reel deitado (video.deitado): o Instagram mostra o vídeo em 16:9 (0,5625 × largura); a janela usa 0,53,
+   com a mesma folga para o Instagram logado, e pode ser mais larga. */
+#vd.vd--vertical.vd--deitado { --p: .53; --w: min(calc(100vw - 2rem), 900px, calc((100dvh - 8rem) / var(--p))); }
+.vd--vertical .vd__quadro {
+  position: relative; width: var(--w); height: calc(var(--w) * var(--p)); aspect-ratio: auto; background: #000;
+}
+.vd--vertical .vd__quadro iframe {
+  /* Bem mais alto que o conteúdo (legenda e comentários do Instagram logado), para não surgir barra de rolagem. */
+  position: absolute; left: -3px; top: -56px; width: calc(100% + 6px); height: calc(100% + 56px + 1600px);
+}
+.vd--vertical .vd__rodape { width: var(--w); }
+.vd--vertical .vd__link { display: none; }
+/* Botão de vídeo no cartão do artista (Tripulantes). */
+.artista .artista__video {
+  display: inline-flex; align-items: center; gap: .55rem; width: auto; margin-top: .8rem; padding: .55rem 1rem .55rem .55rem;
+  border-radius: 999px; background: var(--sol); color: var(--anil); font: inherit; font-weight: 800; overflow: visible;
+  box-shadow: 0 3px 0 #b88400;
+}
+.artista__video svg { width: 1.9rem; height: 1.9rem; padding: .35rem; border-radius: 50%; background: var(--anil); color: #fff; }
+.artista .artista__video:hover { transform: translateY(-2px); }
+/* Com miniatura (video.capa): a imagem do vídeo em pé, play no meio e o título numa faixa escura embaixo. */
+.artista .artista__video--capa {
+  position: relative; display: block; width: min(100%, 240px); padding: 0; border-radius: 10px; overflow: hidden;
+  background: #000; box-shadow: 0 6px 16px rgba(0, 0, 0, .3);
+}
+.artista__video--capa img { aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 15%; }   /* enquadra mais pelo alto */
+.artista__video-play {
+  position: absolute; left: 50%; top: 42%; translate: -50% -50%; display: grid; place-items: center;
+  width: 3.4rem; height: 3.4rem; border-radius: 50%; background: var(--sol); color: var(--anil); border: 3px solid var(--anil);
+}
+.artista__video-play svg { width: 1.6rem; height: 1.6rem; margin-left: 3px; padding: 0; background: none; color: inherit; }
+.artista__video-titulo {
+  position: absolute; left: 0; right: 0; bottom: 0; padding: 1.6rem .7rem .6rem; text-align: left;
+  font-size: .9rem; font-weight: 700; line-height: 1.3; color: #fff;
+  background: linear-gradient(transparent, rgba(0, 0, 0, .82));
+}
 
 
 /* ---------- Fundo com as paletas dos cartazes ----------
@@ -931,17 +977,21 @@ function iniciar(CONTEUDO, fotosPrevia) {
 
   /* ---------- Vídeos ---------- */
   const thumbYT = id => `https://i.ytimg.com/vi/${encodeURIComponent(id)}/hqdefault.jpg`;
+  // Miniatura de um vídeo da lista: a foto `capa` (obrigatória para reel do Instagram, que não dá miniatura
+  // pública) ou a do YouTube.
+  const miniVideo = v => v.capa ? foto(v.capa, 800) : thumbYT(v.id);
   const tituloVideo = v => v.titulo || `Vídeo ${VIDS.indexOf(v) + 1}`;
   const cartaoVideo = v => {
     const e = v.edicao ? ed(v.edicao) : null;
-    return `<button class="cartao" data-video="${VIDS.indexOf(v)}" style="${e ? `--vc:${e.cor}` : "--vc:var(--sol)"}">
+    return `<button class="cartao${v.instagram ? " cartao--reel" : ""}" data-video="${VIDS.indexOf(v)}" style="${e ? `--vc:${e.cor}` : "--vc:var(--sol)"}">
       <span class="cartao__capa">
-        <img src="${thumbYT(v.id)}" alt="" loading="lazy" decoding="async">
+        <img src="${miniVideo(v)}" alt="" loading="lazy" decoding="async">
         <span class="cartao__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg></span>
       </span>
       <span class="cartao__info">
         <span class="cartao__titulo">${esc(tituloVideo(v))}</span>
         ${e ? `<span class="cartao__etiqueta">${rotuloEd(e)}</span>` : ""}
+        ${v.abreNoInstagram ? `<span class="cartao__fora">Abre no Instagram ↗</span>` : ""}
       </span>
     </button>`;
   };
@@ -962,7 +1012,7 @@ function iniciar(CONTEUDO, fotosPrevia) {
     };
     let mudou = false;
     await Promise.all(VIDS.map(async v => {
-      if (v.titulo) return;   // título escrito no CONTEUDO vale mais que o do YouTube
+      if (v.titulo || !v.id) return;   // título escrito no conteúdo vale mais que o do YouTube; reel não tem oEmbed aberto
       const watch = encodeURIComponent(`https://www.youtube.com/watch?v=${v.id}`);
       const titulo = await pega(`https://www.youtube.com/oembed?url=${watch}&format=json`)
                   ?? await pega(`https://noembed.com/embed?url=${watch}`);
@@ -1116,7 +1166,7 @@ function iniciar(CONTEUDO, fotosPrevia) {
     return `<div class="carrossel" data-carrossel aria-label="${itens.some(it => it.video != null) ? "Vídeos das edições" : "Fotos das edições"}">
       ${itens.map((it, k) => `${it.video != null
         ? `<a class="carrossel__foto" href="#/videos" data-video="${it.video}" aria-label="${esc(`Assistir: ${tituloVideo(VIDS[it.video])}`)}">
-        <img src="${thumbYT(VIDS[it.video].id)}" alt="" ${k === 0 ? 'fetchpriority="high"' : ""} decoding="async">${play}`
+        <img src="${miniVideo(VIDS[it.video])}" alt="" ${k === 0 ? 'fetchpriority="high"' : ""} decoding="async">${play}`
         : `<a class="carrossel__foto" href="${it.href || (it.e ? `#/edicao/${it.e.n}` : "#/edicoes")}"
           aria-label="${esc(it.rotulo || (it.e ? `Foto da ${rotuloEd(it.e)}` : "Foto da mostra"))}">
         ${imgFoto(it.id, 700, "", k === 0 ? 'fetchpriority="high" loading="eager"' : 'loading="eager"')}`}
@@ -1626,6 +1676,13 @@ function iniciar(CONTEUDO, fotosPrevia) {
                 <button class="artista__destaque" data-artista="${k}" data-artista-foto="0" aria-label="Ampliar a foto${a.nome ? ` de ${esc(a.nome)}` : ""}">${imgFoto(a.fotos[0], 800, a.nome || "Artista da Rural")}</button>
                 ${a.fotos.length > 1 ? `<div class="artista__mini">${a.fotos.slice(1).map((id, i) => `<button data-artista="${k}" data-artista-foto="${i + 1}" aria-label="Ampliar a foto ${i + 2}">${imgFoto(id, 800, "")}</button>`).join("")}</div>` : ""}
                 ${a.legenda ? `<p class="artista__legenda">${esc(a.legenda)}${a.instagram ? ` <a href="https://www.instagram.com/${encodeURIComponent(a.instagram)}/" target="_blank" rel="noopener">@${esc(a.instagram)}</a>` : ""}</p>` : ""}
+                ${a.video ? (a.video.capa
+                  ? `<button class="artista__video artista__video--capa" data-video-artista="${k}" aria-label="Assistir: ${esc(a.video.titulo)}">
+                      ${imgFoto(a.video.capa, 800, "")}
+                      <span class="artista__video-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></span>
+                      <span class="artista__video-titulo">${esc(a.video.titulo)}</span>
+                    </button>`
+                  : `<button class="artista__video" data-video-artista="${k}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>Assistir: ${esc(a.video.titulo)}</button>`) : ""}
               </div>
               <div class="artista__texto${a.nome ? "" : " artista__texto--vazio"}">
                 <h3${a.nome ? ' class="artista__nome"' : ""}>${a.nome ? esc(a.nome) : "Nome em breve"}</h3>
@@ -2152,6 +2209,8 @@ function iniciar(CONTEUDO, fotosPrevia) {
       $("[data-lista-mural]").innerHTML = fotosMural(bFilM.dataset.filtroMural ? Number(bFilM.dataset.filtroMural) : null);
       return;
     }
+    const bVidArt = ev.target.closest("[data-video-artista]");
+    if (bVidArt) return abrirVideo(ARTISTAS[Number(bVidArt.dataset.videoArtista)].video);
     const bVid = ev.target.closest("[data-video]");
     if (bVid) return abrirVideo(VIDS[Number(bVid.dataset.video)]);
     const bLeitorEd = ev.target.closest("[data-leitor-ed]");
@@ -2228,11 +2287,21 @@ function iniciar(CONTEUDO, fotosPrevia) {
      youtube-nocookie: sem cookies de rastreamento antes do play.
      O iframe é removido ao fechar, senão o áudio continua tocando. */
   const vd = $("#vd"), vdQuadro = $(".vd__quadro", vd);
+  // v: vídeo do YouTube ({ id }) ou reel do Instagram ({ instagram, titulo }), que abre em pé.
   function abrirVideo(v) {
-    vdQuadro.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(v.id)}?autoplay=1&rel=0"
-      title="${esc(tituloVideo(v))}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>`;
-    $(".vd__titulo", vd).textContent = tituloVideo(v);
-    $(".vd__link", vd).href = `https://www.youtube.com/watch?v=${encodeURIComponent(v.id)}`;
+    // Reel com música licenciada não toca fora do Instagram: abre lá, numa aba nova (com som).
+    if (v.abreNoInstagram) return void window.open(`https://www.instagram.com/reel/${encodeURIComponent(v.instagram)}/`, "_blank", "noopener");
+    const insta = !!v.instagram, titulo = insta ? v.titulo : tituloVideo(v);
+    const src = insta ? `https://www.instagram.com/reel/${encodeURIComponent(v.instagram)}/embed/`
+                      : `https://www.youtube-nocookie.com/embed/${encodeURIComponent(v.id)}?autoplay=1&rel=0`;
+    vd.classList.toggle("vd--vertical", insta);
+    vd.classList.toggle("vd--deitado", insta && !!v.deitado);   // reel gravado deitado: o Instagram mostra em 16:9
+    // scrolling="no": logado no Instagram o quadro fica comprido e a barra de rolagem aparecia à direita do vídeo.
+    vdQuadro.innerHTML = `<iframe src="${src}" title="${esc(titulo)}"${insta ? ' scrolling="no"' : ""} allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>`;
+    $(".vd__titulo", vd).textContent = titulo;
+    const link = $(".vd__link", vd);
+    link.href = insta ? `https://www.instagram.com/reel/${encodeURIComponent(v.instagram)}/` : `https://www.youtube.com/watch?v=${encodeURIComponent(v.id)}`;
+    link.textContent = insta ? "Abrir no Instagram" : "Abrir no YouTube";
     vd.showModal();
   }
   vd.addEventListener("close", () => { vdQuadro.innerHTML = ""; });

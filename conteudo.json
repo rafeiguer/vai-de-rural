@@ -689,6 +689,11 @@
     {
       "nome": "Milo Peligro",
       "legenda": "Tripulante Milo Peligro (Colômbia)",
+      "video": {
+        "instagram": "DWTsqfSkZnr",
+        "titulo": "Espetáculo “Circo Peligro” na 7ª edição",
+        "capa": "trip-36"
+      },
       "fotos": [
         "trip-16",
         "trip-20",
@@ -703,7 +708,7 @@
         "Hoje mora em Salvador, na Bahia, onde continua exercendo a sua arte na rua, no teatro, no circo, em eventos e em qualquer espaço não convencional.",
         "“Circo Peligro” é um espetáculo que combina malabares, mágica e equilibrismo, incorporando um dos elementos mais clássicos do circo: o número de risco. Equilibrado em um monociclo de 1,80 m, manipulando tochas e cuspindo grandes chamaradas, o artista desafia os próprios limites no picadeiro com um único objetivo: roubar o fôlego do público e garantir uma experiência inesquecível, recheada de risadas e muita emoção."
       ],
-      "_nota": "Texto do release da 7ª edição (\"Convidados da Rural\")."
+      "_nota": "Texto do release da 7ª edição (\"Convidados da Rural\"). Vídeo: reel da Denise (@desaaquino_) com o espetáculo no Baixão, adicionado em 27/10/2026; a miniatura (trip-36) é a capa do próprio reel."
     },
     {
       "nome": "Denise Santos (Desa Aquino)",
@@ -1023,6 +1028,109 @@
     }
   ],
   "videos": [
+    {
+      "instagram": "DWTsqfSkZnr",
+      "edicao": 7,
+      "titulo": "Espetáculo “Circo Peligro”, com o palhaço colombiano Milo Peligro",
+      "capa": "trip-36",
+      "_nota": "Reel da Denise (@desaaquino_), o mesmo do cartão do Milo em Tripulantes (27/10/2026)."
+    },
+    {
+      "instagram": "DWTnD-mkeJR",
+      "edicao": 7,
+      "titulo": "Apresentação do terno de reis “Santo Reis Estrela Guia”, da Comunidade Quilombola do Baixão",
+      "capa": "video-01",
+      "_nota": "Reel da Denise (@desaaquino_), 24/03/2026, com participação do instrumentista Pedro Akauã. Capa recortada do alto do reel para o terno aparecer no cartão (27/10/2026)."
+    },
+    {
+      "instagram": "DWSDKumEWUV",
+      "edicao": 7,
+      "titulo": "Mais do terno de reis “Santo Reis Estrela Guia”, no Baixão",
+      "capa": "video-02",
+      "_nota": "Outro reel da Denise e do Helivelto da mesma apresentação (mesma legenda no Instagram), 27/10/2026."
+    },
+    {
+      "instagram": "DWByaWijuye",
+      "edicao": 7,
+      "titulo": "Chamada da 7ª edição: alegria, cultura e diversão no Baixão",
+      "capa": "video-03",
+      "abreNoInstagram": true,
+      "_nota": "Reel de divulgação do Helivelto (@heliveltoolima) e da Denise para o evento de 24/03/2026. Tem música licenciada (Imagine Dragons), que o Instagram não deixa tocar fora dele: o cartão abre o reel numa aba do Instagram. Capa recortada sem as marcas do CapCut e do Instagram (27/10/2026)."
+    },
+    {
+      "instagram": "DVuJ1D4jbTK",
+      "edicao": 7,
+      "titulo": "Chamada da continuação da 7ª edição, com memórias da 6ª",
+      "capa": "video-04",
+      "abreNoInstagram": true,
+      "_nota": "Reel do Helivelto e da Denise: chamada para 24/03/2026 no Baixão, com imagens da 6ª (Palhaço Tiziu, capoeira, exposição, cinema). Música licenciada (Evandro Correia, “Gema”), por isso abre no Instagram (27/10/2026)."
+    },
+    {
+      "instagram": "DOtWswhDktM",
+      "edicao": 7,
+      "titulo": "Exposição fotográfica da 7ª edição",
+      "capa": "video-05",
+      "abreNoInstagram": true,
+      "_nota": "Reel do Helivelto e da Denise. A legenda cita o Edital de Chamamento Público nº 01/2025 da Prefeitura de Macaúbas, então deve ser da parada de Tamboril (2025) — a confirmar. Música licenciada (Ito Moreno, “Bilisquim”), por isso abre no Instagram (27/10/2026)."
+    },
+    {
+      "instagram": "DIEXWSNRiRj",
+      "edicao": 5,
+      "titulo": "Manifestação cultural da Comunidade Quilombola do Preá",
+      "capa": "video-06",
+      "_nota": "Reel da Denise (com @luanasantana8968): a comunidade do Preá (Botuporã) se apresentando na 5ª edição. Áudio original, toca no site. Capa recortada na roda, sem o cartaz (27/10/2026)."
+    },
+    {
+      "instagram": "DH7Ktw9sKYI",
+      "edicao": 5,
+      "titulo": "Acessibilidade, inclusão e cuidado na 5ª edição",
+      "capa": "video-07",
+      "_nota": "Reel do Helivelto e da Denise. Áudio original, toca no site. A capa do Instagram era um quadro borrado; a miniatura é o quadro dos 5 s, com as placas “Rampa de acesso” e “Preferencial” (27/10/2026)."
+    },
+    {
+      "instagram": "DHrPJBzJOiU",
+      "edicao": 5,
+      "titulo": "A Rural no Preá, em Botuporã",
+      "capa": "video-08",
+      "abreNoInstagram": true,
+      "_nota": "Reel do Helivelto e da Denise na 5ª edição, no Preá. Música licenciada (Flo Rida, “Low”), por isso abre no Instagram. Capa recortada sem as faixas pretas e a marca do CapCut (27/10/2026)."
+    },
+    {
+      "instagram": "DHoEUpKs1Yn",
+      "edicao": 5,
+      "titulo": "Langa em Palmeira, Boquira",
+      "capa": "video-09",
+      "_nota": "Reel do Helivelto (vídeo dele) e da Denise: a langa de Palmeira na 5ª edição. Áudio original, toca no site. Capa recortada na roda, sem as faixas pretas (27/10/2026)."
+    },
+    {
+      "instagram": "DHbGgDfsZ_I",
+      "edicao": 5,
+      "titulo": "Comidas típicas da comunidade de Palmeira, Boquira",
+      "capa": "video-10",
+      "deitado": true,
+      "_nota": "Reel do Helivelto e da Denise: mingau de milho, brevidade, beiju, cuscuz, paçoca de carne, rosário de licuri e outras comidas de Palmeira na 5ª edição. Tem música (benzie, “vilarejo”), mas liberada: toca no site (27/10/2026)."
+    },
+    {
+      "instagram": "DHYGnkFxv36",
+      "edicao": 5,
+      "titulo": "Tecido marinho com Desa Aquino em Palmeira, Boquira",
+      "capa": "video-11",
+      "_nota": "Reel da Denise: o número de tecido marinho em Palmeira, 14/03/2025, com acompanhamento musical de Navid (na legenda, “Navid Talemi”). Áudio original, toca no site. Capa recortada sem o cartaz (27/10/2026)."
+    },
+    {
+      "instagram": "DHW2K52xxT7",
+      "edicao": 5,
+      "titulo": "Depoimento de Maria Eduarda sobre o documentário “É no pé do morro é lá no cafundó”, em Boa Madeira",
+      "capa": "video-12",
+      "_nota": "Reel da Denise na 5ª edição, Boa Madeira (Macaúbas). Áudio original, toca no site. Capa recortada no rosto, sem o cartaz (27/10/2026)."
+    },
+    {
+      "instagram": "DHS1jeKAeMv",
+      "edicao": 5,
+      "titulo": "Samba de roda de Boa Madeira no encerramento da 5ª edição",
+      "capa": "video-13",
+      "_nota": "Reel da Denise (com @luanasantana8968): Grupo de Samba de Roda de Boa Madeira, noite de lua cheia, 15/03/2025. Áudio original, toca no site. A capa do Instagram era tremida; a miniatura é o quadro dos 3 s, recortado acima do quadrinho do cartaz (27/10/2026)."
+    },
     {
       "id": "ndI-yk68hZA",
       "edicao": 5,
