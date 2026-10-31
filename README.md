@@ -1,6 +1,6 @@
 ﻿# Vai de Rural
 
-Site da Mostra Cultural Itinerante, publicado em https://rafeiguer.github.io/vai-de-rural/
+Site da Mostra Cultural Itinerante, publicado em https://vaiderural.com/ (GitHub Pages, domínio no arquivo CNAME).
 
 ## Estrutura
 
@@ -29,7 +29,8 @@ Para cortar o acesso, apague o token no GitHub. Os commits saem no seu nome, com
 Antes de editar o `conteudo.json` à mão, faça `git pull`: a Denise pode ter publicado mudanças.
 - `assets/fotos/`: fotos em WebP, cada uma em dois tamanhos (`-800` e `-1600`).
 - `assets/cartazes/`: recortes dos cartazes usados no fundo.
-- `assets/og.jpg`: imagem da prévia ao compartilhar no WhatsApp e nas redes.
+- `assets/og-7.jpg`: imagem da prévia ao compartilhar no WhatsApp e nas redes (cartaz da 7ª, 1200×630).
+  Ao trocar, use um nome novo (og-8.jpg…) e atualize `og:image` no index.html: o WhatsApp guarda a antiga pelo endereço.
 - `ferramentas/otimizar_fotos.py`: converte fotos originais para o site (precisa de Pillow).
 
 ## Preview local
