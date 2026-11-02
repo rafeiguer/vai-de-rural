@@ -501,6 +501,9 @@ body.com-fundo .painel.texto-longo {
 .tripulante .cartao__num { font-size: clamp(3.5rem, 12vw, 5.5rem); }
 /* "Tripulantes" é a palavra mais longa dos títulos: fonte um pouco menor e sem quebra entre as letras. */
 .abertura--pagina h1#t-trip { font-size: clamp(2.6rem, 8vw, 5.2rem); }
+.abertura h1 .palavra { display: inline-block; white-space: nowrap; }
+/* Título longo de projeto (ex.: "Um olhar sobre Boa Madeira"). */
+.abertura--pagina h1#t-projeto { font-size: clamp(2.4rem, 9vw, 5.2rem); }
 #t-trip .rural { white-space: nowrap; }
 /* Artistas na estrada: foto em destaque + miniaturas à esquerda, texto ao lado (embaixo, no celular). */
 .artistas { display: grid; gap: 1.4rem; margin-top: 1.6rem; }
@@ -833,6 +836,7 @@ body.com-fundo .carta__ano { background: rgba(11, 16, 51, .85); color: #fff; }
       <a href="#/videos" data-rota="videos">Vídeos</a>
       <a href="#/mural" data-rota="mural">Mural</a>
       <a href="#/tripulantes" data-rota="tripulantes">Tripulantes</a>
+      <a href="#/boa-madeira" data-rota="boa-madeira">Boa Madeira</a>
       <a href="#/sobre" data-rota="sobre">Sobre</a>
       <a href="#/creditos" data-rota="creditos">Créditos</a>
     </nav>
@@ -902,6 +906,9 @@ body.com-fundo .carta__ano { background: rgba(11, 16, 51, .85); color: #fff; }
    - edicoes[].texto e artistas[].texto: para linkar um nome a outra página do site, escreva
      [Nome](#/tripulantes); para um site de fora, [Nome](https://endereco.com) (abre numa aba nova).
    - edicoes[].pendente: true mostra o aviso "página em montagem".
+   - projetos: outros projetos da La Bici, cada um com página própria em #/<chave> (ex.: projetos["boa-madeira"]
+     → #/boa-madeira): titulo, subtitulo, texto[], edicoes [{ nome, ano, texto }], fotos [{ id, legenda }].
+     Vídeo com `projeto: "<chave>"` aparece só nessa página, não nas listas da Rural.
    - mural: fotos da página Mural, na ordem em que aparecem. `edicao` (1–7) e `legenda` são
      opcionais; com `edicao`, a foto ganha o filtro e a legenda daquela edição.
    - artistas: cartões com fotos e texto na página Tripulantes. `legenda` sai embaixo da foto;
@@ -946,7 +953,9 @@ function iniciar(CONTEUDO, fotosPrevia) {
   const ARTISTAS = CONTEUDO.artistas || [];
   const fotosArtista = a => a.fotos.map(id => ({ id, legenda: a.nome || "Artista da Rural" }));
   const COMUNIDADES = CONTEUDO.comunidades || {};
-  // Texto das edições: [nome](#/pagina) vira link interno do site (só endereços que começam com #/).
+  // Outros projetos da La Bici (página #/<chave>, ex.: #/boa-madeira). Vídeo com `projeto` vai só para essa página.
+  const PROJETOS = CONTEUDO.projetos || {};
+  const VRURAL = VIDS.filter(v => !v.projeto);
   // [Nome](#/pagina) vira link para outra página do site; [Nome](https://...) abre o endereço numa aba nova.
   const comLinks = t => esc(t)
     .replace(/\[([^\]]+)\]\((#\/[\w\/-]*)\)/g, '<a href="$2">$1</a>')
@@ -1144,7 +1153,10 @@ function iniciar(CONTEUDO, fotosPrevia) {
   // h1 de duas linhas, com a segunda colorida letra a letra (mesmo recurso da home, sem animação).
   function tituloPagina(id, linha1, linha2) {
     const rotulo = [linha1, linha2].filter(Boolean).join(" ");
-    return `<h1 id="${id}" aria-label="${esc(rotulo)}"><span aria-hidden="true">${linha1 ? `${esc(linha1)}<br>` : ""}<span class="rural">${letras(linha2, 0)}</span></span></h1>`;
+    // Cada palavra numa caixa que não quebra: título de várias palavras ("Um olhar sobre Boa Madeira") só quebra entre elas.
+    let i0 = 0;
+    const palavras = linha2.split(" ").map(p => { const s = `<span class="palavra">${letras(p, i0)}</span>`; i0 += p.length + 1; return s; }).join(" ");
+    return `<h1 id="${id}" aria-label="${esc(rotulo)}"><span aria-hidden="true">${linha1 ? `${esc(linha1)}<br>` : ""}<span class="rural">${palavras}</span></span></h1>`;
   }
 
   function chamada(titulo, texto, href, rotulo) {
@@ -1421,6 +1433,7 @@ function iniciar(CONTEUDO, fotosPrevia) {
             <p class="abertura__sub">${esc(P.chamada)}</p>
             <div class="botoes" style="margin-top:1.6rem">
               <a class="botao" href="#/edicoes">Ver as ${EDS.length} edições</a>
+              ${PROJETOS["boa-madeira"] ? `<a class="botao" href="#/boa-madeira">${esc(PROJETOS["boa-madeira"].titulo)}</a>` : ""}
               <a class="botao botao--branco" href="#/videos">Assistir aos vídeos</a>
             </div>
           </div>
@@ -1436,8 +1449,8 @@ function iniciar(CONTEUDO, fotosPrevia) {
         <div class="envelope">
           <h2 class="titulo" id="t-videos">Vídeos</h2>
           <p class="intro">Toque para assistir aqui mesmo.</p>
-          <div class="cartoes">${VIDS.slice(0, 6).map(cartaoVideo).join("")}</div>
-          <p style="margin-top:2rem"><a class="botao" href="#/videos">Ver todos os ${VIDS.length} vídeos</a></p>
+          <div class="cartoes">${VRURAL.slice(0, 6).map(cartaoVideo).join("")}</div>
+          <p style="margin-top:2rem"><a class="botao" href="#/videos">Ver todos os ${VRURAL.length} vídeos</a></p>
         </div>
       </section>`;
     },
@@ -1507,7 +1520,8 @@ function iniciar(CONTEUDO, fotosPrevia) {
           ${e.locais.filter(([lugar]) => COMUNIDADES[lugar]).map(([lugar, cidade]) => `
           <section class="comunidade" aria-label="Conheça ${esc(lugar)}">
             <h3 class="comunidade__titulo">Conheça ${esc(lugar)} <span>${esc(cidade)}</span></h3>
-            <div class="comunidade__texto">${COMUNIDADES[lugar].map(p => `<p>${esc(p)}</p>`).join("")}</div>
+            <div class="comunidade__texto">${COMUNIDADES[lugar].map(p => `<p>${esc(p)}</p>`).join("")}
+              ${lugar === "Boa Madeira" && PROJETOS["boa-madeira"] ? `<p><a href="#/boa-madeira">Conheça também o projeto “${esc(PROJETOS["boa-madeira"].titulo)}” →</a></p>` : ""}</div>
           </section>`).join("")}
         </section>` : ""}
         ${e.texto.length ? `<div class="ed-texto painel">${e.texto.map(p => `<p>${comLinks(p)}</p>`).join("")}</div>` : ""}
@@ -1547,11 +1561,11 @@ function iniciar(CONTEUDO, fotosPrevia) {
     },
 
     videos() {
-      const comEd = [...new Set(VIDS.map(v => v.edicao).filter(Boolean))].sort((a, b) => a - b);
+      const comEd = [...new Set(VRURAL.map(v => v.edicao).filter(Boolean))].sort((a, b) => a - b);
       // Carrossel da abertura: até 8 miniaturas, alternando as edições (como no Mural).
       const amostra = () => {
         const porEd = {};
-        VIDS.forEach((v, k) => (porEd[v.edicao || 0] ??= []).push(k));
+        VIDS.forEach((v, k) => !v.projeto && (porEd[v.edicao || 0] ??= []).push(k));
         const filas = Object.keys(porEd).sort((a, b) => b - a).map(n => porEd[n]), itens = [];
         for (let k = 0; itens.length < 8 && filas.some(q => q[k] != null); k++)
           filas.forEach(q => q[k] != null && itens.length < 8 && itens.push({ video: q[k], e: ed(VIDS[q[k]].edicao) }));
@@ -1565,7 +1579,7 @@ function iniciar(CONTEUDO, fotosPrevia) {
             ${tituloPagina("t-todos", "", "Vídeos")}
             <p class="abertura__sub">Toque em qualquer um para assistir aqui mesmo.</p>
           </div>
-          ${VIDS.length ? carrossel(amostra()) : ""}
+          ${VRURAL.length ? carrossel(amostra()) : ""}
         </div>
       </section>
       ${faixa()}
@@ -1576,7 +1590,7 @@ function iniciar(CONTEUDO, fotosPrevia) {
             <button class="filtro" data-filtro="" aria-pressed="true">Todos</button>
             ${comEd.map(n => `<button class="filtro" data-filtro="${n}" aria-pressed="false" style="--fc:${ed(n).cor};--t:${ed(n).tinta}">${n}ª edição</button>`).join("")}
           </div>` : ""}
-          <div class="cartoes" data-lista-videos style="${comEd.length ? "" : "margin-top:0"}">${VIDS.map(cartaoVideo).join("")}</div>
+          <div class="cartoes" data-lista-videos style="${comEd.length ? "" : "margin-top:0"}">${VRURAL.map(cartaoVideo).join("")}</div>
         </div>
       </section>
       ${chamada("Onde a Rural passou", `As ${EDS.length} edições, uma parada de cada vez.`, "#/edicoes", "Ver as edições")}`;
@@ -1767,13 +1781,46 @@ function iniciar(CONTEUDO, fotosPrevia) {
       </section>
       <section class="secao" aria-label="O projeto">
         <div class="envelope">
-          <div class="painel texto-longo">${P.textoSobre.map(p => `<p>${esc(p)}</p>`).join("")}</div>
+          <div class="painel texto-longo">${P.textoSobre.map(p => `<p>${comLinks(p)}</p>`).join("")}</div>
         </div>
       </section>
       ${faixa()}
       ${blocoLinguagens()}
       ${estrada()}
       ${chamada("Veja a Rural em movimento", "Os registros em vídeo de cada edição.", "#/videos", "Assistir aos vídeos")}`;
+    },
+
+    // Outro projeto da La Bici (CONTEUDO.projetos[chave]): texto, edições do projeto, fotos e os vídeos com `projeto: chave`.
+    projeto(chave) {
+      const pj = PROJETOS[chave], vids = VIDS.filter(v => v.projeto === chave), fotos = pj.fotos || [];
+      return `
+      <section class="abertura abertura--pagina abertura--curta">
+        <div class="envelope">
+          <p class="abertura__pre">Outro projeto da La Bici Galeria Cultural</p>
+          ${tituloPagina("t-projeto", "", pj.titulo)}
+          ${pj.subtitulo ? `<p class="abertura__sub">${esc(pj.subtitulo)}</p>` : ""}
+        </div>
+      </section>
+      <div class="envelope ed-corpo" style="--cor:${pj.cor || "#1f9d62"};--tinta:#fff">
+        ${(pj.texto || []).length ? `<div class="painel texto-longo">${pj.texto.map(p => `<p>${comLinks(p)}</p>`).join("")}</div>` : ""}
+        ${(pj.edicoes || []).length ? `<section class="bloco" aria-labelledby="t-proj-eds">
+          <h2 id="t-proj-eds">Edições do projeto</h2>
+          <ol class="locais">${pj.edicoes.map(e => `<li><span class="locais__pino" aria-hidden="true"></span><strong>${esc(e.nome)}${e.ano ? `, ${esc(e.ano)}` : ""}</strong><span>${comLinks(e.texto || "")}</span></li>`).join("")}</ol>
+        </section>` : ""}
+        ${fotos.length ? `<section class="bloco" aria-labelledby="t-proj-fotos">
+          <h2 id="t-proj-fotos">Fotos</h2>
+          <div class="galeria">${fotos.map((f, k) => `
+            <figure class="foto">
+              <button data-foto-projeto="${k}" aria-label="Ampliar: ${esc(f.legenda || pj.titulo)}">${imgFoto(f.id, 600, f.legenda || pj.titulo)}</button>
+              ${f.legenda ? `<figcaption>${esc(f.legenda)}</figcaption>` : ""}
+            </figure>`).join("")}</div>
+        </section>` : ""}
+        ${vids.length ? `<section class="bloco" aria-labelledby="t-proj-vids">
+          <h2 id="t-proj-vids">Vídeos</h2>
+          <div class="cartoes">${vids.map(cartaoVideo).join("")}</div>
+        </section>` : ""}
+      </div>
+      ${chamada("A Rural também passa por Boa Madeira", "Boa Madeira recebeu a 3ª, a 4ª e a 5ª edição da mostra.", "#/edicao/5", "Ver a 5ª edição")}`;
     },
 
     // Releases: abre direto no leitor, na edição pedida (#/releases/5) ou na mais recente com release.
@@ -1835,7 +1882,8 @@ function iniciar(CONTEUDO, fotosPrevia) {
     tripulantes: ["2", "6", "4", "7"],
     releases: ["6", "5", "4", "3"],
     sobre:   ["4", "5", "2", "6"],
-    creditos: ["6", "3", "7", "5"]
+    creditos: ["6", "3", "7", "5"],
+    projeto: ["4", "3", "5", "7"]   // cartazes das edições que passaram por Boa Madeira
   };
   /* Página de uma edição: abre com a paleta dela e segue com outras três. A 1ª, fora de CARTAZES,
      usa a sequência da página Edições. */
@@ -2159,6 +2207,7 @@ function iniciar(CONTEUDO, fotosPrevia) {
     if (!partes.length) return { nome: "inicio" };
     if (partes[0] === "edicao") return { nome: "edicao", n: Number(partes[1]) };
     if (partes[0] === "releases") return { nome: "releases", n: Number(partes[1]) || null };
+    if (PROJETOS[partes[0]]) return { nome: "projeto", chave: partes[0] };
     return { nome: ["edicoes", "videos", "mural", "tripulantes", "sobre", "creditos"].includes(partes[0]) ? partes[0] : "naoEncontrada" };
   }
 
@@ -2172,10 +2221,10 @@ function iniciar(CONTEUDO, fotosPrevia) {
     document.body.classList.toggle("com-fundo", r.nome in ORDEM || !!edicaoAtual);
     if (r.nome in ORDEM) ordem = ORDEM[r.nome];
     else if (edicaoAtual) ordem = ordemEdicao(edicaoAtual.n);
-    main.innerHTML = r.nome === "edicao" ? paginas.edicao(r.n) : paginas[r.nome]();
+    main.innerHTML = r.nome === "edicao" ? paginas.edicao(r.n) : r.nome === "projeto" ? paginas.projeto(r.chave) : paginas[r.nome]();
     if (r.nome === "releases") ligarLeitor(r.n);
     $$(".menu a").forEach(a => {
-      const ativo = a.dataset.rota === r.nome || (r.nome === "edicao" && a.dataset.rota === "edicoes");
+      const ativo = a.dataset.rota === r.nome || (r.nome === "edicao" && a.dataset.rota === "edicoes") || (r.nome === "projeto" && a.dataset.rota === r.chave);
       ativo ? a.setAttribute("aria-current", "page") : a.removeAttribute("aria-current");
     });
     const h1 = $("h1", main);
@@ -2206,6 +2255,11 @@ function iniciar(CONTEUDO, fotosPrevia) {
     if (bRel && edicaoAtual) return abrirFoto(releaseEd(edicaoAtual), Number(bRel.dataset.release), true);
     const bArt = ev.target.closest("[data-artista]");
     if (bArt) return abrirFoto(fotosArtista(ARTISTAS[Number(bArt.dataset.artista)]), Number(bArt.dataset.artistaFoto));
+    const bProj = ev.target.closest("[data-foto-projeto]"), rp = rotaAtual();
+    if (bProj && rp.nome === "projeto") {
+      const pj = PROJETOS[rp.chave];
+      return abrirFoto(pj.fotos.map(f => ({ id: f.id, legenda: f.legenda || pj.titulo })), Number(bProj.dataset.fotoProjeto));
+    }
     const bMural = ev.target.closest("[data-foto-mural]");
     if (bMural) return abrirFoto(muralVisivel().map(f => ({ id: f.id, legenda: legendaMural(f) })), Number(bMural.dataset.fotoMural));
     const bFilM = ev.target.closest("[data-filtro-mural]");
@@ -2232,7 +2286,7 @@ function iniciar(CONTEUDO, fotosPrevia) {
     if (bFil) {
       const n = bFil.dataset.filtro ? Number(bFil.dataset.filtro) : null;
       $$("[data-filtro]").forEach(b => b.setAttribute("aria-pressed", String(b === bFil)));
-      $("[data-lista-videos]").innerHTML = VIDS.filter(v => n == null || v.edicao === n).map(cartaoVideo).join("");
+      $("[data-lista-videos]").innerHTML = VRURAL.filter(v => n == null || v.edicao === n).map(cartaoVideo).join("");
     }
   });
 

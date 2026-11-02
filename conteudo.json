@@ -1,6 +1,6 @@
 {
   "_notas": {
-    "mural": "Fotos de todas as edições que têm foto, em ordem de data (a 6ª, de 2024, vem antes da 7ª). As mural-0N são _MG sem nome do Drive; entram como 7ª porque saíram da mesma exportação (25/03/2026) e do mesmo lugar das fotos com o nome da 7ª.",
+    "mural": "Fotos de todas as edições que têm foto, em ordem de data (a 6ª, de 2024, vem antes da 7ª). As mural-0N são _MG sem nome do Drive; entram como 7ª porque saíram da mesma exportação (25/03/2026) e do mesmo lugar das fotos com o nome da 7ª. mural-06 a 20: “Retrospectiva Rural”, post da Denise no Instagram (DNA-4rWxTTW) que anunciou a 7ª; fotos de edições anteriores, sem edição marcada porque o post não diz qual é cada uma (02/11/2026). Em 02/11/2026 a Denise indicou pelo WhatsApp: mural-07 é da 2ª edição (já estava na retrospectiva); ed4-02 (4ª), ed3-07 e ed3-08 (3ª) são fotos novas que ela mandou.",
     "comunidades": "Nome igual ao de edicoes[].locais. Cada texto aparece em toda edição que passou pelo lugar (Boa Madeira: 3ª, 4ª e 5ª; Tamboril: 7ª).",
     "tripulantes": "Tirados das fichas técnicas dos releases (3ª a 7ª; a 1ª e a 2ª ainda não têm ficha).",
     "videos": "Tecido marinho no Preá: só a 5ª teve o número em tecido marinho e passou pelo Preá (12/03/2025). Tirado em 08/10/2026: YCdnMuJ2X1Y (\"CHAMADA RURAL 5A EDIÇÃO\", com Libras) dá erro ao tocar no YouTube."
@@ -24,7 +24,7 @@
       "A Rural é uma realização da La Bici Galeria Cultural, um coletivo composto por produtores culturais, técnicos e artistas. Acreditamos que as expressões artísticas e culturais são ferramentas de transformação social. Nosso coletivo está em fase de certificação pelo Ministério da Cultura para se transformar em um Ponto de Cultura.",
       "Carregamos na bagagem uma composição que permite o conhecimento local dialogar com diversas intervenções artísticas, harmonizando a cultura local com as vivências dos tripulantes da Rural. As atividades culturais que desenvolvemos em suas multilinguagens como exibição de filmes, espetáculos circenses, artes visuais, capoeira, manifestações populares são apresentadas pelas próprias comunidades contempladas no projeto, envolvendo os idosos, as crianças, as mulheres, pessoas negras etc.",
       "A primeira edição da Rural visou inicialmente a exibição do documentário “É no pé do morro é lá no cafundó” (2011), de Denise Santos, como um feedback, em prática de alteridade, aos próprios personagens participantes do filme. Em sete edições da “Rural” já passaram artistas da França/Irã, Colômbia, Chile e várias partes do Brasil.",
-      "Em todas as edições da Rural, que é o nosso carro-chefe, assim como na 1ª e 2ª edição do projeto Um olhar sobre Boa Madeira: artesãs e sambadeiras, tivemos a participação especial das comunidades contempladas com a apresentação da sua cultura popular. Nós buscamos nos projetos que realizamos integrar as comunidades como protagonistas e não somente como público. Além disso, temos na Mostra feira de artesanatos e gastronomia local, contribuindo para a economia circular de forma criativa.",
+      "Em todas as edições da Rural, que é o nosso carro-chefe, assim como na 1ª e 2ª edição do projeto [Um olhar sobre Boa Madeira: artesãs e sambadeiras](#/boa-madeira), tivemos a participação especial das comunidades contempladas com a apresentação da sua cultura popular. Nós buscamos nos projetos que realizamos integrar as comunidades como protagonistas e não somente como público. Além disso, temos na Mostra feira de artesanatos e gastronomia local, contribuindo para a economia circular de forma criativa.",
       "Nossos projetos têm se mostrado fruto de uma verdadeira integração comunitária, em que se prioriza um processo de construção coletiva, envolvendo as comunidades não somente como espectadores, mas, sobretudo, como protagonistas, através da atuação dos mesmos com suas expressões culturais. A Rural segue construindo novos caminhos, aumentando a bagagem de mais histórias, causos e encantos através do cinema, do circo, da cultura popular e de outras artes integradas em diálogo com povos e comunidades."
     ],
     "resumo": [
@@ -97,7 +97,7 @@
         "A Rural, em suas edições, contou com apoio financeiro do Governo Federal e do Governo da Bahia através de editais culturais como o Edital Territórios Culturais e o Edital Audiovisual Geraldo Sarno, e também através da Lei Paulo Gustavo e da Lei Aldir Blanc."
       ]
     ],
-    "_nota": "textoSobre, 5º parágrafo: linkar \"Um olhar sobre Boa Madeira: artesãs e sambadeiras\" com fotos, vídeos e cards do projeto (pendente). parceiros: o terceiro item (opcional) é o logo, em versão clara para o fundo anil do rodapé."
+    "_nota": "textoSobre, 5º parágrafo: o nome do projeto Um olhar sobre Boa Madeira leva à página #/boa-madeira (02/11/2026). parceiros: o terceiro item (opcional) é o logo, em versão clara para o fundo anil do rodapé."
   },
   "edicoes": [
     {
@@ -201,6 +201,10 @@
         },
         {
           "id": "ed2-05"
+        },
+        {
+          "id": "mural-07",
+          "legenda": "Cinema sob o céu estrelado"
         }
       ],
       "_nota": "ed2-03 a 05: prints do Instagram enviados em 08/10/2026 (contador do canto recortado)."
@@ -275,6 +279,14 @@
         },
         {
           "id": "ed3-06"
+        },
+        {
+          "id": "ed3-07",
+          "legenda": "Samba de roda na 3ª edição"
+        },
+        {
+          "id": "ed3-08",
+          "legenda": "Número de circo com espada"
         }
       ],
       "_nota": "ed3-04 a 06: vieram junto das fotos da 2ª, mas o banner (14 de maio, Preá...) e o lugar (mesma igrejinha e lona da ed3-01) são da 3ª."
@@ -329,6 +341,10 @@
         {
           "id": "trip-34",
           "legenda": "Tripulante Dan Marques (Brasília-DF), @dan_marques_magic"
+        },
+        {
+          "id": "ed4-02",
+          "legenda": "Apresentação de tecido diante do público"
         }
       ],
       "_nota": "trip-33 e trip-34: as mesmas fotos dos cartões de Eleno e Dan na página Tripulantes."
@@ -550,9 +566,93 @@
         },
         {
           "id": "ed7-50"
+        },
+        {
+          "id": "ed7-63",
+          "legenda": "O público da Rural na Escola Municipal Orlando Spínola (foto: Erica Daniela)"
+        },
+        {
+          "id": "ed7-64",
+          "legenda": "Palhaço Milo Peligro (foto: Erica Daniela)"
+        },
+        {
+          "id": "ed7-65",
+          "legenda": "Terno de reis “Santo Reis Estrela Guia” (foto: Erica Daniela)"
+        },
+        {
+          "id": "ed7-66",
+          "legenda": "Apresentação do terno de reis no Baixão (foto: Erica Daniela)"
+        },
+        {
+          "id": "ed7-67",
+          "legenda": "Terno de reis “Santo Reis Estrela Guia” (foto: Erica Daniela)"
+        },
+        {
+          "id": "ed7-68",
+          "legenda": "Crianças do Baixão na plateia (foto: Erica Daniela)"
+        },
+        {
+          "id": "ed7-69",
+          "legenda": "Crianças acompanhando a festa (foto: Erica Daniela)"
+        },
+        {
+          "id": "ed7-70",
+          "legenda": "Retrato na 7ª edição (foto: Erica Daniela)"
+        },
+        {
+          "id": "ed7-71",
+          "legenda": "Chapéus de palha do terno de reis (foto: Erica Daniela)"
+        },
+        {
+          "id": "ed7-72",
+          "legenda": "O palhaço no picadeiro (foto: Erica Daniela)"
+        },
+        {
+          "id": "ed7-73",
+          "legenda": "Na exposição fotográfica (foto: Erica Daniela)"
+        },
+        {
+          "id": "ed7-74",
+          "legenda": "Crianças do Baixão (foto: Erica Daniela)"
+        },
+        {
+          "id": "ed7-75",
+          "legenda": "Pintura no rosto (foto: Erica Daniela)"
+        },
+        {
+          "id": "ed7-76",
+          "legenda": "Público da Rural (foto: Erica Daniela)"
+        },
+        {
+          "id": "ed7-77",
+          "legenda": "Apresentação musical com tradução em Libras (foto: Erica Daniela)"
+        },
+        {
+          "id": "ed7-78",
+          "legenda": "Terno de reis “Santo Reis Estrela Guia” (foto: Erica Daniela)"
+        },
+        {
+          "id": "ed7-79",
+          "legenda": "Público da Rural (foto: Erica Daniela)"
+        },
+        {
+          "id": "ed7-80",
+          "legenda": "Crianças na plateia (foto: Erica Daniela)"
+        },
+        {
+          "id": "ed7-81",
+          "legenda": "Retrato na 7ª edição (foto: Erica Daniela)"
+        },
+        {
+          "id": "ed7-82",
+          "legenda": "Retrato na 7ª edição (foto: Erica Daniela)"
+        },
+        {
+          "id": "ed7-83",
+          "legenda": "Card da artista circense Denise Santos, em Tamboril (13/09/2025)"
         }
       ],
-      "_nota": "Texto a partir do release da 7ª (\"VAI DE RURAL 2026 RELEASE 2.pdf\", 09/10/2026). Fotos do Drive com o nome da 7ª (sem as cópias com outro nome) e só seis das _MG sem nome, as que mostram o público junto do palhaço."
+      "_nota": "Texto a partir do release da 7ª (\"VAI DE RURAL 2026 RELEASE 2.pdf\", 09/10/2026). Fotos do Drive com o nome da 7ª (sem as cópias com outro nome) e só seis das _MG sem nome, as que mostram o público junto do palhaço. ed7-63 a 82: post de encerramento da Denise no Instagram (DWWPScykZpN), fotos de Erica Daniela, baixadas em 640 px (02/11/2026)."
     }
   ],
   "mural": [
@@ -647,6 +747,107 @@
     {
       "id": "mural-05",
       "edicao": 7
+    },
+    {
+      "id": "ed7-63",
+      "edicao": 7,
+      "legenda": "O público da Rural na Escola Municipal Orlando Spínola (foto: Erica Daniela)"
+    },
+    {
+      "id": "ed7-65",
+      "edicao": 7,
+      "legenda": "Terno de reis “Santo Reis Estrela Guia” (foto: Erica Daniela)"
+    },
+    {
+      "id": "ed7-70",
+      "edicao": 7,
+      "legenda": "Retrato na 7ª edição (foto: Erica Daniela)"
+    },
+    {
+      "id": "ed7-75",
+      "edicao": 7,
+      "legenda": "Pintura no rosto (foto: Erica Daniela)"
+    },
+    {
+      "id": "ed7-82",
+      "edicao": 7,
+      "legenda": "Retrato na 7ª edição (foto: Erica Daniela)"
+    },
+    {
+      "id": "mural-06",
+      "legenda": "Retrospectiva da Rural"
+    },
+    {
+      "id": "mural-07",
+      "legenda": "Cinema sob o céu estrelado",
+      "edicao": 2
+    },
+    {
+      "id": "mural-08",
+      "legenda": "Retrospectiva da Rural"
+    },
+    {
+      "id": "mural-09",
+      "legenda": "Retrospectiva da Rural"
+    },
+    {
+      "id": "mural-10",
+      "legenda": "Retrospectiva da Rural"
+    },
+    {
+      "id": "mural-11",
+      "legenda": "Retrospectiva da Rural"
+    },
+    {
+      "id": "mural-12",
+      "legenda": "Retrospectiva da Rural"
+    },
+    {
+      "id": "mural-13",
+      "legenda": "Retrospectiva da Rural"
+    },
+    {
+      "id": "mural-14",
+      "legenda": "Retrospectiva da Rural"
+    },
+    {
+      "id": "mural-15",
+      "legenda": "Retrospectiva da Rural"
+    },
+    {
+      "id": "mural-16",
+      "legenda": "Retrospectiva da Rural"
+    },
+    {
+      "id": "mural-17",
+      "legenda": "Retrospectiva da Rural"
+    },
+    {
+      "id": "mural-18",
+      "legenda": "Retrospectiva da Rural"
+    },
+    {
+      "id": "mural-19",
+      "legenda": "Retrospectiva da Rural"
+    },
+    {
+      "id": "mural-20",
+      "legenda": "Retrospectiva da Rural"
+    },
+    {
+      "id": "ed4-02",
+      "edicao": 4,
+      "legenda": "Apresentação de tecido diante do público"
+    },
+    {
+      "id": "ed3-07",
+      "edicao": 3,
+      "legenda": "Samba de roda na 3ª edição"
+    },
+    {
+      "id": "ed3-08",
+      "edicao": 3,
+      "legenda": "Número de circo com espada"
     }
   ],
   "comunidades": {
@@ -674,7 +875,12 @@
         "trip-06",
         "trip-09"
       ],
-      "_nota": "Nomes do Tiziu e do Milo Peligro: identificados pelo Rafa em 10/10/2026."
+      "_nota": "Nomes do Tiziu e do Milo Peligro: identificados pelo Rafa em 10/10/2026.",
+      "video": {
+        "instagram": "DCtqwJROWCa",
+        "titulo": "“O Circo de um Homem Só” na 6ª edição",
+        "capa": "video-20"
+      }
     },
     {
       "nome": "Navid Emadzadeh",
@@ -730,9 +936,10 @@
         "trip-24",
         "trip-25",
         "trip-27",
-        "trip-30"
+        "trip-30",
+        "ed7-83"
       ],
-      "_nota": "Tecido acrobático e acrobacia em dupla: a mesma pessoa. Texto \"Sobre mim\" enviado em 10/10/2026; o Instagram é o dos contatos do release da 7ª. trip-35 (trapézio, do site desaaquino.com) entrou como capa em 10/10/2026 no lugar da trip-32."
+      "_nota": "Tecido acrobático e acrobacia em dupla: a mesma pessoa. Texto \"Sobre mim\" enviado em 10/10/2026; o Instagram é o dos contatos do release da 7ª. trip-35 (trapézio, do site desaaquino.com) entrou como capa em 10/10/2026 no lugar da trip-32. ed7-83: card da 7ª em Tamboril, do post do Helivelto no Instagram (DNT8sq0u4wh), 02/11/2026."
     },
     {
       "nome": "Palhaço Eleno",
@@ -764,7 +971,12 @@
         "Dan Marques é um mágico excêntrico que tem seus poderes fora de controle: as coisas desaparecem, se transformam e aparecem de modo surpreendente e divertido até mesmo para o próprio artista. Depois de inúmeras e hilárias tentativas, o mágico simplesmente desiste, e de repente a magia acontece.",
         "Dan é especializado em comedy street magic, linguagem em que é o brasileiro com mais prêmios internacionais até hoje. São 9 prêmios, como o primeiro lugar no Campeonato Mundial de Mágica de Rua em Sankt Wendel, na Alemanha; o primeiro lugar na maior competição de espetáculo de rua da Alemanha, a “Bamberg Zaubert”; o primeiro lugar na feira de teatro de Sarmede, na Itália; o segundo lugar na Gala do Festival Internacional Ozomatli 2014, no México; e o segundo lugar como “melhor espetáculo” no Campeonato Mundial de Street Magic de St. Wendel, na Alemanha (2013).",
         "O one-man show “Funnykito Show”, criado em 2008, é o trabalho mais importante do artista: uma mistura de ilusionismo, mímica e comédia, em um estilo inovador."
-      ]
+      ],
+      "video": {
+        "instagram": "CcrEp1ul6o4",
+        "titulo": "Dan em Brejo Grande, na 4ª edição",
+        "capa": "video-24"
+      }
     }
   ],
   "tripulantes": [
@@ -1050,6 +1262,14 @@
       "_nota": "Outro reel da Denise e do Helivelto da mesma apresentação (mesma legenda no Instagram), 27/10/2026."
     },
     {
+      "instagram": "DWTuKZ_EWzE",
+      "edicao": 7,
+      "titulo": "Preparativos da 7ª edição no Baixão",
+      "capa": "video-14",
+      "abreNoInstagram": true,
+      "_nota": "Reel da Denise e do Helivelto com os preparativos no Baixão (a capa é a exposição de retratos montada). Música licenciada (Banda Cucamonga, “Circus”), por isso abre no Instagram (02/11/2026)."
+    },
+    {
       "instagram": "DWByaWijuye",
       "edicao": 7,
       "titulo": "Chamada da 7ª edição: alegria, cultura e diversão no Baixão",
@@ -1103,6 +1323,13 @@
       "_nota": "Reel do Helivelto (vídeo dele) e da Denise: a langa de Palmeira na 5ª edição. Áudio original, toca no site. Capa recortada na roda, sem as faixas pretas (27/10/2026)."
     },
     {
+      "instagram": "DHM1VlYxJhX",
+      "edicao": 5,
+      "titulo": "Roda de langa em Palmeira, Boquira (gravação longa)",
+      "capa": "video-18",
+      "_nota": "Reel da Denise sem legenda, com ~20 min. Pelo lugar (chão de terra, luzes coloridas, mesma casa) e pela dança, parece a langa de Palmeira na 5ª edição — a confirmar com a Denise. Áudio original, toca no site (02/11/2026)."
+    },
+    {
       "instagram": "DHbGgDfsZ_I",
       "edicao": 5,
       "titulo": "Comidas típicas da comunidade de Palmeira, Boquira",
@@ -1111,11 +1338,39 @@
       "_nota": "Reel do Helivelto e da Denise: mingau de milho, brevidade, beiju, cuscuz, paçoca de carne, rosário de licuri e outras comidas de Palmeira na 5ª edição. Tem música (benzie, “vilarejo”), mas liberada: toca no site (27/10/2026)."
     },
     {
+      "instagram": "DHMLk-YRSUu",
+      "edicao": 5,
+      "titulo": "Um passeio pela comunidade de Palmeira: criação, comidas e licuri",
+      "capa": "video-19",
+      "_nota": "Reel da Denise sem legenda, ~11 min, de dia: cavalos e gado, pamonhas, uma moradora, a máquina e os cocos de licuri. A parede azul e branca e as comidas são as do vídeo das comidas típicas de Palmeira, por isso entrou como Palmeira, 5ª edição — a confirmar com a Denise. Áudio original, toca no site. Miniatura: quadro dos 20 s (02/11/2026)."
+    },
+    {
+      "instagram": "DHOPOtZxjgT",
+      "edicao": 5,
+      "titulo": "Samba de roda na noite de lua cheia em Palmeira, Boquira",
+      "capa": "video-16",
+      "_nota": "Reel da Denise e do Helivelto: encerramento do dia em Palmeira, na 5ª edição (postado em 15/03/2025, véspera de Boa Madeira). Áudio original, toca no site. Capa recortada acima do cartaz (02/11/2026)."
+    },
+    {
+      "instagram": "DHODe3LM8Vb",
+      "edicao": 5,
+      "titulo": "A comunidade de Palmeira, Boquira, no vídeo de Milo Cardona",
+      "capa": "video-17",
+      "_nota": "Reel do Helivelto e da Denise na 5ª edição; vídeo de Milo Cardona (provavelmente o Milo Peligro, a confirmar). Áudio original, toca no site. Capa: moradora socando no pilão (02/11/2026)."
+    },
+    {
       "instagram": "DHYGnkFxv36",
       "edicao": 5,
       "titulo": "Tecido marinho com Desa Aquino em Palmeira, Boquira",
       "capa": "video-11",
       "_nota": "Reel da Denise: o número de tecido marinho em Palmeira, 14/03/2025, com acompanhamento musical de Navid (na legenda, “Navid Talemi”). Áudio original, toca no site. Capa recortada sem o cartaz (27/10/2026)."
+    },
+    {
+      "instagram": "DMngtjyRecH",
+      "edicao": 5,
+      "titulo": "Performance de ioga aéreo com Desa Aquino e Navid ao violão, em Boa Madeira",
+      "capa": "video-15",
+      "_nota": "Reel da Denise na 5ª edição, Boa Madeira (Macaúbas). Áudio original, toca no site (quase 8 min). A capa do Instagram era tremida; a miniatura é o quadro dos 45 s, com a performance (02/11/2026)."
     },
     {
       "instagram": "DHW2K52xxT7",
@@ -1130,6 +1385,36 @@
       "titulo": "Samba de roda de Boa Madeira no encerramento da 5ª edição",
       "capa": "video-13",
       "_nota": "Reel da Denise (com @luanasantana8968): Grupo de Samba de Roda de Boa Madeira, noite de lua cheia, 15/03/2025. Áudio original, toca no site. A capa do Instagram era tremida; a miniatura é o quadro dos 3 s, recortado acima do quadrinho do cartaz (27/10/2026)."
+    },
+    {
+      "instagram": "DCtqwJROWCa",
+      "edicao": 6,
+      "titulo": "Palhaço Tiziu e “O Circo de um Homem Só” no encerramento da 6ª edição",
+      "capa": "video-20",
+      "_nota": "Reel da Denise (com @nei_madeireira) no encerramento da 6ª. Áudio original, toca no site. Capa recortada no Tiziu com o tambor e as crianças, sem o cartaz (02/11/2026)."
+    },
+    {
+      "instagram": "CcrEp1ul6o4",
+      "edicao": 4,
+      "titulo": "O mágico Dan em Brejo Grande, Boquira",
+      "capa": "video-24",
+      "_nota": "Vídeo antigo do IGTV da Denise (link /tv/): a 4ª edição em Brejo Grande (Boquira), com o mágico Dan; a noite terminou com o Reis das Mulheres e Cia. Toca no site. Capa recortada no Dan (02/11/2026)."
+    },
+    {
+      "instagram": "CcvGAO0MM2N",
+      "edicao": 4,
+      "titulo": "Encerramento da 4ª edição na Comunidade Quilombola Paramirim das Crioulas",
+      "capa": "video-23",
+      "deitado": true,
+      "_nota": "Vídeo antigo do IGTV da Denise (link /tv/), 23/04/2022, na pracinha de Paramirim das Crioulas (Érico Cardoso), com vista para o Pico das Almas: circo, cinema e reisado. O embed de /reel/ funciona para ele. Toca no site (02/11/2026)."
+    },
+    {
+      "instagram": "CcV6SI2rfmW",
+      "edicao": 3,
+      "titulo": "Espetáculo circense com o Palhaço Fuzuê na 3ª edição (2017)",
+      "capa": "video-25",
+      "deitado": true,
+      "_nota": "Vídeo antigo do IGTV da Denise (link /tv/), postado em 2022 para anunciar a 4ª edição, com um trecho do espetáculo do Palhaço Fuzuê na 3ª (2017). Toca no site (02/11/2026)."
     },
     {
       "id": "ndI-yk68hZA",
@@ -1173,6 +1458,55 @@
     {
       "id": "L7MnEOyoSJc",
       "edicao": null
+    },
+    {
+      "instagram": "CbTbB0ZOJTE",
+      "edicao": null,
+      "projeto": "boa-madeira",
+      "titulo": "Samba de roda em noite de lua cheia, na 1ª edição",
+      "capa": "video-26",
+      "_nota": "Vídeo antigo do IGTV da Denise (link /tv/), do dia da festa da 1ª edição do projeto (2022). Toca no site (02/11/2026)."
+    },
+    {
+      "instagram": "C_BL51au9ry",
+      "edicao": null,
+      "projeto": "boa-madeira",
+      "titulo": "Samba de roda no encerramento da 2ª edição, em Boa Madeira (17/08/2024)",
+      "capa": "video-21",
+      "_nota": "Reel da Denise. Vai só para a página do projeto Um olhar sobre Boa Madeira, não para as listas da Rural. Áudio original, toca no site (02/11/2026)."
+    },
+    {
+      "instagram": "C_Dlbk-OeJr",
+      "edicao": null,
+      "projeto": "boa-madeira",
+      "titulo": "Exposição fotográfica da 2ª edição: a comunidade vista por ela mesma",
+      "capa": "video-22",
+      "_nota": "Reel da Denise. Fotos de Helivelto Lima e de jovens de Boa Madeira, da oficina de fotografia do projeto. Áudio original, toca no site. Capa: foto do tambor e dos cestos na exposição (02/11/2026)."
     }
-  ]
+  ],
+  "projetos": {
+    "boa-madeira": {
+      "titulo": "Um olhar sobre Boa Madeira",
+      "subtitulo": "Artesãs e sambadeiras",
+      "texto": [
+        "Um projeto da La Bici Galeria Cultural e dos produtores culturais Helivelto Lima e Denise Santos que celebra o protagonismo das mulheres de Boa Madeira, em Macaúbas (BA): as que trançam a palha do licuri e as que cantam e sambam o reisado, uma tradição feminina rara na região.",
+        "Na 2ª edição, jovens da própria comunidade participaram de uma oficina de fotografia. As fotos deles e de Helivelto Lima viraram uma exposição que mostra Boa Madeira e o seu fazer cultural pelos olhos de quem vive ali.",
+        "O nosso lugar é o chão que pisamos, é o cheiro da terra, é o sabor da comida, é o bom dia, é a mão estendida, é o samba no terreiro, é a ladainha na capela."
+      ],
+      "edicoes": [
+        {
+          "nome": "1ª edição",
+          "texto": "Festa com samba de roda em noite de lua cheia em Boa Madeira, também compartilhada com o público da internet. Apoio financeiro do Estado da Bahia, pela Secretaria da Cultura (Prêmio Cultura na Palma da Mão), via Lei Aldir Blanc.",
+          "ano": "2022"
+        },
+        {
+          "nome": "2ª edição",
+          "ano": "2024",
+          "texto": "Oficina de fotografia com jovens da comunidade, exposição e festa de encerramento em 17 de agosto de 2024, com muito samba no pé. Contemplada no edital Vozes Culturais da Bahia 2023, através da Lei Paulo Gustavo Bahia, com apoio institucional do Governo Federal e do Governo do Estado da Bahia (Secult-BA)."
+        }
+      ],
+      "fotos": [],
+      "_nota": "Página #/boa-madeira, criada em 02/11/2026. Texto montado com o que já havia no site (release da 7ª: bio do Helivelto cita o Prêmio Cultura na Palma da Mão 2022; texto de Boa Madeira em comunidades) e a legenda do reel da 2ª edição. 1ª edição: Prêmio Cultura na Palma da Mão (Secult-BA, Lei Aldir Blanc), confirmado pela legenda do vídeo CbTbB0ZOJTE (2022). Texto revisto com a legenda do reel da exposição (C_Dlbk-OeJr): oficina de fotografia com jovens, protagonismo das mulheres."
+    }
+  }
 }
