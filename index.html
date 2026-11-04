@@ -141,6 +141,17 @@ h1, h2, h3 { margin: 0; line-height: 1.02; }
 .locais strong { font-size: 1.05rem; line-height: 1.25; }
 .locais li > span:not(.locais__pino) { font-size: .9rem; color: #e3e6f7; }
 .locais li > .locais__mais { font-size: .8rem; font-weight: 700; color: var(--cor); }
+/* Edições de outro projeto (página #/boa-madeira): cartaz, texto e botão do vídeo. */
+.proj-eds { list-style: none; display: grid; gap: 1.2rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); margin: 1.2rem 0 0; padding: 0; }
+.proj-ed {
+  display: flex; flex-direction: column; overflow: hidden;
+  border-radius: var(--raio); background: var(--vidro, rgba(11, 16, 51, .62)); border: 2px solid var(--cor); color: #fff;
+}
+.proj-ed__cartaz { display: block; padding: 0; border: 0; background: #000; cursor: zoom-in; }
+.proj-ed__cartaz img { display: block; width: 100%; aspect-ratio: 7 / 5; object-fit: cover; }
+.proj-ed__corpo { display: grid; gap: .6rem; justify-items: start; padding: 1rem 1.1rem 1.2rem; }
+.proj-ed h3 { margin: 0; font-size: 1.2rem; line-height: 1.25; }
+.proj-ed p { margin: 0; font-size: .95rem; color: #e3e6f7; }
 
 /* Texto sobre a comunidade: sempre aberto, abaixo das paradas, com a borda na cor da edição. */
 /* Texto longo: fundo mais fechado e desfocado que o dos cartões, para o desenho do fundo não cruzar as letras. */
@@ -911,7 +922,8 @@ body.com-fundo .carta__ano { background: rgba(11, 16, 51, .85); color: #fff; }
      [Nome](#/tripulantes); para um site de fora, [Nome](https://endereco.com) (abre numa aba nova).
    - edicoes[].pendente: true mostra o aviso "página em montagem".
    - projetos: outros projetos da La Bici, cada um com página própria em #/<chave> (ex.: projetos["boa-madeira"]
-     → #/boa-madeira): titulo, subtitulo, texto[], edicoes [{ nome, ano, texto }], fotos [{ id, legenda }].
+     → #/boa-madeira): titulo, subtitulo, texto[], edicoes [{ nome, ano, texto, cartaz, video, videoRotulo }]
+     (video: id do YouTube de um vídeo da lista), fotos [{ id, legenda }].
      Vídeo com `projeto: "<chave>"` aparece só nessa página, não nas listas da Rural.
    - mural: fotos da página Mural, na ordem em que aparecem. `edicao` (1–7) e `legenda` são
      opcionais; com `edicao`, a foto ganha o filtro e a legenda daquela edição.
@@ -1809,7 +1821,17 @@ function iniciar(CONTEUDO, fotosPrevia) {
         ${(pj.texto || []).length ? `<div class="painel texto-longo">${pj.texto.map(p => `<p>${comLinks(p)}</p>`).join("")}</div>` : ""}
         ${(pj.edicoes || []).length ? `<section class="bloco" aria-labelledby="t-proj-eds">
           <h2 id="t-proj-eds">Edições do projeto</h2>
-          <ol class="locais">${pj.edicoes.map(e => `<li><span class="locais__pino" aria-hidden="true"></span><strong>${esc(e.nome)}${e.ano ? `, ${esc(e.ano)}` : ""}</strong><span>${comLinks(e.texto || "")}</span></li>`).join("")}</ol>
+          <ol class="proj-eds">${pj.edicoes.map((e, k) => {
+            const vid = e.video && VIDS.find(v => v.id === e.video);
+            return `<li class="proj-ed">
+              ${e.cartaz ? `<button class="proj-ed__cartaz" data-cartaz-projeto="${k}" aria-label="Ampliar o cartaz da ${esc(e.nome)}">${imgFoto(e.cartaz, 800, "")}</button>` : ""}
+              <div class="proj-ed__corpo">
+                <h3>${esc(e.nome)}${e.ano ? `, ${esc(e.ano)}` : ""}</h3>
+                <p>${comLinks(e.texto || "")}</p>
+                ${vid ? `<button class="botao" data-video="${VIDS.indexOf(vid)}">${esc(e.videoRotulo || "Assistir ao vídeo")}</button>` : ""}
+              </div>
+            </li>`;
+          }).join("")}</ol>
         </section>` : ""}
         ${fotos.length ? `<section class="bloco" aria-labelledby="t-proj-fotos">
           <h2 id="t-proj-fotos">Fotos</h2>
@@ -2263,6 +2285,11 @@ function iniciar(CONTEUDO, fotosPrevia) {
     if (bProj && rp.nome === "projeto") {
       const pj = PROJETOS[rp.chave];
       return abrirFoto(pj.fotos.map(f => ({ id: f.id, legenda: f.legenda || pj.titulo })), Number(bProj.dataset.fotoProjeto));
+    }
+    const bCartProj = ev.target.closest("[data-cartaz-projeto]");
+    if (bCartProj && rp.nome === "projeto") {
+      const e = PROJETOS[rp.chave].edicoes[Number(bCartProj.dataset.cartazProjeto)];
+      return abrirFoto([{ id: e.cartaz, legenda: `Cartaz da ${e.nome}` }], 0);
     }
     const bMural = ev.target.closest("[data-foto-mural]");
     if (bMural) return abrirFoto(muralVisivel().map(f => ({ id: f.id, legenda: legendaMural(f) })), Number(bMural.dataset.fotoMural));

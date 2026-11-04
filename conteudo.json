@@ -1552,6 +1552,13 @@
       "edicao": null
     },
     {
+      "id": "Kr7ipSjsMrE",
+      "edicao": null,
+      "projeto": "boa-madeira",
+      "titulo": "Sambadeiras e artesãs: mulheres de Boa Madeira (documentário, 2022)",
+      "_nota": "Documentário de Desa Aquino, no canal da LA BICI Galeria Cultural; feito na 1ª edição e exibido na 2ª. Link dos cartões do site desaaquino.com (03/11/2026)."
+    },
+    {
       "id": "uNjEjEVUGqY",
       "edicao": null,
       "projeto": "boa-madeira",
@@ -1591,17 +1598,23 @@
       "edicoes": [
         {
           "nome": "1ª edição",
-          "texto": "Festa com samba de roda em noite de lua cheia em Boa Madeira, também compartilhada com o público da internet. Apoio financeiro do Estado da Bahia, pela Secretaria da Cultura (Prêmio Cultura na Palma da Mão), via Lei Aldir Blanc.",
-          "ano": "2022"
+          "texto": "Contemplado no Prêmio Cultura na Palma da Mão, o projeto aconteceu em fevereiro e março de 2022 para celebrar o protagonismo das mulheres de Boa Madeira, com samba de roda em noite de lua cheia, exposição de artesanato e de fotografia e a produção do documentário “Sambadeiras e artesãs: mulheres de Boa Madeira”. Apoio financeiro do Estado da Bahia, pela Secretaria da Cultura, via Lei Aldir Blanc.",
+          "ano": "2022",
+          "cartaz": "bm-01",
+          "video": "Kr7ipSjsMrE",
+          "videoRotulo": "Assistir ao documentário"
         },
         {
           "nome": "2ª edição",
           "ano": "2024",
-          "texto": "Oficina de fotografia com jovens da comunidade, exposição e festa de encerramento em 17 de agosto de 2024, com muito samba no pé. Contemplada no edital Vozes Culturais da Bahia 2023, através da Lei Paulo Gustavo Bahia, com apoio institucional do Governo Federal e do Governo do Estado da Bahia (Secult-BA)."
+          "texto": "Festa em 17 de agosto de 2024, com muito samba no pé: samba de roda, exposição de artesanato, exibição do documentário “Sambadeiras e artesãs: mulheres de Boa Madeira” (2022), de Desa Aquino, e exposição com fotos feitas pela própria comunidade, numa oficina de fotografia com os jovens. Contemplada no edital Vozes Culturais da Bahia 2023, pela Lei Paulo Gustavo Bahia, com apoio institucional do Governo Federal e do Governo do Estado da Bahia (Secult-BA).",
+          "cartaz": "bm-02",
+          "video": "Kr7ipSjsMrE",
+          "videoRotulo": "Assistir ao documentário"
         }
       ],
       "fotos": [],
-      "_nota": "Página #/boa-madeira, criada em 02/11/2026. Texto montado com o que já havia no site (release da 7ª: bio do Helivelto cita o Prêmio Cultura na Palma da Mão 2022; texto de Boa Madeira em comunidades) e a legenda do reel da 2ª edição. 1ª edição: Prêmio Cultura na Palma da Mão (Secult-BA, Lei Aldir Blanc), confirmado pela legenda do vídeo CbTbB0ZOJTE (2022). Texto revisto com a legenda do reel da exposição (C_Dlbk-OeJr): oficina de fotografia com jovens, protagonismo das mulheres."
+      "_nota": "Página #/boa-madeira, criada em 02/11/2026. Texto montado com o que já havia no site (release da 7ª: bio do Helivelto cita o Prêmio Cultura na Palma da Mão 2022; texto de Boa Madeira em comunidades) e a legenda do reel da 2ª edição. 1ª edição: Prêmio Cultura na Palma da Mão (Secult-BA, Lei Aldir Blanc), confirmado pela legenda do vídeo CbTbB0ZOJTE (2022). Texto revisto com a legenda do reel da exposição (C_Dlbk-OeJr): oficina de fotografia com jovens, protagonismo das mulheres. Em 03/11/2026: cartazes (bm-01, bm-02), textos e o documentário vieram dos cartões do site da Denise (desaaquino.com)."
     }
   }
 }
