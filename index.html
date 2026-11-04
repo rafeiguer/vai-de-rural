@@ -661,6 +661,10 @@ dialog::backdrop { background: rgba(21, 29, 77, .94); }
 }
 .vd--vertical .vd__rodape { width: var(--w); }
 .vd--vertical .vd__link { display: none; }
+/* Vídeo do YouTube gravado em pé (video.emPe, ex.: reel passado para o YouTube): janela 9:16. */
+#vd.vd--empe { --w: min(calc(100vw - 2rem), 420px, calc((100dvh - 8rem) * 9 / 16)); }
+.vd--empe .vd__quadro { width: var(--w); aspect-ratio: 9 / 16; }
+.vd--empe .vd__rodape { width: var(--w); }
 /* Botão de vídeo no cartão do artista (Tripulantes). */
 .artista .artista__video {
   display: inline-flex; align-items: center; gap: .55rem; width: auto; margin-top: .8rem; padding: .55rem 1rem .55rem .55rem;
@@ -997,7 +1001,7 @@ function iniciar(CONTEUDO, fotosPrevia) {
   const tituloVideo = v => v.titulo || `Vídeo ${VIDS.indexOf(v) + 1}`;
   const cartaoVideo = v => {
     const e = v.edicao ? ed(v.edicao) : null;
-    return `<button class="cartao${v.instagram ? " cartao--reel" : ""}" data-video="${VIDS.indexOf(v)}" style="${e ? `--vc:${e.cor}` : "--vc:var(--sol)"}">
+    return `<button class="cartao${v.instagram || v.emPe ? " cartao--reel" : ""}" data-video="${VIDS.indexOf(v)}" style="${e ? `--vc:${e.cor}` : "--vc:var(--sol)"}">
       <span class="cartao__capa">
         <img src="${miniVideo(v)}" alt="" loading="lazy" decoding="async">
         <span class="cartao__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg></span>
@@ -2346,7 +2350,7 @@ function iniciar(CONTEUDO, fotosPrevia) {
      youtube-nocookie: sem cookies de rastreamento antes do play.
      O iframe é removido ao fechar, senão o áudio continua tocando. */
   const vd = $("#vd"), vdQuadro = $(".vd__quadro", vd);
-  // v: vídeo do YouTube ({ id }) ou reel do Instagram ({ instagram, titulo }), que abre em pé.
+  // v: vídeo do YouTube ({ id }, em pé com emPe) ou reel do Instagram ({ instagram, titulo }), que abre em pé.
   function abrirVideo(v) {
     // Reel com música licenciada não toca fora do Instagram: abre lá, numa aba nova (com som).
     if (v.abreNoInstagram) return void window.open(`https://www.instagram.com/reel/${encodeURIComponent(v.instagram)}/`, "_blank", "noopener");
@@ -2355,6 +2359,7 @@ function iniciar(CONTEUDO, fotosPrevia) {
                       : `https://www.youtube-nocookie.com/embed/${encodeURIComponent(v.id)}?autoplay=1&rel=0`;
     vd.classList.toggle("vd--vertical", insta);
     vd.classList.toggle("vd--deitado", insta && !!v.deitado);   // reel gravado deitado: o Instagram mostra em 16:9
+    vd.classList.toggle("vd--empe", !insta && !!v.emPe);
     // scrolling="no": logado no Instagram o quadro fica comprido e a barra de rolagem aparecia à direita do vídeo.
     vdQuadro.innerHTML = `<iframe src="${src}" title="${esc(titulo)}"${insta ? ' scrolling="no"' : ""} allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>`;
     $(".vd__titulo", vd).textContent = titulo;

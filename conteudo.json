@@ -877,9 +877,11 @@
       ],
       "_nota": "Nomes do Tiziu e do Milo Peligro: identificados pelo Rafa em 10/10/2026.",
       "video": {
-        "instagram": "DCtqwJROWCa",
+        "id": "v01ctYhNW5Q",
         "titulo": "“O Circo de um Homem Só” na 6ª edição",
-        "capa": "video-20"
+        "capa": "video-20",
+        "emPe": true,
+        "_nota": "No YouTube (canal Vai de Rural, não listado) desde 03/11/2026; era o reel DCtqwJROWCa."
       }
     },
     {
@@ -1286,12 +1288,63 @@
       "_nota": "Reel do Helivelto e da Denise: chamada para 24/03/2026 no Baixão, com imagens da 6ª (Palhaço Tiziu, capoeira, exposição, cinema). Música licenciada (Evandro Correia, “Gema”), por isso abre no Instagram (27/10/2026)."
     },
     {
+      "instagram": "DVhGfyXmLO-",
+      "edicao": 7,
+      "titulo": "Desa Aquino, diretora convidada da continuação da 7ª edição",
+      "capa": "video-27",
+      "abreNoInstagram": true,
+      "_nota": "Reel do Helivelto e da Denise: na continuação da 7ª, Desa Aquino é diretora convidada, com o documentário “É no pé do morro, é lá no cafundó” (2011, 26 min). Música licenciada (Elza Soares, “Mulher do Fim do Mundo”), por isso abre no Instagram. Capa do Instagram (03/11/2026)."
+    },
+    {
       "instagram": "DOtWswhDktM",
       "edicao": 7,
       "titulo": "Exposição fotográfica da 7ª edição",
       "capa": "video-05",
       "abreNoInstagram": true,
       "_nota": "Reel do Helivelto e da Denise. A legenda cita o Edital de Chamamento Público nº 01/2025 da Prefeitura de Macaúbas, então deve ser da parada de Tamboril (2025) — a confirmar. Música licenciada (Ito Moreno, “Bilisquim”), por isso abre no Instagram (27/10/2026)."
+    },
+    {
+      "instagram": "DPCgnjSEk5x",
+      "edicao": 7,
+      "titulo": "Samba de roda com o grupo de Reis Família José Antônio, em Tamboril",
+      "capa": "video-28",
+      "_nota": "Reel do Helivelto (@heliveltoolima): 7ª edição em Tamboril (Macaúbas), 2025. Áudio original. Capa: quadro dos 23 s (03/11/2026)."
+    },
+    {
+      "instagram": "DO80P8EDvrs",
+      "edicao": 7,
+      "titulo": "Cinema com o documentário “Reis do Sertão”, de Pablo Antônio e Josiane Barbosa, em Tamboril",
+      "capa": "video-29",
+      "_nota": "Reel do Helivelto (@heliveltoolima): sessão de cinema da 7ª em Tamboril; “Reis do Sertão” (documentário, 35 min) é sobre a festa de Santo Reis em Macaúbas. Áudio original. Capa: quadro dos 37 s (03/11/2026)."
+    },
+    {
+      "instagram": "DOw89rxDizk",
+      "edicao": 7,
+      "titulo": "Circo com o palhaço Milo Peligro (Colômbia), em Tamboril",
+      "capa": "video-30",
+      "_nota": "Reel do Helivelto (@heliveltoolima): “Circo com o Payaço Peligro (Colômbia)”, 7ª em Tamboril. Áudio original. Capa: quadro dos 13 s (03/11/2026)."
+    },
+    {
+      "instagram": "DOPQXzHDll2",
+      "edicao": 7,
+      "titulo": "Exposição virtual de fotografias: capelas e casas sertanejas",
+      "capa": "video-32",
+      "abreNoInstagram": true,
+      "_nota": "Reel do Helivelto e da Denise: exposição virtual da 7ª, fotos de Helivelto Lima e acervo. Música licenciada (Omer Deep, “Medusa”), por isso abre no Instagram. Capa: o cartaz, do Instagram (03/11/2026)."
+    },
+    {
+      "instagram": "DOM72eFDis5",
+      "edicao": 7,
+      "titulo": "Exposição fotográfica virtual: a natureza de Macaúbas",
+      "capa": "video-33",
+      "_nota": "Reel do Helivelto (@heliveltoolima): exposição virtual da 7ª, fotos de Helivelto Lima. Áudio original. Capa: quadro dos 64 s (03/11/2026)."
+    },
+    {
+      "instagram": "DOpGjtkDn-V",
+      "edicao": 7,
+      "titulo": "Obrigado, Tamboril!",
+      "capa": "video-31",
+      "_nota": "Reel do Helivelto (@heliveltoolima): despedida da 7ª em Tamboril. Áudio original. Capa: a capela de Tamboril de dia, quadro dos 37 s (03/11/2026)."
     },
     {
       "instagram": "DIEXWSNRiRj",
@@ -1301,11 +1354,12 @@
       "_nota": "Reel da Denise (com @luanasantana8968): a comunidade do Preá (Botuporã) se apresentando na 5ª edição. Áudio original, toca no site. Capa recortada na roda, sem o cartaz (27/10/2026)."
     },
     {
-      "instagram": "DH7Ktw9sKYI",
+      "id": "2HYWohAudQM",
       "edicao": 5,
       "titulo": "Acessibilidade, inclusão e cuidado na 5ª edição",
       "capa": "video-07",
-      "_nota": "Reel do Helivelto e da Denise. Áudio original, toca no site. A capa do Instagram era um quadro borrado; a miniatura é o quadro dos 5 s, com as placas “Rampa de acesso” e “Preferencial” (27/10/2026)."
+      "_nota": "Reel do Helivelto e da Denise. Áudio original, toca no site. A capa do Instagram era um quadro borrado; a miniatura é o quadro dos 5 s, com as placas “Rampa de acesso” e “Preferencial” (27/10/2026). No YouTube (canal Vai de Rural, não listado) desde 03/11/2026; era o reel DH7Ktw9sKYI.",
+      "emPe": true
     },
     {
       "instagram": "DHrPJBzJOiU",
@@ -1316,11 +1370,20 @@
       "_nota": "Reel do Helivelto e da Denise na 5ª edição, no Preá. Música licenciada (Flo Rida, “Low”), por isso abre no Instagram. Capa recortada sem as faixas pretas e a marca do CapCut (27/10/2026)."
     },
     {
-      "instagram": "DHoEUpKs1Yn",
+      "instagram": "DHhDxkLuf0d",
+      "edicao": 5,
+      "titulo": "Reisado na Comunidade Quilombola do Preá, Botuporã",
+      "capa": "video-35",
+      "deitado": true,
+      "_nota": "Reel do Helivelto (@heliveltoolima), vídeo dele: apresentação de reisado no Preá, 5ª edição. Gravado deitado. Áudio original. Capa: quadro dos 6 s (03/11/2026)."
+    },
+    {
+      "id": "Svyhn0xe32E",
       "edicao": 5,
       "titulo": "Langa em Palmeira, Boquira",
       "capa": "video-09",
-      "_nota": "Reel do Helivelto (vídeo dele) e da Denise: a langa de Palmeira na 5ª edição. Áudio original, toca no site. Capa recortada na roda, sem as faixas pretas (27/10/2026)."
+      "_nota": "Reel do Helivelto (vídeo dele) e da Denise: a langa de Palmeira na 5ª edição. Áudio original, toca no site. Capa recortada na roda, sem as faixas pretas (27/10/2026). No YouTube (canal Vai de Rural, não listado) desde 03/11/2026; era o reel DHoEUpKs1Yn.",
+      "emPe": true
     },
     {
       "instagram": "DHM1VlYxJhX",
@@ -1330,12 +1393,11 @@
       "_nota": "Reel da Denise sem legenda, com ~20 min. Pelo lugar (chão de terra, luzes coloridas, mesma casa) e pela dança, parece a langa de Palmeira na 5ª edição — a confirmar com a Denise. Áudio original, toca no site (02/11/2026)."
     },
     {
-      "instagram": "DHbGgDfsZ_I",
+      "id": "KJBm9sD-KdY",
       "edicao": 5,
       "titulo": "Comidas típicas da comunidade de Palmeira, Boquira",
       "capa": "video-10",
-      "deitado": true,
-      "_nota": "Reel do Helivelto e da Denise: mingau de milho, brevidade, beiju, cuscuz, paçoca de carne, rosário de licuri e outras comidas de Palmeira na 5ª edição. Tem música (benzie, “vilarejo”), mas liberada: toca no site (27/10/2026)."
+      "_nota": "Reel do Helivelto e da Denise: mingau de milho, brevidade, beiju, cuscuz, paçoca de carne, rosário de licuri e outras comidas de Palmeira na 5ª edição. Tem música (benzie, “vilarejo”), mas liberada: toca no site (27/10/2026). No YouTube (canal Vai de Rural, não listado) desde 02/11/2026; era o reel DHbGgDfsZ_I."
     },
     {
       "instagram": "DHMLk-YRSUu",
@@ -1345,18 +1407,27 @@
       "_nota": "Reel da Denise sem legenda, ~11 min, de dia: cavalos e gado, pamonhas, uma moradora, a máquina e os cocos de licuri. A parede azul e branca e as comidas são as do vídeo das comidas típicas de Palmeira, por isso entrou como Palmeira, 5ª edição — a confirmar com a Denise. Áudio original, toca no site. Miniatura: quadro dos 20 s (02/11/2026)."
     },
     {
-      "instagram": "DHOPOtZxjgT",
+      "id": "uYO6FjB0zXQ",
       "edicao": 5,
       "titulo": "Samba de roda na noite de lua cheia em Palmeira, Boquira",
       "capa": "video-16",
-      "_nota": "Reel da Denise e do Helivelto: encerramento do dia em Palmeira, na 5ª edição (postado em 15/03/2025, véspera de Boa Madeira). Áudio original, toca no site. Capa recortada acima do cartaz (02/11/2026)."
+      "_nota": "Reel da Denise e do Helivelto: encerramento do dia em Palmeira, na 5ª edição (postado em 15/03/2025, véspera de Boa Madeira). Áudio original, toca no site. Capa recortada acima do cartaz (02/11/2026). No YouTube (canal Vai de Rural, não listado) desde 03/11/2026; era o reel DHOPOtZxjgT.",
+      "emPe": true
     },
     {
-      "instagram": "DHODe3LM8Vb",
+      "id": "zlnW_Fjs5os",
       "edicao": 5,
       "titulo": "A comunidade de Palmeira, Boquira, no vídeo de Milo Cardona",
       "capa": "video-17",
-      "_nota": "Reel do Helivelto e da Denise na 5ª edição; vídeo de Milo Cardona (provavelmente o Milo Peligro, a confirmar). Áudio original, toca no site. Capa: moradora socando no pilão (02/11/2026)."
+      "_nota": "Reel do Helivelto e da Denise na 5ª edição; vídeo de Milo Cardona (provavelmente o Milo Peligro, a confirmar). Áudio original, toca no site. Capa: moradora socando no pilão (02/11/2026). No YouTube (canal Vai de Rural, não listado) desde 03/11/2026; era o reel DHODe3LM8Vb.",
+      "emPe": true
+    },
+    {
+      "instagram": "DH5x4mIs3j8",
+      "edicao": 5,
+      "titulo": "Retratos da comunidade de Palmeira, Boquira",
+      "capa": "video-34",
+      "_nota": "Reel do Helivelto (@heliveltoolima): retratos de moradores de Palmeira na 5ª edição (“segue conectando com povos e comunidades”). Áudio original. Capa: quadro dos 30 s (03/11/2026)."
     },
     {
       "instagram": "DHYGnkFxv36",
@@ -1380,6 +1451,20 @@
       "_nota": "Reel da Denise na 5ª edição, Boa Madeira (Macaúbas). Áudio original, toca no site. Capa recortada no rosto, sem o cartaz (27/10/2026)."
     },
     {
+      "instagram": "DHUUV6IMizO",
+      "edicao": 5,
+      "titulo": "Exposição fotográfica de Helivelto Lima em Boa Madeira",
+      "capa": "video-36",
+      "_nota": "Reel do Helivelto (@heliveltoolima), sem legenda: pelas marcas no vídeo (“Boa Madeira, Macaúbas, BA”, “Exposição fotográfica, fotos: Helivelto Lima”), é a exposição na cerca de Boa Madeira, 5ª edição. Áudio original. Capa: quadro dos 29 s (03/11/2026)."
+    },
+    {
+      "instagram": "DHRqvMBOYNZ",
+      "edicao": 5,
+      "titulo": "Mais da exposição fotográfica na cerca de Boa Madeira",
+      "capa": "video-37",
+      "_nota": "Reel do Helivelto (@heliveltoolima): Boa Madeira, 5ª edição; mesma exposição do vídeo DHUUV6IMizO. Áudio original. Capa: quadro dos 10 s (03/11/2026)."
+    },
+    {
       "instagram": "DHS1jeKAeMv",
       "edicao": 5,
       "titulo": "Samba de roda de Boa Madeira no encerramento da 5ª edição",
@@ -1387,11 +1472,12 @@
       "_nota": "Reel da Denise (com @luanasantana8968): Grupo de Samba de Roda de Boa Madeira, noite de lua cheia, 15/03/2025. Áudio original, toca no site. A capa do Instagram era tremida; a miniatura é o quadro dos 3 s, recortado acima do quadrinho do cartaz (27/10/2026)."
     },
     {
-      "instagram": "DCtqwJROWCa",
+      "id": "v01ctYhNW5Q",
       "edicao": 6,
       "titulo": "Palhaço Tiziu e “O Circo de um Homem Só” no encerramento da 6ª edição",
       "capa": "video-20",
-      "_nota": "Reel da Denise (com @nei_madeireira) no encerramento da 6ª. Áudio original, toca no site. Capa recortada no Tiziu com o tambor e as crianças, sem o cartaz (02/11/2026)."
+      "_nota": "Reel da Denise (com @nei_madeireira) no encerramento da 6ª. Áudio original, toca no site. Capa recortada no Tiziu com o tambor e as crianças, sem o cartaz (02/11/2026). No YouTube (canal Vai de Rural, não listado) desde 03/11/2026; era o reel DCtqwJROWCa.",
+      "emPe": true
     },
     {
       "instagram": "CcrEp1ul6o4",
@@ -1401,20 +1487,18 @@
       "_nota": "Vídeo antigo do IGTV da Denise (link /tv/): a 4ª edição em Brejo Grande (Boquira), com o mágico Dan; a noite terminou com o Reis das Mulheres e Cia. Toca no site. Capa recortada no Dan (02/11/2026)."
     },
     {
-      "instagram": "CcvGAO0MM2N",
+      "id": "B6nnAQvdh4Y",
       "edicao": 4,
       "titulo": "Encerramento da 4ª edição na Comunidade Quilombola Paramirim das Crioulas",
       "capa": "video-23",
-      "deitado": true,
-      "_nota": "Vídeo antigo do IGTV da Denise (link /tv/), 23/04/2022, na pracinha de Paramirim das Crioulas (Érico Cardoso), com vista para o Pico das Almas: circo, cinema e reisado. O embed de /reel/ funciona para ele. Toca no site (02/11/2026)."
+      "_nota": "Vídeo antigo do IGTV da Denise (link /tv/), 23/04/2022, na pracinha de Paramirim das Crioulas (Érico Cardoso), com vista para o Pico das Almas: circo, cinema e reisado. O embed de /reel/ funciona para ele. Toca no site (02/11/2026). No YouTube (canal Vai de Rural, não listado) desde 02/11/2026; era o reel CcvGAO0MM2N."
     },
     {
-      "instagram": "CcV6SI2rfmW",
+      "id": "XvNX87b0kw0",
       "edicao": 3,
       "titulo": "Espetáculo circense com o Palhaço Fuzuê na 3ª edição (2017)",
       "capa": "video-25",
-      "deitado": true,
-      "_nota": "Vídeo antigo do IGTV da Denise (link /tv/), postado em 2022 para anunciar a 4ª edição, com um trecho do espetáculo do Palhaço Fuzuê na 3ª (2017). Toca no site (02/11/2026)."
+      "_nota": "Vídeo antigo do IGTV da Denise (link /tv/), postado em 2022 para anunciar a 4ª edição, com um trecho do espetáculo do Palhaço Fuzuê na 3ª (2017). Toca no site (02/11/2026). No YouTube (canal Vai de Rural, não listado) desde 02/11/2026; era o reel CcV6SI2rfmW."
     },
     {
       "id": "ndI-yk68hZA",
@@ -1430,6 +1514,14 @@
       "id": "Bc9Vgns9u7A",
       "edicao": 6,
       "titulo": "Apresentação do grupo de samba de roda da Comunidade Quilombola do Baixão"
+    },
+    {
+      "instagram": "DHRFV0TMxOw",
+      "edicao": null,
+      "titulo": "“Um Ponto que Une…”, curta da oficina pública de audiovisual",
+      "capa": "video-38",
+      "abreNoInstagram": true,
+      "_nota": "Reel de @0henrickantonio (com @viitoriiaamaral): curta feito na oficina pública do Vai de Rural (Lei Paulo Gustavo Macaúbas, Edital Audiovisual nº 04/2024, apoio à formação). O Instagram não deixa tocar fora dele, por isso abre lá. Edição a confirmar com a Denise. Capa: o letreiro do começo, do Instagram (03/11/2026)."
     },
     {
       "id": "tUGRXwzrBwc",
@@ -1460,28 +1552,31 @@
       "edicao": null
     },
     {
-      "instagram": "CbTbB0ZOJTE",
+      "id": "uNjEjEVUGqY",
       "edicao": null,
       "projeto": "boa-madeira",
       "titulo": "Samba de roda em noite de lua cheia, na 1ª edição",
       "capa": "video-26",
-      "_nota": "Vídeo antigo do IGTV da Denise (link /tv/), do dia da festa da 1ª edição do projeto (2022). Toca no site (02/11/2026)."
+      "_nota": "Vídeo antigo do IGTV da Denise (link /tv/), do dia da festa da 1ª edição do projeto (2022). Toca no site (02/11/2026). No YouTube (canal Vai de Rural, não listado) desde 02/11/2026; era o reel CbTbB0ZOJTE.",
+      "emPe": true
     },
     {
-      "instagram": "C_BL51au9ry",
+      "id": "vE5PAzuYbsU",
       "edicao": null,
       "projeto": "boa-madeira",
       "titulo": "Samba de roda no encerramento da 2ª edição, em Boa Madeira (17/08/2024)",
       "capa": "video-21",
-      "_nota": "Reel da Denise. Vai só para a página do projeto Um olhar sobre Boa Madeira, não para as listas da Rural. Áudio original, toca no site (02/11/2026)."
+      "_nota": "Reel da Denise. Vai só para a página do projeto Um olhar sobre Boa Madeira, não para as listas da Rural. Áudio original, toca no site (02/11/2026). No YouTube (canal Vai de Rural, não listado) desde 03/11/2026; era o reel C_BL51au9ry.",
+      "emPe": true
     },
     {
-      "instagram": "C_Dlbk-OeJr",
+      "id": "VSaJ_kPgq-M",
       "edicao": null,
       "projeto": "boa-madeira",
       "titulo": "Exposição fotográfica da 2ª edição: a comunidade vista por ela mesma",
       "capa": "video-22",
-      "_nota": "Reel da Denise. Fotos de Helivelto Lima e de jovens de Boa Madeira, da oficina de fotografia do projeto. Áudio original, toca no site. Capa: foto do tambor e dos cestos na exposição (02/11/2026)."
+      "_nota": "Reel da Denise. Fotos de Helivelto Lima e de jovens de Boa Madeira, da oficina de fotografia do projeto. Áudio original, toca no site. Capa: foto do tambor e dos cestos na exposição (02/11/2026). No YouTube (canal Vai de Rural, não listado) desde 03/11/2026; era o reel C_Dlbk-OeJr.",
+      "emPe": true
     }
   ],
   "projetos": {

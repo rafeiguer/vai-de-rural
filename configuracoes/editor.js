@@ -196,30 +196,35 @@ function pares(rotulo, lista, [r1, r2], { dica, novo = "Adicionar", area2 = fals
     h("button", { type: "button", class: "botao botao--claro", onclick: () => { lista.push(["", ""]); mudou({ redesenhar: true }); } }, `+ ${novo}`));
 }
 
-/* Vídeo do Instagram no cartão do artista: guarda só o código do reel em a.video.instagram
+/* Vídeo no cartão do artista: guarda só o código, do YouTube em a.video.id ou do reel em a.video.instagram
    (o site monta o link). Apagar o link tira o vídeo; título e miniatura só aparecem quando há vídeo. */
 const idReel = url => (String(url).match(/instagram\.com\/(?:reels?|p)\/([\w-]+)/) || [])[1];
 function videoInstagram(a) {
   const idLink = novoIdCampo();
-  const link = h("input", { id: idLink, type: "url", placeholder: "https://www.instagram.com/reel/…",
-    value: a.video ? `https://www.instagram.com/reel/${a.video.instagram}/` : "" });
+  const link = h("input", { id: idLink, type: "url", placeholder: "https://www.youtube.com/watch?v=… ou https://www.instagram.com/reel/…",
+    value: !a.video ? "" : a.video.id ? `https://www.youtube.com/watch?v=${a.video.id}` : `https://www.instagram.com/reel/${a.video.instagram}/` });
   link.addEventListener("change", () => {
     if (!link.value.trim()) { delete a.video; return mudou({ redesenhar: true }); }
-    const id = idReel(link.value);
-    if (!id) return aviso("Não reconheci esse link. No Instagram, toque em ⋯ e em Copiar link.", "erro");
-    a.video = { ...a.video, instagram: id, titulo: a.video?.titulo || "" };
+    const yt = idYouTube(link.value), reel = !yt && idReel(link.value);
+    if (!yt && !reel) return aviso("Não reconheci esse link. Copie o endereço do vídeo no YouTube (botão Compartilhar) ou no Instagram (⋯ e Copiar link).", "erro");
+    // Trocar de YouTube para Instagram (ou o contrário) leva título e miniatura, mas não as marcas de um ou de outro.
+    const { id, instagram, abreNoInstagram, deitado, emPe, ...resto } = a.video || {};
+    a.video = yt ? { ...resto, id: yt } : { ...resto, instagram: reel };
+    a.video.titulo ??= "";
     mudou({ redesenhar: true });
   });
   return h("div", {},
-    h("div", { class: "campo" }, h("label", { for: idLink }, "Vídeo no Instagram (link do reel)"),
+    h("div", { class: "campo" }, h("label", { for: idLink }, "Vídeo do artista (link do YouTube ou do Instagram)"),
       h("p", { class: "dica" }, "Aparece no cartão do artista. Deixe vazio para não ter vídeo."), link),
     a.video && campo("Título do vídeo", a.video, "titulo", { placeholder: "Ex.: Espetáculo na 7ª edição" }),
     a.video && fotoUnica("Miniatura do vídeo", a.video, "capa", "trip",
       { dica: "Uma imagem do vídeo (pode ser um print). Sem miniatura, aparece um botão amarelo “Assistir”." }),
-    a.video && caixaMarcar("Abrir no Instagram", a.video, "abreNoInstagram",
+    a.video?.instagram && caixaMarcar("Abrir no Instagram", a.video, "abreNoInstagram",
       { dica: "Marque se o vídeo tem música famosa (não “Áudio original”): o Instagram não deixa esse tocar no site." }),
-    a.video && caixaMarcar("Vídeo deitado", a.video, "deitado",
-      { dica: "Marque se o vídeo foi gravado com o celular deitado (mais largo que alto)." }));
+    a.video?.instagram && caixaMarcar("Vídeo deitado", a.video, "deitado",
+      { dica: "Marque se o vídeo foi gravado com o celular deitado (mais largo que alto)." }),
+    a.video?.id && caixaMarcar("Vídeo em pé", a.video, "emPe",
+      { dica: "Marque se o vídeo foi gravado com o celular em pé (mais alto que largo)." }));
 }
 
 /* Grade de fotos. lista: ids (texto) ou objetos { id, legenda, edicao }.
@@ -365,13 +370,16 @@ const PAGINAS = {
       h("div", { class: "campo novo-video" }, h("label", { for: "novo-video" }, "Link do vídeo no YouTube ou no Instagram"),
         h("div", { class: "linha" }, entrada, h("button", { type: "button", class: "botao", onclick: adicionar }, "Adicionar"))),
       h("ol", { class: "videos" }, V.map((v, k) => h("li", { class: "video" },
-        v.instagram
-          ? (v.capa ? miniatura(v.capa) : h("span", { class: "sem-foto", title: "Sem miniatura" }))
+        v.capa ? miniatura(v.capa)
+          : v.instagram ? h("span", { class: "sem-foto", title: "Sem miniatura" })
           : h("img", { src: `https://i.ytimg.com/vi/${encodeURIComponent(v.id)}/mqdefault.jpg`, alt: "", loading: "lazy" }),
         h("div", { class: "video__campos" },
           campo("Título", v, "titulo", { placeholder: v.instagram ? "Escreva o título do vídeo" : "(o título do YouTube)" }),
           seletorEdicao(v.edicao, n => { v.edicao = n; mudou(); }, { vazio: v.instagram ? "Nenhuma" : "Descobrir pelo título" }),
-          v.instagram && fotoUnica("Miniatura", v, "capa", "video", { dica: "Uma imagem do vídeo (pode ser um print)." }),
+          fotoUnica("Miniatura", v, "capa", "video",
+            { dica: v.instagram ? "Uma imagem do vídeo (pode ser um print)." : "Opcional: sem ela, aparece a do YouTube." }),
+          !v.instagram && caixaMarcar("Vídeo em pé", v, "emPe",
+            { dica: "Marque se o vídeo foi gravado com o celular em pé (mais alto que largo)." }),
           v.instagram && caixaMarcar("Abrir no Instagram", v, "abreNoInstagram",
             { dica: "Marque se o vídeo tem música famosa (não “Áudio original”): o Instagram não deixa esse tocar no site." }),
           v.instagram && caixaMarcar("Vídeo deitado", v, "deitado",
