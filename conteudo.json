@@ -943,7 +943,14 @@
         "trip-03",
         "trip-04",
         "trip-05"
-      ]
+      ],
+      "video": {
+        "id": "mhbOkTx4yqk",
+        "titulo": "Ioga aéreo com Desa Aquino e Navid ao violão, na 5ª edição",
+        "capa": "video-15",
+        "_nota": "Mesmo vídeo da lista de vídeos, 10/11/2026.",
+        "emPe": true
+      }
     },
     {
       "nome": "Milo Peligro",
@@ -998,7 +1005,14 @@
         "trip-30",
         "ed7-83"
       ],
-      "_nota": "Tecido acrobático e acrobacia em dupla: a mesma pessoa. Texto \"Sobre mim\" enviado em 10/10/2026; o Instagram é o dos contatos do release da 7ª. trip-35 (trapézio, do site desaaquino.com) entrou como capa em 10/10/2026 no lugar da trip-32. ed7-83: card da 7ª em Tamboril, do post do Helivelto no Instagram (DNT8sq0u4wh), 02/11/2026."
+      "_nota": "Tecido acrobático e acrobacia em dupla: a mesma pessoa. Texto \"Sobre mim\" enviado em 10/10/2026; o Instagram é o dos contatos do release da 7ª. trip-35 (trapézio, do site desaaquino.com) entrou como capa em 10/10/2026 no lugar da trip-32. ed7-83: card da 7ª em Tamboril, do post do Helivelto no Instagram (DNT8sq0u4wh), 02/11/2026.",
+      "video": {
+        "id": "n39P8L1tbk8",
+        "titulo": "Tecido marinho em Palmeira, na 5ª edição",
+        "capa": "video-11",
+        "_nota": "Mesmo vídeo da lista de vídeos, 10/11/2026.",
+        "emPe": true
+      }
     },
     {
       "nome": "Palhaço Eleno",
