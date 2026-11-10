@@ -531,6 +531,7 @@ body.com-fundo .painel.texto-longo {
 .artista button { display: block; width: 100%; padding: 0; border: 0; background: none; border-radius: 6px; overflow: hidden; }
 .artista img { display: block; width: 100%; object-fit: cover; }
 .artista__destaque img { aspect-ratio: 4 / 5; }
+.artista__semfoto { aspect-ratio: 4 / 5; }   /* cartão ainda sem foto: quadro com a figura de pessoa */
 .artista__mini { display: grid; grid-template-columns: repeat(auto-fill, minmax(56px, 1fr)); gap: .4rem; margin-top: .5rem; }
 .artista__mini img { aspect-ratio: 1; }
 .artista__legenda { margin: .6rem 0 0; font-size: .95rem; font-weight: 700; line-height: 1.4; }
@@ -1742,7 +1743,9 @@ function iniciar(CONTEUDO, fotosPrevia) {
           <div class="artistas">${ARTISTAS.map((a, k) => `
             <article class="artista">
               <div class="artista__fotos">
-                <button class="artista__destaque" data-artista="${k}" data-artista-foto="0" aria-label="Ampliar a foto${a.nome ? ` de ${esc(a.nome)}` : ""}">${imgFoto(a.fotos[0], 800, a.nome || "Artista da Rural")}</button>
+                ${a.fotos.length
+                  ? `<button class="artista__destaque" data-artista="${k}" data-artista-foto="0" aria-label="Ampliar a foto${a.nome ? ` de ${esc(a.nome)}` : ""}">${imgFoto(a.fotos[0], 800, a.nome || "Artista da Rural")}</button>`
+                  : `<div class="artista__destaque artista__semfoto polaroide__arte" style="--c:var(--sol);--t:var(--anil)" aria-hidden="true">${pessoa}</div>`}
                 ${a.fotos.length > 1 ? `<div class="artista__mini">${a.fotos.slice(1).map((id, i) => `<button data-artista="${k}" data-artista-foto="${i + 1}" aria-label="Ampliar a foto ${i + 2}">${imgFoto(id, 800, "")}</button>`).join("")}</div>` : ""}
                 ${a.legenda ? `<p class="artista__legenda">${esc(a.legenda)}${a.instagram ? ` <a href="https://www.instagram.com/${encodeURIComponent(a.instagram)}/" target="_blank" rel="noopener">@${esc(a.instagram)}</a>` : ""}</p>` : ""}
                 ${a.video ? (a.video.capa
