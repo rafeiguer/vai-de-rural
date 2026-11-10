@@ -85,7 +85,7 @@
       "Baixão",
       "Tamboril"
     ],
-    "contato": "contato@vaiderural.com.br",
+    "contato": "labicigaleriacultural@gmail.com",
     "parceiros": [
       [
         "Realização",
@@ -420,6 +420,10 @@
         {
           "id": "trip-42",
           "legenda": "Milo Peligro e o espetáculo “Circo Peligro” (foto de divulgação)"
+        },
+        {
+          "id": "ed5-01",
+          "legenda": "Card da Oficina de Formação Audiovisual com Neto Cajado, no CETEP da Bacia do Paramirim (25 de fevereiro)"
         }
       ]
     },
@@ -1422,6 +1426,22 @@
       "emPe": true
     },
     {
+      "id": "360BTXOjb8Q",
+      "edicao": 5,
+      "titulo": "Chamada da 5ª edição: “Respeitável público, rufem os tambores, a Rural está chegando!”",
+      "capa": "video-44",
+      "_nota": "Reel da Denise e do Helivelto, 4:16: chamada da 5ª com a programação de Preá (12/03/2025), Palmeira (14/03) e Boa Madeira (15/03) e registros das edições passadas. Áudio original. Capa: quadro dos 4 s. No YouTube (canal Vai de Rural, não listado) desde 10/11/2026; era o reel DFdW1jkNwtG.",
+      "emPe": true
+    },
+    {
+      "id": "WwNc5HagB8Y",
+      "edicao": 5,
+      "titulo": "Os cartazes da 5ª edição: Preá, Palmeira e Boa Madeira",
+      "capa": "video-43",
+      "emPe": true,
+      "_nota": "Reel do Helivelto e da Denise (DGSuPivODHU), 12 s: divulgação da 5ª com os cartazes impressos (12, 14 e 15/03/2025). Áudio original. Capa: quadro dos 9,5 s, girado. No YouTube (canal Vai de Rural, não listado) desde 10/11/2026."
+    },
+    {
       "id": "0FbDBSUX_js",
       "edicao": 5,
       "titulo": "Manifestação cultural da Comunidade Quilombola do Preá",
@@ -1436,6 +1456,22 @@
       "capa": "video-07",
       "_nota": "Reel do Helivelto e da Denise. Áudio original, toca no site. A capa do Instagram era um quadro borrado; a miniatura é o quadro dos 5 s, com as placas “Rampa de acesso” e “Preferencial” (27/10/2026). No YouTube (canal Vai de Rural, não listado) desde 03/11/2026; era o reel DH7Ktw9sKYI.",
       "emPe": true
+    },
+    {
+      "id": "Sejzbs4RxMQ",
+      "edicao": 5,
+      "titulo": "Depoimento de Neto Cajado sobre a Oficina de Formação Audiovisual no CETEP de Macaúbas",
+      "capa": "video-42",
+      "emPe": true,
+      "_nota": "Reel da Denise e do Helivelto (DGkX3IMxP9f): Neto Cajado fala da oficina de formação audiovisual para os alunos do CETEP (Macaúbas), contrapartida da 5ª edição. Áudio original. Capa: quadro dos 6 s. No YouTube (canal Vai de Rural, não listado) desde 10/11/2026."
+    },
+    {
+      "id": "eJP32dEUWNQ",
+      "edicao": 5,
+      "titulo": "Depoimento de Henrique, da Oficina de Formação Audiovisual com Neto Cajado, no CETEP de Macaúbas",
+      "capa": "video-41",
+      "emPe": true,
+      "_nota": "Reel da Denise e do Helivelto (DGkZASVRyJo): depoimento de Henrique, da oficina de formação audiovisual com Neto Cajado para os alunos do CETEP (Macaúbas), 5ª edição. Áudio original. Capa: quadro dos 5 s. No YouTube (canal Vai de Rural, não listado) desde 10/11/2026."
     },
     {
       "id": "yX4OwQiKOWI",
@@ -1548,12 +1584,28 @@
       "emPe": true
     },
     {
+      "instagram": "DG8WlBtsYjx",
+      "edicao": 5,
+      "titulo": "Preparativos da exposição fotográfica da 5ª edição",
+      "capa": "video-40",
+      "abreNoInstagram": true,
+      "_nota": "Reel do Helivelto (@heliveltoolima): “Preparativos da exposição fotográfica. Vai de Rural, 5ª edição.” Música licenciada (Banda de Pífanos Caju Pinga Fogo, “Toca Toca Pife”), por isso abre no Instagram e não dá para baixar. Capa do Instagram recortada sem os letreiros (10/11/2026)."
+    },
+    {
       "id": "nb5JRb-daO4",
       "edicao": 5,
       "titulo": "Samba de roda de Boa Madeira no encerramento da 5ª edição",
       "capa": "video-13",
       "_nota": "Reel da Denise (com @luanasantana8968): Grupo de Samba de Roda de Boa Madeira, noite de lua cheia, 15/03/2025. Áudio original, toca no site. A capa do Instagram era tremida; a miniatura é o quadro dos 3 s, recortado acima do quadrinho do cartaz (27/10/2026). No YouTube (canal Vai de Rural, não listado) desde 05/11/2026; era o reel DHS1jeKAeMv.",
       "emPe": true
+    },
+    {
+      "instagram": "DCtYn4TO0S-",
+      "edicao": 6,
+      "titulo": "Reportagem do BA Meio Dia (TV Bahia) sobre a 6ª edição",
+      "capa": "video-45",
+      "deitado": true,
+      "_nota": "Reel do Helivelto (@heliveltoolima), 3:48: matéria do telejornal BA Meio Dia, da TV Bahia, “Projeto Cultural Vai de Rural – atividades culturais com as comunidades rurais” (imagens de Maurício Amaral), com capoeira e entrevista. Áudio original, toca no site. Não subiu no YouTube por ser material de TV (o YouTube costuma bloquear). Arquivo em reels/DCtYn4TO0S-.mp4. Capa: quadro dos 40 s (10/11/2026)."
     },
     {
       "id": "v01ctYhNW5Q",
