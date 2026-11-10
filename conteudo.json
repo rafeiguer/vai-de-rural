@@ -28,7 +28,7 @@
       "Nossos projetos têm se mostrado fruto de uma verdadeira integração comunitária, em que se prioriza um processo de construção coletiva, envolvendo as comunidades não somente como espectadores, mas, sobretudo, como protagonistas, através da atuação dos mesmos com suas expressões culturais. A Rural segue construindo novos caminhos, aumentando a bagagem de mais histórias, causos e encantos através do cinema, do circo, da cultura popular e de outras artes integradas em diálogo com povos e comunidades."
     ],
     "resumo": [
-      "A Vai de Rural é uma mostra de cinema que viaja pelo interior da Bahia dentro de um carro: a Rural.",
+      "A Vai de Rural é uma mostra cultural que viaja pelo interior da Bahia dentro de um carro: a Rural.",
       "Ela leva filmes, circo, fotografia e cultura popular para comunidades rurais e quilombolas. Tudo é de graça. Desde a sexta edição, tem tradutora de Libras.",
       "Já foram sete edições, de 2013 a 2026, em mais de 25 povoados e comunidades, na Bacia do Paramirim e no Sudoeste da Bahia.",
       "A primeira viagem levou o filme “É no pé do morro é lá no cafundó”, de Denise Santos, para as próprias pessoas que aparecem nele.",
@@ -317,6 +317,8 @@
         "Depois de circular em três edições por mais de 24 povoados e comunidades, a La Bici Galeria Cultural, em parceria com o produtor Helivelto Lima, de Macaúbas, levou a quarta edição a três comunidades em três dias.",
         "Em Boa Madeira, Macaúbas (21 de abril), com o Samba de Roda das Mulheres de Boa Madeira; em Brejo Grande, Boquira (22), com o Reis das Mulheres e Cia; e no Quilombo Paramirim das Crioulas, Érico Cardoso (23), com o Reisado das Liras e Manjonas.",
         "A programação teve exibição de documentário, exposição de artesanato, exposição fotográfica e apresentações circenses com Dan, o mágico, e o Palhaço Eleno.",
+        "A abertura, em Boa Madeira, foi uma festa: o Palhaço Eleno fez o público cair na gargalhada, o mágico Dan impressionou com seus truques, e a noite terminou com samba de roda e folia de reis. A homenageada foi Dona Balbina dos Reis, mestra dos saberes: artesã, sambadeira e parteira da comunidade.",
+        "O encerramento foi no dia 23, na Comunidade Quilombola Paramirim das Crioulas. Foram muitas serras e riachos até chegar à pracinha da vila, de onde se avista o Pico das Almas. Circo, cinema e reisado, com a praça cheia de crianças, idosos e toda a gente, de riso solto e coração vibrando. O que mais teve foi alma e presença: a Rural encerrou a 4ª edição na certeza de que essa magia tem que continuar.",
         "A edição foi selecionada no edital Territórios Culturais 2019, com apoio financeiro do Fundo de Cultura do Governo da Bahia e apoio cultural das prefeituras de Macaúbas, Boquira e Érico Cardoso."
       ],
       "cartaz": "ed4-cartaz",
@@ -345,9 +347,25 @@
         {
           "id": "ed4-02",
           "legenda": "Apresentação de tecido diante do público"
+        },
+        {
+          "id": "trip-43",
+          "legenda": "Palhaço Eleno, convidado internacional da 4ª edição (foto de divulgação)"
+        },
+        {
+          "id": "trip-44",
+          "legenda": "Palhaço Eleno, convidado internacional da 4ª edição (foto de divulgação)"
+        },
+        {
+          "id": "trip-45",
+          "legenda": "Palhaço Eleno, convidado internacional da 4ª edição (foto de divulgação)"
+        },
+        {
+          "id": "trip-46",
+          "legenda": "Palhaço Eleno, convidado internacional da 4ª edição (foto de divulgação)"
         }
       ],
-      "_nota": "trip-33 e trip-34: as mesmas fotos dos cartões de Eleno e Dan na página Tripulantes."
+      "_nota": "trip-33 e trip-34: as mesmas fotos dos cartões de Eleno e Dan na página Tripulantes. Parágrafos da abertura e do encerramento: legendas dos vídeos do IGTV da Denise (Ccp54t4OFhi e CcvGAO0MM2N), 10/11/2026."
     },
     {
       "n": 5,
@@ -390,7 +408,20 @@
         "ed5-release-09"
       ],
       "pendente": false,
-      "fotos": []
+      "fotos": [
+        {
+          "id": "trip-40",
+          "legenda": "Milo Peligro e o espetáculo “Circo Peligro” (foto de divulgação)"
+        },
+        {
+          "id": "trip-41",
+          "legenda": "Milo Peligro e o espetáculo “Circo Peligro” (foto de divulgação)"
+        },
+        {
+          "id": "trip-42",
+          "legenda": "Milo Peligro e o espetáculo “Circo Peligro” (foto de divulgação)"
+        }
+      ]
     },
     {
       "n": 6,
@@ -443,6 +474,18 @@
         {
           "id": "ed6-04",
           "legenda": "Samba no Baixão"
+        },
+        {
+          "id": "trip-37",
+          "legenda": "Palhaço Tiziu, de “O Circo de um Homem Só” (foto de divulgação)"
+        },
+        {
+          "id": "trip-38",
+          "legenda": "Palhaço Tiziu, de “O Circo de um Homem Só” (foto de divulgação)"
+        },
+        {
+          "id": "trip-39",
+          "legenda": "Palhaço Tiziu, de “O Circo de um Homem Só” (foto de divulgação)"
         }
       ],
       "_nota": "A 6ª (novembro de 2024) aconteceu antes da 5ª (março de 2025): a numeração segue os editais, não o calendário. \"Samba Baixao\" no Drive: fotos de 21/11/2024 (20h16 a 20h44), mesma câmera do Terno de Reis."
@@ -869,13 +912,21 @@
     {
       "nome": "Palhaço Tiziu",
       "legenda": "Tripulante Palhaço Tiziu",
-      "texto": [],
+      "texto": [
+        "Palhaço, ator e diretor de Salvador (BA). Formado em Direção Teatral pela Universidade Federal da Bahia (1997), com especialização em Ludicidade e Desenvolvimento Criativo de Pessoas pela Transludus/Unyahana (2005).",
+        "Dirigiu shows musicais, como “Afro-Pop Brasileiro”, de Margareth Menezes, e dezenas de espetáculos de teatro e circo, muitos contemplados pelo Prêmio Braskem de Teatro: “O Sapato do Meu Tio”, de Lucio Tranchesi e Alexandre Casale; “O Rabo e a Porca”, de Aicha Marques; “O Nariz do Poeta”, do grupo Viapalco; e os infantis “História de Uma Caixola”, “Rádio Biruta”, “As Rimas de Catarina”, de Ilma Nascimento, e “Quem Conto Canta Cordel Encanta”, do grupo Ziriguidum-Borogodó.",
+        "Formou-se em palhaçaria em cursos e oficinas com palhaços e palhaças do Brasil e de fora. Desde 1998 dirige o Viapalco – Grupo de Teatro e Circo, que fundou, e o Núcleo Circo Único, que abriga os solos do Palhaço Tiziu e a oficina “A Arte de Ser Palhaço”, além da Trupe Percussiva Palhafolia, do Coral Sol-Faz-Mi-Rir e da Casa da Palhaçaria. Hoje preside a Cooperativa Baiana de Teatro.",
+        "Na 6ª edição, levou o espetáculo “O Circo de um Homem Só” às comunidades quilombolas Cachoeira das Araras e Baixão, em Vitória da Conquista (BA), nos dias 20 e 21 de novembro de 2024."
+      ],
       "fotos": [
         "trip-01",
         "trip-06",
-        "trip-09"
+        "trip-09",
+        "trip-37",
+        "trip-38",
+        "trip-39"
       ],
-      "_nota": "Nomes do Tiziu e do Milo Peligro: identificados pelo Rafa em 10/10/2026.",
+      "_nota": "Nomes do Tiziu e do Milo Peligro: identificados pelo Rafa em 10/10/2026. Texto e fotos trip-37..39: post de divulgação da Denise (instagram.com/p/DCYwpdJu0xd), 09/11/2026.",
       "video": {
         "id": "v01ctYhNW5Q",
         "titulo": "“O Circo de um Homem Só” na 6ª edição",
@@ -911,14 +962,18 @@
         "trip-22",
         "trip-23",
         "trip-26",
-        "trip-31"
+        "trip-31",
+        "trip-40",
+        "trip-41",
+        "trip-42"
       ],
       "texto": [
         "Nasceu em Medellín, na Colômbia, em 1989. Desde a infância já se interessava pelo teatro, pelas artes cênicas em geral e pela vida de estrada e o nomadismo do circo. Em 2008, aos 18 anos, começou a viajar pela América do Sul como malabarista e aprendiz de palhaço, passando por 8 países e participando de workshops, convenções e encontros de circo, palhaço e malabares.",
         "Hoje mora em Salvador, na Bahia, onde continua exercendo a sua arte na rua, no teatro, no circo, em eventos e em qualquer espaço não convencional.",
-        "“Circo Peligro” é um espetáculo que combina malabares, mágica e equilibrismo, incorporando um dos elementos mais clássicos do circo: o número de risco. Equilibrado em um monociclo de 1,80 m, manipulando tochas e cuspindo grandes chamaradas, o artista desafia os próprios limites no picadeiro com um único objetivo: roubar o fôlego do público e garantir uma experiência inesquecível, recheada de risadas e muita emoção."
+        "“Circo Peligro” é um espetáculo que combina malabares, mágica e equilibrismo, incorporando um dos elementos mais clássicos do circo: o número de risco. Equilibrado em um monociclo de 1,80 m, manipulando tochas e cuspindo grandes chamaradas, o artista desafia os próprios limites no picadeiro com um único objetivo: roubar o fôlego do público e garantir uma experiência inesquecível, recheada de risadas e muita emoção.",
+        "Na 5ª edição, apresentou o “Circo Peligro” na Comunidade Quilombola do Preá (Botuporã), em Palmeira (Boquira) e em Boa Madeira (Macaúbas), de 12 a 15 de março de 2025."
       ],
-      "_nota": "Texto do release da 7ª edição (\"Convidados da Rural\"). Vídeo: reel da Denise (@desaaquino_) com o espetáculo no Baixão, adicionado em 27/10/2026; a miniatura (trip-36) é a capa do próprio reel."
+      "_nota": "Texto do release da 7ª edição (\"Convidados da Rural\"). Vídeo: reel da Denise (@desaaquino_) com o espetáculo no Baixão, adicionado em 27/10/2026; a miniatura (trip-36) é a capa do próprio reel. Fotos trip-40..42 e a frase da 5ª: post de divulgação da Denise (instagram.com/p/DFnlkN8RQ-y), 09/11/2026."
     },
     {
       "nome": "Denise Santos (Desa Aquino)",
@@ -947,21 +1002,31 @@
     },
     {
       "nome": "Palhaço Eleno",
-      "legenda": "Tripulante Palhaço Eleno",
+      "legenda": "Tripulante Palhaço Eleno (Chile)",
       "fotos": [
         "trip-33",
         "trip-07",
         "trip-12",
         "trip-11",
-        "trip-15"
+        "trip-15",
+        "trip-43",
+        "trip-44",
+        "trip-45",
+        "trip-46"
       ],
       "texto": [
-        "O multiartista foi o nosso convidado na 4ª edição da Mostra Cultural Itinerante Vai de Rural, que aconteceu de 21 a 23 de abril de 2022, em comunidades rurais da Bacia do Paramirim, na Bahia.",
+        "O palhaço chileno Eleno foi o nosso convidado internacional na 4ª edição da Mostra Cultural Itinerante Vai de Rural, que aconteceu de 21 a 23 de abril de 2022, em comunidades rurais da Bacia do Paramirim, na Bahia.",
         "De natureza autodidata, tem uma formação diversificada em diferentes linguagens, que se integram e enriquecem seus trabalhos. É diretor de números circenses, espetáculos, curtas-metragens e videoclipes.",
         "Em 2013, criou a Cia. Itinerante Imaginário e apresentou os espetáculos “Que Rufem os Tambores”, “Estupendo Maravilhoso”, “Des-Passos” e “Doce Estranha Maravilha”, participando de festivais internacionais de palhaço de rua e circo.",
         "Já levou seus espetáculos e oficinas sobre arte de rua, palhaço, teatro físico, malabarismo, mímica, direção e criação ao Chile, à Argentina, ao Uruguai, ao Brasil e aos Estados Unidos."
       ],
-      "_nota": "Convidado da 4ª (WhatsApp, 08/10/2026). Eram também dois cartões sem nome (tochas de fogo e cartola); a Denise pediu para juntar, com o retrato como capa e sem as fotos quase iguais (saíram trip-08, trip-10 e trip-14)."
+      "_nota": "Convidado da 4ª (WhatsApp, 08/10/2026). Eram também dois cartões sem nome (tochas de fogo e cartola); a Denise pediu para juntar, com o retrato como capa e sem as fotos quase iguais (saíram trip-08, trip-10 e trip-14). Fotos trip-43..46: post de divulgação da Denise (instagram.com/p/CcT0ohsM5Xl), 09/11/2026.",
+      "video": {
+        "id": "IxBvvXSzH98",
+        "titulo": "Abertura da 4ª edição em Boa Madeira",
+        "capa": "video-39",
+        "_nota": "Mesmo vídeo da lista de vídeos (era o IGTV Ccp54t4OFhi), 10/11/2026."
+      }
     },
     {
       "nome": "Dan Marques",
@@ -1599,6 +1664,13 @@
       "capa": "video-22",
       "_nota": "Reel da Denise. Fotos de Helivelto Lima e de jovens de Boa Madeira, da oficina de fotografia do projeto. Áudio original, toca no site. Capa: foto do tambor e dos cestos na exposição (02/11/2026). No YouTube (canal Vai de Rural, não listado) desde 03/11/2026; era o reel C_Dlbk-OeJr.",
       "emPe": true
+    },
+    {
+      "id": "IxBvvXSzH98",
+      "edicao": 4,
+      "titulo": "Abertura da 4ª edição em Boa Madeira: palhaço Eleno, mágico Dan, samba de roda e folia de reis",
+      "capa": "video-39",
+      "_nota": "Vídeo antigo do IGTV da Denise (link /tv/), 21/04/2022 em Boa Madeira (Macaúbas); homenageada da noite: Dona Balbina dos Reis. Imagens de Vivian Martins e Desa Aquino, edição de Desa Aquino. Capa: quadro dos 31 s (Eleno com as tochas). No YouTube (canal Vai de Rural, não listado) desde 09/11/2026; era o reel Ccp54t4OFhi."
     }
   ],
   "projetos": {

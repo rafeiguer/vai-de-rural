@@ -190,6 +190,9 @@ h1, h2, h3 { margin: 0; line-height: 1.02; }
 .carrossel { touch-action: pan-y; cursor: grab; -webkit-user-select: none; user-select: none; }
 .carrossel--arrastando, .carrossel--arrastando .carrossel__foto { cursor: grabbing; }
 .carrossel__foto img { -webkit-user-drag: none; }
+/* Troca de foto: a nova aparece devagar por cima da antiga (fusão) */
+.carrossel__foto img.carrossel__nova { position: absolute; opacity: 0; transition: opacity 1.6s ease-in-out; pointer-events: none; }
+.carrossel__foto img.carrossel__nova--vem { opacity: 1; }
 /* Mãozinha que mostra o gesto de arrastar (some depois do primeiro arrasto). */
 .carrossel__mao {
   position: absolute; left: 50%; bottom: 4%; z-index: 200; width: 64px; height: 64px; margin-left: -32px;
@@ -1200,7 +1203,7 @@ function iniciar(CONTEUDO, fotosPrevia) {
       ${itens.map((it, k) => `${it.video != null
         ? `<a class="carrossel__foto" href="#/videos" data-video="${it.video}" aria-label="${esc(`Assistir: ${tituloVideo(VIDS[it.video])}`)}">
         <img src="${miniVideo(VIDS[it.video])}" alt="" ${k === 0 ? 'fetchpriority="high"' : ""} decoding="async">${play}`
-        : `<a class="carrossel__foto" href="${it.href || (it.e ? `#/edicao/${it.e.n}` : "#/edicoes")}"
+        : `<a class="carrossel__foto" href="${it.href || (it.e ? `#/edicao/${it.e.n}` : "#/edicoes")}"${it.e && !it.href ? ` data-ed="${it.e.n}"` : ""}
           aria-label="${esc(it.rotulo || (it.e ? `Foto da ${rotuloEd(it.e)}` : "Foto da mostra"))}">
         ${imgFoto(it.id, 700, "", k === 0 ? 'fetchpriority="high" loading="eager"' : 'loading="eager"')}`}
         ${it.e ? `<span class="carrossel__ed" style="--c:${it.e.cor};--t:${it.e.tinta}">${it.e.n}ª</span>` : ""}
@@ -1321,6 +1324,37 @@ function iniciar(CONTEUDO, fotosPrevia) {
     };
     if (parado) return posicionar();
     requestAnimationFrame(quadro);
+
+    // Cada foto de edição troca sozinha, a cada 4–9 s, por outra sorteada da mesma edição (sem repetir
+    // a que outra foto da roda já mostra). A nova é baixada antes, e a troca é um esmaecer rápido.
+    const trocas = fotos.filter(f => f.dataset.ed).map(f => {
+      const e = ed(+f.dataset.ed), img = $("img", f);
+      const srcs = (e?.fotos || []).map(x => foto(x.id, 700));
+      return img && srcs.length > 1 ? { img, srcs } : null;
+    }).filter(Boolean);
+    const trocar = t => {
+      if (!roda.isConnected) return;
+      setTimeout(() => trocar(t), 4000 + Math.random() * 5000);
+      if (document.hidden || arrasto) return;
+      const naRoda = new Set(trocas.map(o => o.img.getAttribute("src")));
+      const livres = t.srcs.filter(s => !naRoda.has(s));
+      if (!livres.length) return;
+      const nova = livres[Math.floor(Math.random() * livres.length)];
+      const pre = new Image();
+      // Fusão: a nova entra por cima da antiga, aparecendo devagar; no fim, a antiga assume a nova.
+      pre.onload = () => {
+        if (!t.img.isConnected) return;
+        const cima = t.img.cloneNode();
+        cima.src = nova;
+        cima.classList.add("carrossel__nova");
+        cima.style.cssText = `left:${t.img.offsetLeft}px;top:${t.img.offsetTop}px;width:${t.img.offsetWidth}px;height:${t.img.offsetHeight}px`;
+        t.img.after(cima);
+        requestAnimationFrame(() => requestAnimationFrame(() => cima.classList.add("carrossel__nova--vem")));
+        setTimeout(() => { t.img.src = nova; setTimeout(() => cima.remove(), 120); }, 1700);
+      };
+      pre.src = nova;
+    };
+    trocas.forEach(t => setTimeout(() => trocar(t), Math.random() * 5000));
   }
 
   /* Baralho da página Edições: uma carta por edição, espalhadas na mesa. A foto é a primeira da
