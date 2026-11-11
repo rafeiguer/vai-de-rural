@@ -1649,11 +1649,14 @@ function iniciar(CONTEUDO, fotosPrevia) {
 
     mural() {
       // Carrossel do Mural: até 8 fotos, alternando as edições para a roda mostrar a variedade.
+      // Toda edição entra na roda: a que não tem foto no Mural usa a primeira foto dela (ou o cartaz).
       const muralCarrossel = () => {
         const porEd = {};
-        MURAL.forEach(f => (porEd[f.edicao] ??= []).push(f));
-        const filas = Object.values(porEd), itens = [];
-        for (let k = 0; itens.length < 8 && filas.some(q => q[k]); k++) filas.forEach(q => q[k] && itens.length < 8 && itens.push({ id: q[k].id, e: ed(q[k].edicao) }));
+        MURAL.forEach(f => (porEd[f.edicao || 0] ??= []).push(f.id));
+        EDS.forEach(e => { if (!porEd[e.n]) { const id = e.fotos[0] ? e.fotos[0].id : e.cartaz; if (id) porEd[e.n] = [id]; } });
+        const filas = Object.keys(porEd).sort((a, b) => b - a).map(n => porEd[n].map(id => ({ id, e: ed(Number(n)) }))), itens = [];
+        const max = Math.max(8, filas.length);
+        for (let k = 0; itens.length < max && filas.some(q => q[k]); k++) filas.forEach(q => q[k] && itens.length < max && itens.push(q[k]));
         return itens;
       };
       const comEd = [...new Set(MURAL.map(f => f.edicao).filter(n => ed(n)))].sort((a, b) => a - b);
@@ -1695,10 +1698,15 @@ function iniciar(CONTEUDO, fotosPrevia) {
       const pessoa = `<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4.2" fill="currentColor"/><path d="M3.5 21c.8-4.6 4.2-7 8.5-7s7.7 2.4 8.5 7z" fill="currentColor"/></svg>`;
       const amostra = [["var(--sol)", "var(--anil)"], ["var(--rosa)", "#fff"], ["var(--ceu)", "var(--noite)"]];
       // Carrossel da abertura: as duas primeiras fotos de cada artista, alternando entre eles (até 10).
+      // Foto de artista que também está nas fotos de uma edição ganha a bolinha da edição; cada edição que
+      // tem foto de artista entra primeiro (uma por edição), depois o resto, até 10.
+      const edDaFoto = id => EDS.find(e => e.fotos.some(f => f.id === id));
       const artistasCarrossel = () => {
-        const itens = [];
-        for (let k = 0; k < 2; k++) ARTISTAS.forEach(a => a.fotos[k] && itens.length < 10 &&
-          itens.push({ id: a.fotos[k], href: "#/tripulantes", rotulo: a.nome ? `Foto de ${a.nome}` : "Foto de artista da Rural" }));
+        const itens = [], usados = new Set();
+        const poe = (a, id) => { if (usados.has(id) || itens.length >= 10) return; usados.add(id);
+          itens.push({ id, e: edDaFoto(id), href: "#/tripulantes", rotulo: a.nome ? `Foto de ${a.nome}` : "Foto de artista da Rural" }); };
+        [...EDS].reverse().forEach(e => { for (const a of ARTISTAS) { const id = a.fotos.find(id => e.fotos.some(f => f.id === id)); if (id) { poe(a, id); break; } } });
+        for (let k = 0; k < 2; k++) ARTISTAS.forEach(a => a.fotos[k] && poe(a, a.fotos[k]));
         return itens;
       };
       // Agrupa por edição (da mais recente para a mais antiga); cada pessoa aparece em cada edição de que participou.
